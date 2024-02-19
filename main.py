@@ -11,7 +11,12 @@ class Program:
     data_processor = DataProcessor(file_path)
     data = data_processor.get_data(item_col, desc_col, brand_col)
 
-    instance = SearchAndPrint()
     for entry in data:
-        instance.get_register_as_pdf(entry['description'], entry['brand'])
+        print(entry)
+
+    print(f"Número de descrições originais: {data_processor.failed_description_count}")
+
+    # instance = SearchAndPrint()
+    # for entry in data:
+    #     instance.get_register_as_pdf(entry['description'], entry['brand'])
 
