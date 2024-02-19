@@ -8,7 +8,6 @@ from urllib.parse import urlparse
 class SearchAndPrint:
     
     def resize_window(self, driver):
-        driver.maximize_window()
         screen_width = driver.execute_script("return window.screen.availWidth")
         screen_height = driver.execute_script("return window.screen.availHeight")
         new_position = (screen_width // 2, 0)
@@ -16,7 +15,7 @@ class SearchAndPrint:
         driver.set_window_position(*new_position)
         driver.set_window_size(*new_size)
 
-    def search_and_print_register(self, name, brand):
+    def get_register_as_pdf(self, name, brand):
         chrome_options = webdriver.ChromeOptions()
         settings = {
             "recentDestinations": [{
