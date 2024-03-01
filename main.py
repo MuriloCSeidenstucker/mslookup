@@ -5,7 +5,7 @@ from data_processor import DataProcessor
 class Program:
 
     # file_path = r"D:\Documents\Pregoes_Eletr\DM\Finalizado\PE_09.1522023_Araxa\Modelo_PE_09.1522023_Araxa.xlsx"
-    file_path = r"D:\Documents\Pregoes_Eletr\DM\Cadastrados\PE_132024_Uberaba\Controle_Operacao_PE_132024_Uberaba.xlsm"
+    file_path = r"D:\Documents\Pregoes_Eletr\DM\Em_Andamento\PE_132024_Uberaba\Controle_Operacao_PE_132024_Uberaba.xlsm"
     # # item_col = 'LOTE'
     # # desc_col = 'DESCRIÇÃO DO ITEM'
     item_col = 'ITEM'
