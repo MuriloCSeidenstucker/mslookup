@@ -21,34 +21,28 @@ class DataProcessor:
         return unidecode(input_str.replace(" ", "").lower()) if isinstance(input_str, str) else input_str
     
     def get_filtered_description(self, description):
-        # Remover acentuação, espaços em branco e caracteres especiais para comparação
         description_normalized = self.remove_accents_and_spaces(description)
 
-        # Iterar sobre as linhas da planilha de referência
         for _, ref_row in self.reference_df.iterrows():
-            ref_farmaco_normalized = self.remove_accents_and_spaces(ref_row['FARMACO'])
+            ref_farmaco_normalized = self.remove_accents_and_spaces(str(ref_row['FARMACO']))
             ref_medicamento_normalized = self.remove_accents_and_spaces(str(ref_row['MEDICAMENTO']))
             ref_concentracao_normalized = self.remove_accents_and_spaces(str(ref_row['CONCENTRAÇÃO']))
 
-            # Verificar se os valores da coluna 'FARMACO' e 'CONCENTRACAO' estão presentes na descrição
             if (ref_farmaco_normalized in description_normalized or
                 ref_medicamento_normalized in description_normalized):
 
-                correct_farmaco = ''
-                correct_medicamento = ''
-                correct_concentracao = ''
+                corresp_farmaco = ''
+                corresp_medicamento = ''
+                corresp_concentracao = ''
 
                 if (ref_concentracao_normalized in description_normalized):
-                    correct_concentracao = ref_row['CONCENTRAÇÃO']
+                    corresp_concentracao = ref_row['CONCENTRAÇÃO']
                     
-                # Se houver correspondência, use os valores corretos de 'FARMACO' e 'CONCENTRACAO'
-                correct_farmaco = ref_row['FARMACO']
-                correct_medicamento = ref_row['MEDICAMENTO']
+                corresp_farmaco = ref_row['FARMACO']
+                corresp_medicamento = ref_row['MEDICAMENTO']
 
-                # Construa a descrição correta
-                correct_description = f"{correct_farmaco} {correct_medicamento} {correct_concentracao}"
-                return correct_description
+                filtered_description = f"{corresp_farmaco} {corresp_medicamento} {corresp_concentracao}"
+                return filtered_description
 
-        # Se não encontrou correspondência, retorne a descrição original
         self.failed_description_count += 1
-        return f'Original: {description}'
+        return description

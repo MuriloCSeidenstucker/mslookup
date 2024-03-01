@@ -1,22 +1,32 @@
+import pandas as pd
 from search_and_print import SearchAndPrint
 from data_processor import DataProcessor
 
 class Program:
 
-    file_path = r'D:\Documents\Pregoes_Eletr\DM\Em_Andamento\PE_09.1522023_Araxa\Modelo_PE_09.1522023_Araxa.xlsx'
-    item_col = 'LOTE'
-    desc_col = 'DESCRIÇÃO DO ITEM'
+    # file_path = r"D:\Documents\Pregoes_Eletr\DM\Finalizado\PE_09.1522023_Araxa\Modelo_PE_09.1522023_Araxa.xlsx"
+    file_path = r"D:\Documents\Pregoes_Eletr\DM\Cadastrados\PE_132024_Uberaba\Controle_Operacao_PE_132024_Uberaba.xlsm"
+    # # item_col = 'LOTE'
+    # # desc_col = 'DESCRIÇÃO DO ITEM'
+    item_col = 'ITEM'
+    desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'
 
     data_processor = DataProcessor(file_path)
     data = data_processor.get_data(item_col, desc_col, brand_col)
 
+    report_data = []
+    instance = SearchAndPrint()
     for entry in data:
-        print(entry)
-
-    print(f"Número de descrições originais: {data_processor.failed_description_count}")
+        success = instance.get_register_as_pdf(entry['item'], entry['description'], entry['brand'])
+        report_data.append({'Item': entry['item'],
+                            'Descrição': entry['description'],
+                            'Marca': entry['brand'],
+                            'Registro': 'Sucesso' if success else 'Falha'
+                            })
+        
+    report_df = pd.DataFrame(report_data)
+    report_df.to_excel('relatorio_registros.xlsx', index=False)
 
     # instance = SearchAndPrint()
-    # for entry in data:
-    #     instance.get_register_as_pdf(entry['description'], entry['brand'])
-
+    # instance.get_register_as_pdf('aciclovir', 'cimed')
