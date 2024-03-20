@@ -1,2 +1,7 @@
+Pensar em uma forma de lidar com situações onde a marca consta com seu nome abreviado.
+Pensar em uma forma de buscar outros produtos além dos medicamentos.
+Implementar a nomeação correta do print obtido.
+Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro foi obtido com sucesso.
+
 Adaptar a busca pelo registro usando os dados aberto da própria anvisa.
 link: https://dados.anvisa.gov.br/dados/
