@@ -5,9 +5,11 @@ from data_processor import DataProcessor
 class Program:
 
     # file_path = r"D:\Documents\Pregoes_Eletr\DM\Finalizado\PE_09.1522023_Araxa\Modelo_PE_09.1522023_Araxa.xlsx"
-    file_path = r"D:\Documents\Pregoes_Eletr\DM\Em_Andamento\PE_132024_Uberaba\Controle_Operacao_PE_132024_Uberaba.xlsm"
-    # # item_col = 'LOTE'
-    # # desc_col = 'DESCRIÇÃO DO ITEM'
+    # file_path = r"D:\Documents\Pregoes_Eletr\DM\Em_Andamento\PE_132024_Uberaba\Controle_Operacao_PE_132024_Uberaba.xlsm"
+    # item_col = 'LOTE'
+    # desc_col = 'DESCRIÇÃO DO ITEM'
+    
+    file_path = r"D:\Documents\Pregoes_Eletr\DM\Em_Andamento\PE_282023_Araguari\Controle_Operacao_PE_282023_Araguari.xlsm"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'
@@ -29,4 +31,6 @@ class Program:
     report_df.to_excel('relatorio_registros.xlsx', index=False)
 
     # instance = SearchAndPrint()
-    # instance.get_register_as_pdf('aciclovir', 'cimed')
+    # instance.get_register_as_pdf('2', 'ACETILCISTEÍNA, DOSAGEM 100 MG, INDICAÇÃO PÓ PARA SOLUÇÃO ORAL', 'Eurofarma')
+    
+    # FIX: try_print_anvisa_register, será necessário fazer um expected_conditions customizado

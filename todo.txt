@@ -1,0 +1,2 @@
+Adaptar a busca pelo registro usando os dados aberto da própria anvisa.
+link: https://dados.anvisa.gov.br/dados/
