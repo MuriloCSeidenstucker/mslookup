@@ -293,6 +293,67 @@
             "full_name": "LABORATÓRIOS OSÓRIO DE MORAES LTDA",
             "cnpj": "19791813000175",
             "abbreviations": ["osorio", "osorio de moraes", "odm", "osodio", "osorio de morais", "osorio moraes", "o. moraes"]
+        },
+        {
+            "full_name": "BIOMM SA",
+            "cnpj": "04752991000110",
+            "abbreviations": ["biomm", "bionn", "biom", "bion", "MannKind"],
+            "linked": ["NOVO NORDISK PRODUÇÃO FARMACÊUTICA DO BRASIL LTDA"]
+        },
+        {
+            "full_name": "NOVO NORDISK PRODUÇÃO FARMACÊUTICA DO BRASIL LTDA",
+            "cnpj": "16921603000166",
+            "abbreviations": ["novo nordisk", "nordisk", "novo nordisq"],
+            "linked": ["BIOMM SA"]
+        },
+        {
+            "full_name": "BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI",
+            "cnpj": "46179008000168",
+            "abbreviations": ["brasterapica"]
+        },
+        {
+            "full_name": "AIRELA INDÚSTRIA FARMACÊUTICA LTDA",
+            "cnpj": "01858973000129",
+            "abbreviations": ["airela", "Avvio", "Meiskin Swiss"]
+        },
+        {
+            "full_name": "HIPOLABOR FARMACEUTICA LTDA",
+            "cnpj": "19570720000110",
+            "abbreviations": ["hipolabor"]
+        },
+        {
+            "full_name": "HALEX ISTAR INDÚSTRIA FARMACÊUTICA SA",
+            "cnpj": "01571702000198",
+            "abbreviations": ["halex istar", "halex", "istar", "hales istar", "hales"],
+            "linked": ["ISOFARMA INDUSTRIAL FARMACÊUTICA LTDA"]
+        },
+        {
+            "full_name": "ISOFARMA INDUSTRIAL FARMACÊUTICA LTDA",
+            "cnpj": "02281006000100",
+            "abbreviations": ["isofarma", "iso"],
+            "linked": ["HALEX ISTAR INDÚSTRIA FARMACÊUTICA SA"]
+        },
+        {
+            "full_name": "JP INDUSTRIA FARMACEUTICA S/A",
+            "cnpj": "55972087000150",
+            "abbreviations": ["jp"]
+        },
+        {
+            "full_name": "CELLERA FARMACÊUTICA S.A.",
+            "cnpj": "33173097000274",
+            "abbreviations": ["cellera", "celera"],
+            "linked": ["JANSSEN-CILAG FARMACÊUTICA LTDA"]
+        },
+        {
+            "full_name": "JANSSEN-CILAG FARMACÊUTICA LTDA",
+            "cnpj": "51780468000187",
+            "abbreviations": ["janssen", "jansen", "janssem", "jansem", "cilag", "jamssen"],
+            "linked": ["CELLERA FARMACÊUTICA S.A."]
+        },
+        {
+            "full_name": "PHARMASCIENCE INDUSTRIA FARMACEUTICA S.A",
+            "cnpj": "25773037000183",
+            "abbreviations": ["pharmascience", "pharmacience", "Innecorp"]
         }
     ]
 }

@@ -20,15 +20,16 @@ class Program:
     report_data = []
     instance = SearchAndPrint()
     for entry in data:
-        success = instance.get_register_as_pdf(entry['item'], entry['description'], entry['brand'])
-        report_data.append({'Item': entry['item'],
-                            'Descrição': entry['description'],
-                            'Marca': entry['brand'],
-                            'Registro': 'Sucesso' if success else 'Falha'
-                            })
+        print(entry['brand'])
+        # success = instance.get_register_as_pdf(entry['item'], entry['description'], entry['brand'])
+        # report_data.append({'Item': entry['item'],
+        #                     'Descrição': entry['description'],
+        #                     'Marca': entry['brand'],
+        #                     'Registro': 'Sucesso' if success else 'Falha'
+                            # })
         
-    report_df = pd.DataFrame(report_data)
-    report_df.to_excel('relatorio_registros.xlsx', index=False)
+    # report_df = pd.DataFrame(report_data)
+    # report_df.to_excel('relatorio_registros.xlsx', index=False)
 
     # instance = SearchAndPrint()
     # instance.get_register_as_pdf('2', 'ACETILCISTEÍNA, DOSAGEM 100 MG, INDICAÇÃO PÓ PARA SOLUÇÃO ORAL', 'Eurofarma')
