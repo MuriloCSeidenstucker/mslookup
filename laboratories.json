@@ -354,6 +354,33 @@
             "full_name": "PHARMASCIENCE INDUSTRIA FARMACEUTICA S.A",
             "cnpj": "25773037000183",
             "abbreviations": ["pharmascience", "pharmacience", "Innecorp"]
+        },
+        {
+            "full_name": "NATIVITA IND. COM. LTDA",
+            "cnpj": "65271900000119",
+            "abbreviations": ["nativita", "nativa"]
+        },
+        {
+            "full_name": "NATULAB LABORATÓRIO S.A",
+            "cnpj": "02456955000183",
+            "abbreviations": ["natulab"]
+        },
+        {
+            "full_name": "MERCK S/A",
+            "cnpj": "33069212000184",
+            "abbreviations": ["merck", "merk", "merc"]
+        },
+        {
+            "full_name": "SUN FARMACÊUTICA DO BRASIL LTDA",
+            "cnpj": "05035244000123",
+            "abbreviations": ["sun", "sun pharma", "sun farma"],
+            "linked": ["RANBAXY FARMACÊUTICA LTDA"]
+        },
+        {
+            "full_name": "RANBAXY FARMACÊUTICA LTDA",
+            "cnpj": "73663650000190",
+            "abbreviations": ["ranbaxy", "rambaxy", "ranbaxi", "rambaxi"],
+            "linked": ["SUN FARMACÊUTICA DO BRASIL LTDA"]
         }
     ]
 }
