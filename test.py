@@ -4,7 +4,7 @@ from search_in_smerp import SearchInSmerp
 from search_in_open_data_anvisa import OpenDataAnvisa
 from access_anvisa_domain import AnvisaDomain
 
-file_path = r"C:\Users\dell\OneDrive\Área de Trabalho\Itens_Errados.xlsx"
+file_path = r"D:\Documents\Pregoes_Eletr\DM\Cadastrados\PE_112024_Campina-Verde\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
 item_col = 'Item'
 desc_col = 'Descrição'
 brand_col = 'Marca'
