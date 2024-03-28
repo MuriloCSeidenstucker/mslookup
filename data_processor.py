@@ -1,4 +1,5 @@
 import re
+import time
 from unidecode import unidecode
 import os
 import json
@@ -11,12 +12,31 @@ class DataProcessor:
         self.reference_df = pd.read_excel(reference_path, skiprows=52)
         with open('laboratories.json', 'r', encoding='utf-8') as file:
             self.labs_json = json.load(file)
+        self.abbreviation_map = self.create_abbreviation_map()
+            
+    def create_abbreviation_map(self):
+        laboratories = self.labs_json['laboratories']
+        abbreviation_map = {}
+
+        for lab in laboratories:
+            for abbreviation in lab['abbreviations']:
+                f_abbreviation = self.remove_accents_and_spaces(abbreviation)
+                lab_info = {
+                    "Name": lab['full_name'],
+                    "CNPJ": lab['cnpj']
+                }
+                linked = lab.get('linked')
+                if linked is not None:
+                    lab_info['Linked'] = linked
+                abbreviation_map[f_abbreviation] = lab_info
+        
+        return abbreviation_map
 
     def get_data(self, item_col, desc_col, brand_col):
         data = []
         for index, row in self.df.iterrows():
             if pd.notna(row[brand_col]):
-                brand = self.get_brand(row[brand_col])
+                brand= self.get_brand(row[brand_col])
                 description = self.get_filtered_description(row[desc_col], brand)
                 data.append({'item': row[item_col], 'description': description, "brand": brand})
         return data
@@ -55,20 +75,10 @@ class DataProcessor:
     
     def get_brand(self, brand):
         f_brand = self.remove_accents_and_spaces(brand)
-        laboratories = self.labs_json['laboratories']
-        for lab in laboratories:
-            for abbreviation in lab['abbreviations']:
-                f_abbreviation = self.remove_accents_and_spaces(abbreviation)
-                if f_brand == f_abbreviation:
-                    lab_info = {
-                    "Name": lab['full_name'],
-                    "CNPJ": lab['cnpj']
-                    }
-                    if 'linked' in lab:
-                        lab_info['Linked'] = lab['linked']
-                    else:
-                        lab_info['Linked'] = []
-                    return lab_info
+
+        if f_brand in self.abbreviation_map:
+            return self.abbreviation_map[f_brand]
+
         print(f"A marca: {brand} não foi encontrada no banco de dados")
         return brand
                         

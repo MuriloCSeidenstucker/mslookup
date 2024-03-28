@@ -22,14 +22,14 @@ class OpenDataAnvisa:
                     cnpj, laboratory = row['EMPRESA_DETENTORA_REGISTRO'].split(' ', 1)
                     if not isinstance(brand, str):
                         if cnpj == brand['CNPJ']:
-                            print(f'{item}: {description} | cnpj: {cnpj} | Registro: {row['NUMERO_REGISTRO_PRODUTO']}')
-                            break
+                            return row['NUMERO_REGISTRO_PRODUTO']
                     else:
                         laboratory = laboratory.strip('- ')
                         laboratory_normalized = self.remove_accents_and_spaces(laboratory)
                         brand_normalized = self.remove_accents_and_spaces(brand)
                         if brand_normalized in laboratory_normalized:
-                            print(f'{item}: {description} | Marca: {brand} | Registro: {row['NUMERO_REGISTRO_PRODUTO']}') 
-                            break
+                            return row['NUMERO_REGISTRO_PRODUTO']
+        
+        return -1
                 
             

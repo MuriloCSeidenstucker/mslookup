@@ -381,6 +381,11 @@
             "cnpj": "73663650000190",
             "abbreviations": ["ranbaxy", "rambaxy", "ranbaxi", "rambaxi"],
             "linked": ["SUN FARMACÊUTICA DO BRASIL LTDA"]
+        },
+        {
+            "full_name": "PRATI DONADUZZI & CIA LTDA",
+            "cnpj": "73856593000166",
+            "abbreviations": ["prati donaduzzi", "prati", "donaduzzi"]
         }
     ]
 }
