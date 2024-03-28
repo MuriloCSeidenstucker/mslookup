@@ -1,5 +1,5 @@
 import pandas as pd
-from search_and_print import SearchAndPrint
+from search_in_smerp import SearchInSmerp
 from search_in_open_data_anvisa import OpenDataAnvisa
 from data_processor import DataProcessor
 

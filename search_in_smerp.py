@@ -12,23 +12,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import (visibility_of_element_located,
                                                             presence_of_element_located)
 
-class SearchAndPrint:
+class SearchInSmerp:
     
     def configure_chrome_options(self, detach=False):
         chrome_options = webdriver.ChromeOptions()
-        settings = {
-            "recentDestinations": [{
-                    "id": "Save as PDF",
-                    "origin": "local",
-                    "account": ""
-                }],
-                "selectedDestinationId": "Save as PDF",
-                "version": 2
-            }
-        prefs = {'printing.print_preview_sticky_settings.appState': json.dumps(settings)}
-        chrome_options.add_experimental_option('prefs', prefs)
         chrome_options.add_experimental_option("detach", detach)
-        chrome_options.add_argument('--kiosk-printing')
         return chrome_options
     
     def perform_google_search(self, driver, wait, name, brand):
@@ -81,62 +69,36 @@ class SearchAndPrint:
         process_number_formatted = re.sub(pattern, '', process_number_extracted)
         return process_number_formatted
     
-    def process_number_to_be_present(self, webdriver):
-        process_number = webdriver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text
-        if isinstance(process_number, str) and process_number:
-            print(process_number)
-            return True
-        else:
-            print(process_number)
-            return False
+    def extract_register(self, wait):
+        dataset_locator = (By.CSS_SELECTOR, '.dataset')
+        dataset = wait.until(presence_of_element_located(dataset_locator), 'Elemento não encontrado')
+        register = dataset.find_element(By.XPATH, "//div[contains(text(), 'Registro')]/following-sibling::div").text[:9]
+        return register
     
-    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, process_number_formatted):
-        driver.get(rf'{anvisa_medicamento_url}{process_number_formatted}/')
-        try:
-            number_is_present = wait.until(self.process_number_to_be_present)
-            anvisa_process_number = driver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text if number_is_present else ''
-            pattern = r'\D'
-            anvisa_process_number_formatted = re.sub(pattern, '', anvisa_process_number)
-            if process_number_formatted == anvisa_process_number_formatted:
-                driver.execute_script('window.print();')
-                sleep(0.5)
-                return True
-            else:
-                print(f'O número do processo constante na Anvisa está diferente do Smerp')
-                return False
-        except TimeoutException as e:
-            print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{process_number_formatted}/')
-            return False
-    
-    def get_register_as_pdf(self, item, name, brand):
+    def get_data_from_smerp(self, item, name, brand):
+        
+        b = brand if isinstance(brand, str) else brand['Name']
         
         chrome_options = self.configure_chrome_options()
 
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
         Utils.resize_window(driver)
-        
-        anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/'
-        anvisa_alimentos_url = r'https://consultas.anvisa.gov.br/#/alimentos/'
 
         try:
-            self.perform_google_search(driver, wait, name)
+            self.perform_google_search(driver, wait, name, b)
         except TimeoutException as e:
             print('Erro ao tentar realizar a busca no Google')
                 
         smerp_urls = self.get_smerp_urls(driver, wait)
         
-        matchesURL = self.find_matching_smerp_entry(driver, wait, brand, smerp_urls)
+        matchesURL = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
         if not matchesURL:
             print(f'Marca não encontrada para o item: {item}')
-            return False
+            return -1, -1
         
         process_number = self.extract_process_number(wait)
-        
-        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, process_number)
-        if not success:
-            print(f'Não foi possível obter o registro do item: {item}')
-            return False
+        register = self.extract_register(wait)
             
         driver.quit()
-        return True
+        return register, process_number
