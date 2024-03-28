@@ -1,9 +1,11 @@
 import re
 import time
-from unidecode import unidecode
 import os
 import json
 import pandas as pd
+
+from unidecode import unidecode
+from utils import Utils
 
 class DataProcessor:
     def __init__(self, file_path):
@@ -20,7 +22,7 @@ class DataProcessor:
 
         for lab in laboratories:
             for abbreviation in lab['abbreviations']:
-                f_abbreviation = self.remove_accents_and_spaces(abbreviation)
+                f_abbreviation = Utils.remove_accents_and_spaces(abbreviation)
                 lab_info = {
                     "Name": lab['full_name'],
                     "CNPJ": lab['cnpj']
@@ -41,16 +43,13 @@ class DataProcessor:
                 data.append({'item': row[item_col], 'description': description, "brand": brand})
         return data
     
-    def remove_accents_and_spaces(self, input_str):
-        return unidecode(input_str.replace(" ", "").lower()) if isinstance(input_str, str) else input_str
-    
     def get_filtered_description(self, description, brand):
-        description_normalized = self.remove_accents_and_spaces(description)
+        description_normalized = Utils.remove_accents_and_spaces(description)
 
         for _, ref_row in self.reference_df.iterrows():
-            ref_subs_normalized = self.remove_accents_and_spaces(str(ref_row['SUBSTÂNCIA']))
-            ref_prod_normalized = self.remove_accents_and_spaces(str(ref_row['PRODUTO']))
-            # ref_apres_normalized = self.remove_accents_and_spaces(str(ref_row['APRESENTAÇÃO']))
+            ref_subs_normalized = Utils.remove_accents_and_spaces(str(ref_row['SUBSTÂNCIA']))
+            ref_prod_normalized = Utils.remove_accents_and_spaces(str(ref_row['PRODUTO']))
+            # ref_apres_normalized = Utils.remove_accents_and_spaces(str(ref_row['APRESENTAÇÃO']))
             pattern = r'\D'
             ref_cnpj = re.sub(pattern, '', str(ref_row['CNPJ']))
 
@@ -74,7 +73,7 @@ class DataProcessor:
         return description
     
     def get_brand(self, brand):
-        f_brand = self.remove_accents_and_spaces(brand)
+        f_brand = Utils.remove_accents_and_spaces(brand)
 
         if f_brand in self.abbreviation_map:
             return self.abbreviation_map[f_brand]
