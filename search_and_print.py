@@ -119,17 +119,11 @@ class SearchAndPrint:
         anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/'
         anvisa_alimentos_url = r'https://consultas.anvisa.gov.br/#/alimentos/'
 
-        if not brand['linked'] is None:
-            for t in brand['linked']:
-                try:
-                    self.perform_google_search(driver, wait, name, t)
-                except TimeoutException as e:
-                    print('Erro ao tentar realizar a busca no Google')
+        try:
+            self.perform_google_search(driver, wait, name)
+        except TimeoutException as e:
+            print('Erro ao tentar realizar a busca no Google')
                 
-
-            
-        return False
-            
         smerp_urls = self.get_smerp_urls(driver, wait)
         
         matchesURL = self.find_matching_smerp_entry(driver, wait, brand, smerp_urls)
