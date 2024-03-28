@@ -7,6 +7,7 @@ class OpenDataAnvisa:
     def __init__(self):
         file_path = os.path.join(os.path.dirname(__file__), 'DADOS_ABERTOS_MEDICAMENTOS.xlsx')
         self.df = pd.read_excel(file_path)
+        self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()
         
     def get_register(self, item, description, brand):
         description_normalized = Utils.remove_accents_and_spaces(description)
