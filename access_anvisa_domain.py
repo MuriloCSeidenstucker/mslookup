@@ -52,7 +52,7 @@ class AnvisaDomain:
                 sleep(0.5)
                 return True
             else:
-                print(f'O número do processo constante na Anvisa está diferente do Smerp')
+                print(f'O número do processo constante na Anvisa está diferente')
                 return False
         except TimeoutException as e:
             print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{process_number_formatted}/')

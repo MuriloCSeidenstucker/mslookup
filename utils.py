@@ -14,3 +14,11 @@ class Utils:
     @classmethod
     def remove_accents_and_spaces(self, input_str):
         return unidecode(input_str.replace(" ", "").lower()) if isinstance(input_str, str) else input_str
+    
+    @classmethod
+    def calculate_elapsed_time(start_time, end_time):
+        elapsed_time = end_time - start_time
+        hours = int(elapsed_time // 3600)
+        minutes = int((elapsed_time % 3600) // 60)
+        seconds = elapsed_time % 60
+        return f'{hours} hours, {minutes} minutes, and {seconds:.2f} seconds'
