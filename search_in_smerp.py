@@ -83,7 +83,7 @@ class SearchInSmerp:
 
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
-        Utils.resize_window(driver)
+        # Utils.resize_window(driver)
 
         try:
             self.perform_google_search(driver, wait, name, b)

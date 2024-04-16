@@ -49,5 +49,7 @@ class Utils:
                     i += 1
                     
             os.rename(old_path, new_path)
+            return True
         else:
             print("Nenhum arquivo PDF com o nome padrão encontrado na pasta de downloads.")
+            return False

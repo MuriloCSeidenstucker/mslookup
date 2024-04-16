@@ -386,6 +386,24 @@
             "full_name": "PRATI DONADUZZI & CIA LTDA",
             "cnpj": "73856593000166",
             "abbreviations": ["prati donaduzzi", "prati", "donaduzzi"]
+        },
+        {
+            "full_name": "FARMOQUÍMICA S/A",
+            "cnpj": "33349473000158",
+            "abbreviations": ["fqm", "fmq", "mfq"],
+            "linked": ["ZEST FARMACÊUTICA LTDA", "VIDFARMA INDÚSTRIA DE MEDICAMENTOS LTDA"]
+        },
+        {
+            "full_name": "ZEST FARMACÊUTICA LTDA",
+            "cnpj": "03557772000117",
+            "abbreviations": ["zest"],
+            "linked": ["FARMOQUÍMICA S/A", "VIDFARMA INDÚSTRIA DE MEDICAMENTOS LTDA"]
+        },
+        {
+            "full_name": "VIDFARMA INDÚSTRIA DE MEDICAMENTOS LTDA",
+            "cnpj": "03993167000199",
+            "abbreviations": ["vidfarma", "vid"],
+            "linked": ["FARMOQUÍMICA S/A", "ZEST FARMACÊUTICA LTDA"]
         }
     ]
 }

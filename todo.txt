@@ -1,5 +1,3 @@
-[  ] Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro
-    foi obtido com sucesso.
 [  ] Adicionar verificação se o registro encontrado está vencido, nas buscas usando smerp.
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
@@ -7,7 +5,12 @@
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
 
+[Ok] Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro
+    foi obtido com sucesso.
 [Ok] Implementar a nomeação correta do print obtido.
 [Ok] Pensar em uma forma de lidar com situações onde a marca consta com seu nome abreviado.
 [Ok] Adaptar a busca pelo registro usando os dados aberto da própria anvisa.
     link: https://dados.anvisa.gov.br/dados/
+
+Parece que se rodar o programa enquanto o PC é utilizado, ele aumenta a probabilidade de erros.
+Será que existe alguma forma de solucionar isso?

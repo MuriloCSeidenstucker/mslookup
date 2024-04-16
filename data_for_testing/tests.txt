@@ -1,0 +1,8 @@
+1° -> 100% 14/14 acertos | 5 minutes, and 33.48 seconds.
+2° ->  71% 10/14 acertos | 6 minutes, and 10.13 seconds. Não encontrados: 5,6,13,18.
+3° -> 100% 14/14 acertos | 5 minutes, and 38.21 seconds.
+4° -> 100% 14/14 acertos | 5 minutes, and 46.99 seconds.
+5° -> 100% 14/14 acertos | 5 minutes, and 32.47 seconds.
+6° -> 100% 14/14 acertos | 5 minutes, and 34.34 seconds.
+7° -> 100% 14/14 acertos | 5 minutes, and 28.43 seconds.
+8° ->  92% 13/14 acertos | 5 minutes, and 37.83 seconds. Não encontrados: 16. (Estava usando PC ao mesmo tempo que o programa rodava)
