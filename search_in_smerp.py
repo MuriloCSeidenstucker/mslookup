@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 import json
 from time import sleep, time
@@ -49,17 +50,27 @@ class SearchInSmerp:
     def find_matching_smerp_entry(self, driver, wait, brand, smerp_urls):
         dataset_locator = (By.CSS_SELECTOR, '.dataset')
         matchesURL = False
+        message = ''
         for url in smerp_urls:
             url.click()
             dataset = wait.until(presence_of_element_located(dataset_locator), 'Elemento não encontrado')
+            
+            ref_date_str = dataset.find_element(By.XPATH, "//div[contains(text(), 'Validade/Situação')]/following-sibling::div/span").text
+            ref_date = datetime.strptime(ref_date_str, '%d/%m/%Y')
+            if ref_date < datetime.now():
+                message = 'Registro vencido para o item:'
+                driver.back()
+                continue
+            
             smerp_brand = dataset.find_element(By.XPATH, "//div[contains(text(), 'Nome da Empresa/Detentor')]/following-sibling::div").text
-            print(f'Marca: {brand}, Smerp: {smerp_brand}, Iguais: {unidecode(brand).lower() in unidecode(smerp_brand).lower()}')
             if unidecode(brand).lower() in unidecode(smerp_brand).lower():
                 matchesURL = True
                 break
             else:
+                message = 'Marca não encontrada para o item:'
                 driver.back()
-        return matchesURL
+                
+        return matchesURL, message
     
     def extract_process_number(self, wait):
         dataset_locator = (By.CSS_SELECTOR, '.dataset')
@@ -92,9 +103,9 @@ class SearchInSmerp:
                 
         smerp_urls = self.get_smerp_urls(driver, wait)
         
-        matchesURL = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
+        matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
         if not matchesURL:
-            print(f'Marca não encontrada para o item: {item}')
+            print(f'{m} {item}')
             return -1, -1
         
         process_number = self.extract_process_number(wait)

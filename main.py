@@ -1,3 +1,4 @@
+import os
 import time
 import pandas as pd
 from search_in_smerp import SearchInSmerp
@@ -7,12 +8,12 @@ from data_processor import DataProcessor
 from utils import Utils
 
 class Program:
-    
     start_time = time.time()
 
     # file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
     file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
     # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+    # file_path = r"data_for_testing\Itens_Errados.xlsx"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'
@@ -23,7 +24,7 @@ class Program:
     processor_end_time = time.time()
     processor_elapsed_time = Utils.calculate_elapsed_time(processor_start_time, processor_end_time)
     
-    d_path = r"C:\Users\dell\Downloads"
+    d_path = os.path.join(os.path.expanduser('~'), 'Downloads')
 
     report_data = []
     smerp_search = SearchInSmerp()

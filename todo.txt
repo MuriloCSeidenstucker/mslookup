@@ -1,10 +1,18 @@
-[  ] Adicionar verificação se o registro encontrado está vencido, nas buscas usando smerp.
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
+    Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
+    A descrição com a maior pontuação será a candidata mais ideal/correta.
+    Falha da solução1: Como diferenciar um ringer simples de um ringer com lactato?
+    Possível solução2: Aceitar que não é possível encontrar registros para todas situações. No momento
+    que falhar alguma busca, deixar claro no relatório.
 [  ] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
+[  ] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
+    Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
+    novo registro toda vez que executar o programa, apenas buscar no banco de dados.
 
+[Ok] Adicionar verificação se o registro encontrado está vencido, nas buscas usando smerp.
 [Ok] Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro
     foi obtido com sucesso.
 [Ok] Implementar a nomeação correta do print obtido.

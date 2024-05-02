@@ -59,10 +59,16 @@ class DataProcessor:
                 
                 if not isinstance(brand, str):
                     if ref_cnpj == brand['CNPJ']:
+                        print(description_normalized)
+                        print(ref_subs_normalized)
+                        print(ref_prod_normalized)
                         return f'{str(ref_row['SUBSTÂNCIA'])} {str(ref_row['PRODUTO'])}'
                 else:
                     brand_normalized = Utils.remove_accents_and_spaces(brand)
                     if brand_normalized in ref_lab_normalized:
+                        print(description_normalized)
+                        print(ref_subs_normalized)
+                        print(ref_prod_normalized)
                         return f'{str(ref_row['SUBSTÂNCIA'])} {str(ref_row['PRODUTO'])}'
             
         return description
@@ -71,7 +77,7 @@ class DataProcessor:
         data = []
         for index, row in self.df.iterrows():
             if pd.notna(row[brand_col]):
-                brand= self.get_brand(row[brand_col])
+                brand = self.get_brand(row[brand_col])
                 description = self.get_filtered_description(row[desc_col], brand)
                 data.append({'item': row[item_col], 'description': description, "brand": brand})
         return data
