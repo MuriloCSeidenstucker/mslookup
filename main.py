@@ -11,8 +11,8 @@ class Program:
     start_time = time.time()
 
     # file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
-    file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
-    # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+    # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
+    file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
     # file_path = r"data_for_testing\Itens_Errados.xlsx"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'

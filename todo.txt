@@ -1,3 +1,10 @@
+PRIORIDADE
+[  ] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
+    Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
+    novo registro toda vez que executar o programa, apenas buscar no banco de dados.
+    Concluindo essa otimização, acredito que ficará muito mais rápido obter os registros. Assim, será
+    possível realizar testes em uma quantidade muito maior de dados.
+
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
     Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
@@ -8,9 +15,6 @@
 [  ] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
-[  ] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
-    Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
-    novo registro toda vez que executar o programa, apenas buscar no banco de dados.
 
 [Ok] Adicionar verificação se o registro encontrado está vencido, nas buscas usando smerp.
 [Ok] Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro
@@ -22,3 +26,5 @@
 
 Parece que se rodar o programa enquanto o PC é utilizado, ele aumenta a probabilidade de erros.
 Será que existe alguma forma de solucionar isso?
+
+Após a otimização e testes em larga escala, eu deveria começar a pensar em uma interface?
