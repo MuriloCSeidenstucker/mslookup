@@ -85,6 +85,7 @@ class DataProcessor:
             
             if sub_normalized in description_normalized:
                 filtered_desc += f'{substance};'
+                description_normalized = description_normalized.replace(sub_normalized, '')
                 
         if filtered_desc:
             if filtered_desc.endswith(';'):
