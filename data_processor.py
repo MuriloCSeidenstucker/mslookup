@@ -40,21 +40,22 @@ class DataProcessor:
         shortest_length = float('inf')
         
         for row in self.reference_df['SUBSTÂNCIA']:
-            row_str = str(row)
-            if ';' in row_str:
-                substances = row_str.split(';')
-                for substance in substances:
-                    substance = substance.strip()
+            if pd.notna(row):
+                row_str = str(row)
+                if ';' in row_str:
+                    substances = row_str.split(';')
+                    for substance in substances:
+                        substance = substance.strip()
+                        substances_set.add(substance)
+                        
+                        if len(substance) < shortest_length:
+                            shortest_length = len(substance)
+                else:
+                    substance = row_str.strip()
                     substances_set.add(substance)
                     
                     if len(substance) < shortest_length:
                         shortest_length = len(substance)
-            else:
-                substance = row_str.strip()
-                substances_set.add(substance)
-                
-                if len(substance) < shortest_length:
-                    shortest_length = len(substance)
 
         return substances_set, shortest_length
 

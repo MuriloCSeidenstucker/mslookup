@@ -1,3 +1,4 @@
+[  ] Corrigir filtro de descrição no momento de buscar os registros na planilha da anvisa.
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
     Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
