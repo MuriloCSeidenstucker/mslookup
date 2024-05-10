@@ -1,6 +1,3 @@
-PRIORIDADE
-[  ] Fazer um sistema de pontuação no momento de processar as informações, para tentar obter a descrição
-    mais precisa.
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
     Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
@@ -10,11 +7,13 @@ PRIORIDADE
     significativamente a precisão no momento de filtrar a descrição.
     Possível solução3: Aceitar que não é possível encontrar registros para todas situações. No momento
     que falhar alguma busca, deixar claro no relatório.
+[  ] Melhorar informações do relatório.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
 [  ] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
 
+[Ok] Elaborar uma maneira mais precisa de obter a descrição correta.
 [Ok] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
     Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
     novo registro toda vez que executar o programa, apenas buscar no banco de dados.

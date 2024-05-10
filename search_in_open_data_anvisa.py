@@ -1,8 +1,8 @@
 import os
 import pandas as pd
-from datetime import datetime
 
 from utils import Utils
+from datetime import datetime
 
 class OpenDataAnvisa:
     def __init__(self):

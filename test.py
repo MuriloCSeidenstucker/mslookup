@@ -1,19 +1,20 @@
 import os
 import time
 import pandas as pd
-from search_in_smerp import SearchInSmerp
-from search_in_open_data_anvisa import OpenDataAnvisa
-from access_anvisa_domain import AnvisaDomain
-from data_processor import DataProcessor
+
 from utils import Utils
 from pdf_manager import PDFManager
+from data_processor import DataProcessor
+from search_in_smerp import SearchInSmerp
+from access_anvisa_domain import AnvisaDomain
+from search_in_open_data_anvisa import OpenDataAnvisa
 
 start_time = time.time()
 
 # file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
-file_path = r"relatorio_registros_errados.xlsx"
+# file_path = r"relatorio_registros_errados.xlsx"
 # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
-# file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
 # file_path = r"data_for_testing\Itens_Errados.xlsx"
 item_col = 'ITEM'
 desc_col = 'DESCRIÇÃO'
@@ -25,6 +26,9 @@ data = data_processor.get_data(item_col, desc_col, brand_col)
 # data = [{'item': '58', 'description': 'DIAZEPAM 5 MG', 'brand': 'germed'}]
 processor_end_time = time.time()
 processor_elapsed_time = Utils.calculate_elapsed_time(processor_start_time, processor_end_time)
+
+for i, entry in enumerate(data):
+    print(f'{i+1}: {entry}')
 
 d_path = os.path.join(os.path.expanduser('~'), 'Downloads')
 
