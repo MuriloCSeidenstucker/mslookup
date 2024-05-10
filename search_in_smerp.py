@@ -1,10 +1,11 @@
-from datetime import datetime
 import re
 import json
-from time import sleep, time
+
 from urllib.parse import urlparse
 from unidecode import unidecode
+from datetime import datetime
 from utils import Utils
+from time import sleep, time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -86,6 +87,12 @@ class SearchInSmerp:
         register = dataset.find_element(By.XPATH, "//div[contains(text(), 'Registro')]/following-sibling::div").text[:9]
         return register
     
+    def extract_expiration_date(self, wait):
+        dataset_locator = (By.CSS_SELECTOR, '.dataset')
+        dataset = wait.until(presence_of_element_located(dataset_locator), 'Elemento não encontrado')
+        expiration_date = dataset.find_element(By.XPATH, "//div[contains(text(), 'Validade/Situação')]/following-sibling::div/span").text
+        return expiration_date
+    
     def get_data_from_smerp(self, item, name, brand):
         
         b = brand if isinstance(brand, str) else brand['Name']
@@ -106,10 +113,11 @@ class SearchInSmerp:
         matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
         if not matchesURL:
             print(f'{m} {item}')
-            return -1, -1
+            return -1, -1, -1
         
         process_number = self.extract_process_number(wait)
         register = self.extract_register(wait)
+        expiration_date = self.extract_expiration_date(wait)
             
         driver.quit()
-        return register, process_number
+        return register, process_number, expiration_date

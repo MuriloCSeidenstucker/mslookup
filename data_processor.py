@@ -59,16 +59,10 @@ class DataProcessor:
                 
                 if not isinstance(brand, str):
                     if ref_cnpj == brand['CNPJ']:
-                        print(description_normalized)
-                        print(ref_subs_normalized)
-                        print(ref_prod_normalized)
                         return f'{str(ref_row['SUBSTÂNCIA'])} {str(ref_row['PRODUTO'])}'
                 else:
                     brand_normalized = Utils.remove_accents_and_spaces(brand)
                     if brand_normalized in ref_lab_normalized:
-                        print(description_normalized)
-                        print(ref_subs_normalized)
-                        print(ref_prod_normalized)
                         return f'{str(ref_row['SUBSTÂNCIA'])} {str(ref_row['PRODUTO'])}'
             
         return description

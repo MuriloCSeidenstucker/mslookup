@@ -140,7 +140,13 @@
             "full_name": "EMS S/A",
             "cnpj": "57507378000365",
             "abbreviations": ["ems", "em.s", "e.ms", "e m s", "sem", "brace"],
-            "linked": ["GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA", "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA", "NOVA QUIMICA FARMACÊUTICA S/A"]
+            "linked": ["EMS SIGMA PHARMA LTDA", "GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA", "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA", "NOVA QUIMICA FARMACÊUTICA S/A"]
+        },
+        {
+            "full_name": "EMS SIGMA PHARMA LTDA",
+            "cnpj": "00923140000131",
+            "abbreviations": ["ems", "em.s", "e.ms", "e m s", "sem", "brace"],
+            "linked": ["EMS S/A", "GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA", "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA", "NOVA QUIMICA FARMACÊUTICA S/A"]
         },
         {
             "full_name": "VITAMEDIC INDUSTRIA FARMACEUTICA LTDA",
@@ -188,13 +194,19 @@
             "full_name": "HYPERA S.A.",
             "cnpj": "02932074000191",
             "abbreviations": ["hypera"],
-            "linked": ["LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA"]
+            "linked": ["LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA", "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A"]
         },
         {
             "full_name": "LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA",
             "cnpj": "29785870000103",
             "abbreviations": ["neo quimica", "neo", "neoquimica"],
-            "linked": ["HYPERA S.A."]
+            "linked": ["HYPERA S.A.", "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A"]
+        },
+        {
+            "full_name": "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A",
+            "cnpj": "05161069000110",
+            "abbreviations": ["brainfarma"],
+            "linked": ["HYPERA S.A.", "LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA"]
         },
         {
             "full_name": "ZYDUS NIKKHO FARMACÊUTICA LTDA",
@@ -261,11 +273,6 @@
             "cnpj": "56994502000130",
             "abbreviations": ["novartis", "novartes"],
             "linked": ["SANDOZ DO BRASIL INDÚSTRIA FARMACÊUTICA LTDA", "GLAXOSMITHKLINE BRASIL LTDA"]
-        },
-        {
-            "full_name": "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A",
-            "cnpj": "05161069000110",
-            "abbreviations": ["brainfarma"]
         },
         {
             "full_name": "APSEN FARMACEUTICA S/A",
@@ -404,6 +411,11 @@
             "cnpj": "03993167000199",
             "abbreviations": ["vidfarma", "vid"],
             "linked": ["FARMOQUÍMICA S/A", "ZEST FARMACÊUTICA LTDA"]
+        },
+        {
+            "full_name": "IMEC - INDÚSTRIA DE MEDICAMENTOS CUSTÓDIA LTDA",
+            "cnpj": "08055634000153",
+            "abbreviations": ["imec", "nutivit"]
         }
     ]
 }

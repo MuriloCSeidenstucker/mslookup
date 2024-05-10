@@ -1,11 +1,13 @@
 import os
 import time
 import pandas as pd
-from search_in_smerp import SearchInSmerp
-from search_in_open_data_anvisa import OpenDataAnvisa
-from access_anvisa_domain import AnvisaDomain
-from data_processor import DataProcessor
+
 from utils import Utils
+from pdf_manager import PDFManager
+from data_processor import DataProcessor
+from search_in_smerp import SearchInSmerp
+from access_anvisa_domain import AnvisaDomain
+from search_in_open_data_anvisa import OpenDataAnvisa
 
 class Program:
     start_time = time.time()
@@ -30,19 +32,27 @@ class Program:
     smerp_search = SearchInSmerp()
     data_anvisa_search = OpenDataAnvisa()
     anvisaDomain = AnvisaDomain()
-    
+    pdfManager = PDFManager()
+
     anvisa_search_start_time = time.time()
     for i, entry in enumerate(data):
         s_time = time.time()
         print(f'\nTentando obter registro do item {i+1}/{len(data)}')
         process_number = None
+        expiration_date = None
         has_pdf = False
-        register = data_anvisa_search.get_register(entry['item'], entry['description'], entry['brand'])
+        register, expiration_date = data_anvisa_search.get_register(entry['item'], entry['description'], entry['brand'])
         if register == -1:
-            register, process_number = smerp_search.get_data_from_smerp(entry['item'], entry['description'], entry['brand'])
+            register, process_number, expiration_date = smerp_search.get_data_from_smerp(entry['item'], entry['description'], entry['brand'])
         if register != -1:
-            anvisaDomain.get_register_as_pdf(register, process_number)
+            has_pdf_in_db = pdfManager.get_pdf_in_db(register)
+            
+            if not has_pdf_in_db:
+                anvisaDomain.get_register_as_pdf(register, process_number)
+                pdfManager.copy_and_rename_file(d_path, register, expiration_date)
+                
             has_pdf = Utils.rename_downloaded_pdf(d_path, f'Item {entry['item']}')
+            
         report_data.append({'Item': entry['item'],
                             'Descrição': entry['description'],
                             'Marca': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
@@ -59,7 +69,7 @@ class Program:
 
     report_df = pd.DataFrame(report_data)
     report_df.to_excel('relatorio_registros.xlsx', index=False)
-    
+
     end_time = time.time()
     elapsed_time  = Utils.calculate_elapsed_time(start_time, end_time)
     print(f"Quantidade de itens analizados: {len(data)}")

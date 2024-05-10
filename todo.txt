@@ -1,21 +1,25 @@
 PRIORIDADE
-[  ] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
-    Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
-    novo registro toda vez que executar o programa, apenas buscar no banco de dados.
-    Concluindo essa otimização, acredito que ficará muito mais rápido obter os registros. Assim, será
-    possível realizar testes em uma quantidade muito maior de dados.
-
+[  ] Fazer um sistema de pontuação no momento de processar as informações, para tentar obter a descrição
+    mais precisa.
 [  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
     Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
     A descrição com a maior pontuação será a candidata mais ideal/correta.
     Falha da solução1: Como diferenciar um ringer simples de um ringer com lactato?
-    Possível solução2: Aceitar que não é possível encontrar registros para todas situações. No momento
+    Possível solução2: Mesmo com a falha da solução1, é possível criar um sistema de pontuação para melhorar
+    significativamente a precisão no momento de filtrar a descrição.
+    Possível solução3: Aceitar que não é possível encontrar registros para todas situações. No momento
     que falhar alguma busca, deixar claro no relatório.
+[  ] Pensar em um lugar melhor para armazenar os registros obtidos.
 [  ] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
 
+[Ok] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
+    Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
+    novo registro toda vez que executar o programa, apenas buscar no banco de dados.
+    Concluindo essa otimização, acredito que ficará muito mais rápido obter os registros. Assim, será
+    possível realizar testes em uma quantidade muito maior de dados.
 [Ok] Adicionar verificação se o registro encontrado está vencido, nas buscas usando smerp.
 [Ok] Usar a nomeação bem sucedida do print obtido como parâmetro para saber se o registro
     foi obtido com sucesso.
@@ -25,6 +29,10 @@ PRIORIDADE
     link: https://dados.anvisa.gov.br/dados/
 
 Parece que se rodar o programa enquanto o PC é utilizado, ele aumenta a probabilidade de erros.
-Será que existe alguma forma de solucionar isso?
+Será que existe alguma forma de solucionar isso? Isso acontece apenas com o Selenium.
 
 Após a otimização e testes em larga escala, eu deveria começar a pensar em uma interface?
+Antes da interface, eu preciso dar um jeito de aumentar a precisão dos registros encontrados, para isso
+preciso encontrar uma solução para encontrar a fórmula farmaceutica correta.
+
+Vale a pena separar as etapas: busca do registro e salvar como PDF?

@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from datetime import datetime
 
 from utils import Utils
 
@@ -28,7 +29,13 @@ class OpenDataAnvisa:
                         brand_normalized = Utils.remove_accents_and_spaces(brand_candidate)
                         if (brand_normalized == laboratory_normalized or
                             brand_normalized in laboratory_normalized):
-                            return row['NUMERO_REGISTRO_PRODUTO']
-        return -1
+                            date = row['DATA_VENCIMENTO_REGISTRO']
+                            if isinstance(date, str) or isinstance(date, datetime):
+                                date = date.strftime("%d/%m/%Y")
+                            else:
+                                print(f'{date} is NAN')
+                                date = -1
+                            return row['NUMERO_REGISTRO_PRODUTO'], date
+        return -1, -1
                 
             
