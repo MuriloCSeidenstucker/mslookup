@@ -9,11 +9,38 @@ class OpenDataAnvisa:
         file_path = os.path.join(os.path.dirname(__file__), 'DADOS_ABERTOS_MEDICAMENTOS.xlsx')
         self.df = pd.read_excel(file_path)
         self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()
+        self.laboratory_registers = self.create_data_map()
+        
+    def create_data_map(self):
+        laboratories = {}
+
+        for index, row in self.df.iterrows():
+            lab_cnpj, laboratory = str(row['EMPRESA_DETENTORA_REGISTRO']).split(' ', 1)
+            laboratory = laboratory.strip('- ')
+            register = str(row['NUMERO_REGISTRO_PRODUTO'])
+            product_name = str(row['NOME_PRODUTO'])
+            expiration_date = str(row['DATA_VENCIMENTO_REGISTRO'])
+            substances = [substance.strip() for substance in str(row['PRINCIPIO_ATIVO']).split('+')]
+            
+            if lab_cnpj not in laboratories:
+                laboratories[lab_cnpj] = {}
+            
+            if register not in laboratories[lab_cnpj]:
+                laboratories[lab_cnpj][register] = {
+                    'product_name': product_name,
+                    'expiration_date': expiration_date,
+                    'laboratory': laboratory,
+                    'substances': substances
+                }
+            else:
+                print(f"Registro {register} já existe no laboratório {lab_cnpj}")
         
     def get_register(self, item, description, brand):
         description_normalized = Utils.remove_accents_and_spaces(description)
         
-        brand_candidates = [brand["Name"]] + (brand.get("Linked", []) if isinstance(brand, dict) else []) if not isinstance(brand, str) else [brand]
+        brand_candidates = [brand["Name"]] + (brand.get("Linked", [])
+                                              if isinstance(brand, dict)
+                                              else []) if not isinstance(brand, str) else [brand]
         
         for brand_candidate in brand_candidates:
             for _, row in self.df.iterrows():
