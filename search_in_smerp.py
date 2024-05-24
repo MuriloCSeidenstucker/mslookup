@@ -57,11 +57,14 @@ class SearchInSmerp:
             dataset = wait.until(presence_of_element_located(dataset_locator), 'Elemento não encontrado')
             
             ref_date_str = dataset.find_element(By.XPATH, "//div[contains(text(), 'Validade/Situação')]/following-sibling::div/span").text
-            ref_date = datetime.strptime(ref_date_str, '%d/%m/%Y')
-            if ref_date < datetime.now():
-                message = 'Registro vencido para o item:'
-                driver.back()
-                continue
+            try:
+                ref_date = datetime.strptime(ref_date_str, '%d/%m/%Y')
+                if ref_date < datetime.now():
+                    message = 'Registro vencido para o item:'
+                    driver.back()
+                    continue
+            except ValueError as e:
+                print(f'Data consta como:{ref_date_str}. Formato incorreto')
             
             smerp_brand = dataset.find_element(By.XPATH, "//div[contains(text(), 'Nome da Empresa/Detentor')]/following-sibling::div").text
             if unidecode(brand).lower() in unidecode(smerp_brand).lower():

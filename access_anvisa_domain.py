@@ -70,7 +70,8 @@ class AnvisaDomain:
         
         success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, defined_process_number)
         if not success:
-            print(f'Não foi possível obter o registro: {self.register}')
+            print(f'Não foi possível obter o registro: {register}')
+            driver.quit()
             return False
             
         driver.quit()

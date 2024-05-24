@@ -1,5 +1,19 @@
-[  ] Corrigir filtro de descrição no momento de buscar os registros na planilha da anvisa.
-[  ] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
+OBJETIVOS A SE FAZER:
+[  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
+melhor de fazer isso.
+[  ] Organizar o projeto, refatorar e criar uma melhor estrutura. Está começando a ficar tudo muito confuso.
+[  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
+[  ] Melhorar informações do relatório.
+[  ] Pensar em um lugar melhor para armazenar os registros obtidos.
+[  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
+[  ] Pensar em uma forma de buscar outros produtos além dos medicamentos. Quando é fornecido uma descrição de um item que não seja medicamento
+    o programa não lida muito bem, ele continua agindo normalmente e tenta obter o registro, mas no fim, só perde tempo.
+
+OBJETIVOS CONCLUÍDOS:
+[Ok] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
+[Ok] Corrigir filtro de descrição no momento de buscar os registros na planilha da anvisa. Removi as preposições, mas ainda há muito a ser
+    melhorado.
+[Ok] Aumentar a precisão no momento de filtrar as informações da tabela CMED, não está 100% correto.
     Ex: Ao tentar encontrar soro glicofisiológico, foi encontrado soro fisiologico.
     Possível solução1: No momento da busca da descrição mais adequada. Adicionar um sistema de pontuação.
     A descrição com a maior pontuação será a candidata mais ideal/correta.
@@ -8,12 +22,9 @@
     significativamente a precisão no momento de filtrar a descrição.
     Possível solução3: Aceitar que não é possível encontrar registros para todas situações. No momento
     que falhar alguma busca, deixar claro no relatório.
-[  ] Melhorar informações do relatório.
-[  ] Pensar em um lugar melhor para armazenar os registros obtidos.
-[  ] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
-[  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
-[  ] Pensar em uma forma de buscar outros produtos além dos medicamentos.
-
+    Solução aplicada: Criado uma lista de substâncias. Primeiro verifica se alguma substância consta dentro da descrição. Se não obter sucesso
+    assim, separa cada palavra das substâncias e verifica uma a uma se consta dentro da descrição, removendo palavras que contém menos de 4
+    letras e também removendo preposições. Se mesmo assim não encontrar, ele retorna a descrição original.
 [Ok] Elaborar uma maneira mais precisa de obter a descrição correta.
 [Ok] Armazenar os registros em PDF e adicionar alguma forma do programa saber se ele está desatualizado.
     Atualizar automaticamente caso esteja desatualizado. Fazendo isso, não será necessário buscar um 
@@ -27,6 +38,15 @@
 [Ok] Pensar em uma forma de lidar com situações onde a marca consta com seu nome abreviado.
 [Ok] Adaptar a busca pelo registro usando os dados aberto da própria anvisa.
     link: https://dados.anvisa.gov.br/dados/
+
+ESTUDAR ESSA POSSIBILIDADE:
+[  ] Melhorar o filtro de descrição: Primeiro, criar uma lista de substâncias únicas, porém não
+    necessáriamente deverá conter o nome completo da substância, mas sim pegar todas palavras que podem fazer
+    parte do nome de uma substância, sem considerar preposições. Segundo, pegar a descrição original e tentar
+    limpar o máximo de conteúdo desncesseário dela, formando um array apenas com palavras candidatas a substância.
+    Terceiro, pegar cada palavra do array criado e verificar a semelhança com as lista única de substâncias,
+    quando obter um match, adicionar na descrição filtrada. Esse método me parece promissor, é preciso testar.
+    Talvez dê para extrair também a dosagem/fórmula da substância.
 
 Parece que se rodar o programa enquanto o PC é utilizado, ele aumenta a probabilidade de erros.
 Será que existe alguma forma de solucionar isso? Isso acontece apenas com o Selenium.

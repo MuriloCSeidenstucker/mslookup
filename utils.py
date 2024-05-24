@@ -2,7 +2,6 @@ import os
 from unidecode import unidecode
 
 class Utils:
-    
     @classmethod
     def resize_window(self, driver):
         screen_width = driver.execute_script("return window.screen.availWidth")

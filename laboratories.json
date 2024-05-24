@@ -316,7 +316,14 @@
         {
             "full_name": "BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI",
             "cnpj": "46179008000168",
-            "abbreviations": ["brasterapica"]
+            "abbreviations": ["brasterapica"],
+            "linked": ["BRASTERAPICA INDUSTRIA FARMACEUTICA LTDA"]
+        },
+        {
+            "full_name": "BRASTERAPICA INDUSTRIA FARMACEUTICA LTDA",
+            "cnpj": "46179008000168",
+            "abbreviations": ["brasterapica"],
+            "linked": ["BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI"]
         },
         {
             "full_name": "AIRELA INDÚSTRIA FARMACÊUTICA LTDA",

@@ -11,11 +11,11 @@ from search_in_open_data_anvisa import OpenDataAnvisa
 
 start_time = time.time()
 
-# file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
+file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
 # file_path = r"relatorio_registros_errados.xlsx"
 # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
-file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
-# file_path = r"data_for_testing\Itens_Errados.xlsx"
+# file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+# file_path = r"data_for_testing\Controle_Operacao_000000_Cidade.xlsm"
 item_col = 'ITEM'
 desc_col = 'DESCRIÇÃO'
 brand_col = 'MARCA'
@@ -23,12 +23,9 @@ brand_col = 'MARCA'
 processor_start_time = time.time()
 data_processor = DataProcessor(file_path)
 data = data_processor.get_data(item_col, desc_col, brand_col)
-# data = [{'item': '58', 'description': 'DIAZEPAM 5 MG', 'brand': 'germed'}]
+# # data = [{'item': '58', 'description': 'DIAZEPAM 5 MG', 'brand': 'germed'}]
 processor_end_time = time.time()
 processor_elapsed_time = Utils.calculate_elapsed_time(processor_start_time, processor_end_time)
-
-for i, entry in enumerate(data):
-    print(f'{i+1}: {entry}')
 
 d_path = os.path.join(os.path.expanduser('~'), 'Downloads')
 
