@@ -87,7 +87,7 @@ class DataProcessor:
         Retorna uma lista ordenada de substâncias únicas, ordenadas por comprimento em ordem decrescente,
         juntamente com o comprimento da substância mais curta encontrada.
 
-        Retorna:
+        Returns:
             tuple: Uma tupla contendo:
                 - sorted_substances (list): Uma lista de substâncias únicas ordenadas por comprimento em ordem decrescente.
                 - shortest_length (int): O comprimento da substância mais curta encontrada.
