@@ -1,6 +1,7 @@
 OBJETIVOS A SE FAZER:
 [  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
 melhor de fazer isso.
+[  ] Padronizar nomes e adicionar validação dos argumentos.
 [  ] Organizar o projeto, refatorar e criar uma melhor estrutura. Está começando a ficar tudo muito confuso.
 [  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
 [  ] Melhorar informações do relatório.

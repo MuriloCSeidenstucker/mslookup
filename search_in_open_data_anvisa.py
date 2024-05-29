@@ -5,6 +5,22 @@ from utils import Utils
 from datetime import datetime
 
 class OpenDataAnvisa:
+    """
+    Classe para gerenciar e consultar dados de registros de medicamentos fornecidos pela Anvisa.
+
+    Esta classe carrega dados de um arquivo Excel contendo registros de medicamentos, filtra os registros válidos
+    e os organiza em um formato estruturado. Ela fornece um método para buscar registros específicos de medicamentos
+    com base em uma descrição e marca fornecidas.
+    
+    Funcionamento:
+    --------------
+    1. Inicialização: Ao instanciar a classe, os dados do arquivo 'DADOS_ABERTOS_MEDICAMENTOS.xlsx' são carregados em um DataFrame.
+    Apenas os registros com situação 'VÁLIDO' são mantidos.
+    2. Mapeamento de Dados: O método `create_data_map` cria um dicionário onde cada chave é o nome de um laboratório e o valor é outro dicionário
+    contendo os registros de medicamentos desse laboratório.
+    3. Busca de Registros: O método `get_register` permite buscar um registro de medicamento específico com base em uma descrição e uma marca.
+    Ele normaliza a descrição, verifica as substâncias ativas e retorna o número do registro e a data de vencimento do produto, se encontrado.
+    """
     def __init__(self):
         file_path = os.path.join(os.path.dirname(__file__), 'DADOS_ABERTOS_MEDICAMENTOS.xlsx')
         self.df = pd.read_excel(file_path)
@@ -12,6 +28,19 @@ class OpenDataAnvisa:
         self.laboratory_registers = self.create_data_map()
         
     def create_data_map(self):
+        """
+        Cria um mapa de dados de registros de medicamentos organizados por laboratório.
+
+        Este método itera sobre o DataFrame carregado, extraindo e formatando informações relevantes
+        de cada registro de medicamento. Ele organiza esses registros em um dicionário onde cada chave 
+        é o nome de um laboratório e cada valor é outro dicionário contendo os registros de medicamentos
+        desse laboratório.
+
+        Returns:
+            Dict[str, Dict[str, Any]]: Um dicionário aninhado onde cada chave é o nome de um laboratório e cada valor é um dicionário
+            que mapeia os números de registro dos medicamentos para seus detalhes, incluindo nome do produto,
+            data de vencimento, CNPJ e substâncias ativas.
+        """
         laboratories = {}
 
         for index, row in self.df.iterrows():
@@ -38,6 +67,23 @@ class OpenDataAnvisa:
         return laboratories
         
     def get_register(self, item, description, brand):
+        """
+        Busca um registro de medicamento com base em uma descrição e marca fornecidas.
+
+        Este método normaliza a descrição, verifica as substâncias ativas e busca correspondências nos registros
+        de medicamentos organizados por laboratório. Se encontrar uma correspondência, retorna o número do registro
+        e a data de vencimento do produto.
+
+        Args:
+            item (str): O número do item a ser buscado (não utilizado na implementação atual).
+            description (str): A descrição do medicamento.
+            brand (Union[str, dict]): O nome da marca ou um dicionário contendo detalhes da marca. Se for um dicionário, espera-se que
+            contenha a chave "Name" e, opcionalmente, "Linked" com nomes relacionados.
+
+        Returns:
+            Tuple[str, str]: Uma tupla contendo o número do registro e a data de vencimento formatada no formato "dd/mm/aaaa" 
+            se uma correspondência for encontrada, ou (-1, -1) se não houver correspondência.
+        """
         description_normalized = Utils.remove_accents_and_spaces(description)
         
         brand_candidates = [brand["Name"]] + (brand.get("Linked", [])
@@ -80,28 +126,6 @@ class OpenDataAnvisa:
                                 print(f'{date} is NAN')
                                 date = -1
                             return register, date_formatted
-        
-        # for brand_candidate in brand_candidates:
-        #     for _, row in self.df.iterrows():
-        #         if row['SITUACAO_REGISTRO'] == 'VÁLIDO':
-        #             product_name = Utils.remove_accents_and_spaces(row['NOME_PRODUTO'])
-        #             active_principle = Utils.remove_accents_and_spaces(row['PRINCIPIO_ATIVO']) if isinstance(row['PRINCIPIO_ATIVO'], str) else product_name
-        #             if (product_name in description_normalized or
-        #                 active_principle in description_normalized):
-                        
-        #                 cnpj, laboratory = row['EMPRESA_DETENTORA_REGISTRO'].split(' ', 1)
-        #                 laboratory = laboratory.strip('- ')
-        #                 laboratory_normalized = Utils.remove_accents_and_spaces(laboratory)
-        #                 brand_normalized = Utils.remove_accents_and_spaces(brand_candidate)
-        #                 if (brand_normalized == laboratory_normalized or
-        #                     brand_normalized in laboratory_normalized):
-        #                     date = row['DATA_VENCIMENTO_REGISTRO']
-        #                     if isinstance(date, str) or isinstance(date, datetime):
-        #                         date = date.strftime("%d/%m/%Y")
-        #                     else:
-        #                         print(f'{date} is NAN')
-        #                         date = -1
-        #                     return row['NUMERO_REGISTRO_PRODUTO'], date
         return -1, -1
                 
             
