@@ -2,6 +2,17 @@ import os
 from unidecode import unidecode
 
 class Utils:
+    """
+    Classe utilitária com métodos estáticos para realizar várias operações comuns.
+
+    Métodos Estáticos:
+        - resize_window(driver): Redimensiona a janela do navegador para ocupar metade da tela.
+        - remove_accents_and_spaces(input_str): Remove acentos e espaços de uma string.
+        - calculate_elapsed_time(start_time, end_time): Calcula o tempo decorrido entre dois tempos fornecidos.
+        - rename_downloaded_pdf(path, new_name): Renomeia um arquivo PDF baixado para um novo nome fornecido.
+
+    Os métodos desta classe podem ser utilizados sem a necessidade de instanciar um objeto Utils.
+    """
     @classmethod
     def resize_window(self, driver):
         screen_width = driver.execute_script("return window.screen.availWidth")

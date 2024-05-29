@@ -5,7 +5,23 @@ import shutil
 from datetime import datetime
 
 class PDFManager:
+    """
+    Classe responsável pela gestão de arquivos PDF relacionados a registros.
+
+    Esta classe oferece métodos para buscar e manipular arquivos PDF com base em registros
+    e datas de expiração específicas.
+    """
     def get_pdf_in_db(self, target_reg):
+        """
+        Busca um arquivo PDF correspondente ao número de registro fornecido no diretório 'registers_pdf'.
+
+        Args:
+            target_reg (int): O número de registro a ser buscado.
+
+        Returns:
+            bool: True se o arquivo PDF correspondente ao registro for encontrado e copiado com sucesso,
+            False se o registro não for encontrado ou se o arquivo estiver vencido.
+        """
         pattern = r'(\d{9})_(\d{2}-\d{2}-\d{4})'
 
         path = 'registers_pdf'
@@ -37,7 +53,16 @@ class PDFManager:
         return False
     
     def copy_and_rename_file(self, origin_path, register, expiration_date):
-        
+        """
+        Copia e renomeia um arquivo PDF do diretório de origem para o diretório 'registers_pdf'
+        com base no número de registro e na data de expiração fornecidos.
+
+        Args:
+            origin_path (str): O caminho para o diretório de origem onde o arquivo PDF está localizado.
+            register (str): O número de registro associado ao arquivo PDF.
+            expiration_date (str): A data de expiração associada ao arquivo PDF no formato 'dd/mm/yyyy',
+                ou '-1' se não houver data de expiração.
+        """ 
         exp_date_formated = expiration_date.replace('/', '-') if expiration_date != -1 else 'sem-data'
         
         target_path = 'registers_pdf'
