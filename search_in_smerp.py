@@ -75,7 +75,7 @@ class SearchInSmerp:
         
         search_input_locator = (By.CSS_SELECTOR, 'div textarea')
         search_input = wait.until(visibility_of_element_located(search_input_locator), 'Elemento não encontrado')
-        search_input.send_keys(f"registro anvisa {description} {brand}")
+        search_input.send_keys(f"registro anvisa {description} {brand} smerp")
 
         submit_button_locator = (By.XPATH, '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[4]/center/input[1]')
         submit_button = wait.until(visibility_of_element_located(submit_button_locator), 'Elemento não encontrado')

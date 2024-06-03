@@ -1,14 +1,16 @@
 OBJETIVOS A SE FAZER:
+[  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
+    [  ] Criar um documento que conste todas informações necessárias/relevantes das concentrações dos medicamentos.
 [  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
 melhor de fazer isso.
+    [Ok] Adicionado docstring em todas classes e seus métodos.
 [  ] Padronizar nomes e adicionar validação dos argumentos.
 [  ] Organizar o projeto, refatorar e criar uma melhor estrutura. Está começando a ficar tudo muito confuso.
 [  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
 [  ] Melhorar informações do relatório.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
-[  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos. Quando é fornecido uma descrição de um item que não seja medicamento
-    o programa não lida muito bem, ele continua agindo normalmente e tenta obter o registro, mas no fim, só perde tempo.
+o programa não lida muito bem, ele continua agindo normalmente e tenta obter o registro, mas no fim, só perde tempo.
 
 OBJETIVOS CONCLUÍDOS:
 [Ok] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
