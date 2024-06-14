@@ -66,7 +66,7 @@ class OpenDataAnvisa:
                 
         return laboratories
         
-    def get_register(self, item, description, brand):
+    def get_register(self, description, brand):
         """
         Busca um registro de medicamento com base em uma descrição e marca fornecidas.
 
@@ -75,7 +75,6 @@ class OpenDataAnvisa:
         e a data de vencimento do produto.
 
         Args:
-            item (str): O número do item a ser buscado (não utilizado na implementação atual).
             description (str): A descrição do medicamento.
             brand (Union[str, dict]): O nome da marca ou um dicionário contendo detalhes da marca. Se for um dicionário, espera-se que
             contenha a chave "Name" e, opcionalmente, "Linked" com nomes relacionados.
@@ -85,6 +84,7 @@ class OpenDataAnvisa:
             se uma correspondência for encontrada, ou (-1, -1) se não houver correspondência.
         """
         description_normalized = Utils.remove_accents_and_spaces(description)
+        reg_candidates = []
         
         brand_candidates = [brand["Name"]] + (brand.get("Linked", [])
                                               if isinstance(brand, dict)
@@ -101,31 +101,38 @@ class OpenDataAnvisa:
                     for substance in register_data['substances']:
                         sub_normalized = Utils.remove_accents_and_spaces(substance)
                         if sub_normalized in selected_subs:
-                            selected_subs.remove(sub_normalized)
-                        if not selected_subs:
                             date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
+                            date_formatted = -1
                             if isinstance(date, str) or isinstance(date, datetime):
                                 date_formatted = date.strftime("%d/%m/%Y")
-                            else:
-                                print(f'{date} is NAN')
-                                date = -1
-                            return register, date_formatted
-                        
-        words = description_normalized.split(';')
-        for brand_candidate in brand_candidates:
-            if brand_candidate in self.laboratory_registers:
-                for register in self.laboratory_registers[brand_candidate]:
-                    register_data = self.laboratory_registers[brand_candidate][register]
-                    for substance in register_data['substances']:
-                        sub_normalized = Utils.remove_accents_and_spaces(substance)
-                        if all(word in sub_normalized for word in words):
-                            date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
-                            if isinstance(date, str) or isinstance(date, datetime):
-                                date_formatted = date.strftime("%d/%m/%Y")
-                            else:
-                                print(f'{date} is NAN')
-                                date = -1
-                            return register, date_formatted
-        return -1, -1
-                
-            
+                            reg_candidates.append(
+                                {
+                                    'register': register,
+                                    'process_number': -1,
+                                    'expiration_date': date_formatted
+                                }
+                            )
+                    
+        # As descrições dos medicamentos podem trazer substâncias fora da ordem esperada, por exemplo: Sódio Cloreto.
+        if not reg_candidates:
+            words = description_normalized.split(';')
+            for brand_candidate in brand_candidates:
+                if brand_candidate in self.laboratory_registers:
+                    for register in self.laboratory_registers[brand_candidate]:
+                        register_data = self.laboratory_registers[brand_candidate][register]
+                        for substance in register_data['substances']:
+                            sub_normalized = Utils.remove_accents_and_spaces(substance)
+                            if all(word in sub_normalized for word in words):
+                                date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
+                                date_formatted = -1
+                                if isinstance(date, str) or isinstance(date, datetime):
+                                    date_formatted = date.strftime("%d/%m/%Y")
+                                reg_candidates.append(
+                                    {
+                                        'register': register,
+                                        'process_number': -1,
+                                        'expiration_date': date_formatted
+                                    }
+                                )
+                            
+        return reg_candidates

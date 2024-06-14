@@ -8,6 +8,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
+from utils import Utils
+
 class AnvisaDomain:
     """
     A classe AnvisaDomain automatiza a extração e a impressão de registros de medicamentos
@@ -109,7 +111,7 @@ class AnvisaDomain:
         pattern = r'\D'
         return re.sub(pattern, '', process_number)
     
-    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, process_number_formatted):
+    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, process_number_formatted, a_concentration):
         """
         Tenta imprimir o registro de um medicamento da Anvisa como PDF.
 
@@ -142,10 +144,16 @@ class AnvisaDomain:
         driver.get(rf'{anvisa_medicamento_url}{process_number_formatted}/')
         try:
             number_is_present = wait.until(self.process_number_to_be_present)
+            
+            presentations = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
+            match = any(Utils.remove_accents_and_spaces(a_concentration) in
+                        Utils.remove_accents_and_spaces(presentation.text)
+                        for presentation in presentations)
+            
             anvisa_process_number = driver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text if number_is_present else ''
             pattern = r'\D'
             anvisa_process_number_formatted = re.sub(pattern, '', anvisa_process_number)
-            if process_number_formatted == anvisa_process_number_formatted:
+            if process_number_formatted == anvisa_process_number_formatted and match:
                 driver.execute_script('window.print();')
                 sleep(0.5)
                 return True
@@ -156,7 +164,7 @@ class AnvisaDomain:
             print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{process_number_formatted}/')
             return False
         
-    def get_register_as_pdf(self, register, process_number=None):
+    def get_register_as_pdf(self, register, a_concentration, process_number=None):
         """
         Obtém o registro de um medicamento da Anvisa como um arquivo PDF.
 
@@ -185,7 +193,7 @@ class AnvisaDomain:
         defined_process_number = (process_number if not process_number is None
                                   else self.get_process_number(driver, wait, register))
         
-        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, defined_process_number)
+        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, defined_process_number, a_concentration)
         if not success:
             print(f'Não foi possível obter o registro: {register}')
             driver.quit()

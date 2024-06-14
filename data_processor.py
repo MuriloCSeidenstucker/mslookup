@@ -1,6 +1,6 @@
-import cProfile
 import os
 import json
+import re
 import pandas as pd
 
 from utils import Utils
@@ -32,6 +32,21 @@ class DataProcessor:
             'para', 'per', 'perante', 'por', 'sem', 'sob', 'sobre', 'trás',
             'da', 'do', 'das', 'dos', 'na', 'no', 'nas', 'nos', 'pela', 'pelo', 'pelas', 'pelos', 'à', 'às', 'ao', 'aos'
         ]
+        
+        self.patterns_path = 'patterns.json'
+        self.patterns = self.load_patterns(self.patterns_path)
+        
+    def load_patterns(self, a_path):
+        with open(a_path, 'r') as file:
+            data = json.load(file)
+        return data["patterns"]
+    
+    def get_concentration(self, a_description, a_patterns):
+        for pattern in a_patterns:
+            match = re.search(pattern, a_description)
+            if match:
+                return match.group()
+        return "Concentração não encontrada"
             
     def create_abbreviation_map(self):
         """
@@ -187,6 +202,7 @@ class DataProcessor:
                 filtered_desc = filtered_desc[:-1]
             return filtered_desc
         else:
+            # As descrições dos medicamentos podem trazer substâncias fora da ordem esperada, por exemplo: Sódio Cloreto.
             for substance in self.substances_set:
                 substance_words = [Utils.remove_accents_and_spaces(word) for word in substance.split()]
                 substance_words_clean = [word for word in substance_words if len(word) >= self.shortest_substance]
@@ -225,11 +241,16 @@ class DataProcessor:
             if pd.notna(row[brand_col]):
                 brand = self.get_brand(row[brand_col])
                 description = self.get_filtered_description(row[desc_col])
-                data.append({'item': row[item_col], 'description': description, "brand": brand})
+                concentration = self.get_concentration(row[desc_col], self.patterns)
+                data.append({'item': row[item_col],
+                             'description': description,
+                             'brand': brand,
+                             'concentration': concentration})
                 
                 report_data.append({'Item': row[item_col],
                         'Descrição Original': row[desc_col],
                         'Descrição Final': description,
+                        'Concentração': concentration,
                         'Laboratório Original': row[brand_col],
                         'Laboratório Final': brand if isinstance(brand, str) else brand['Name'],
                         'Registro': '',

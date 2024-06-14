@@ -226,12 +226,11 @@ class SearchInSmerp:
         expiration_date = dataset.find_element(By.XPATH, "//div[contains(text(), 'Validade/Situação')]/following-sibling::div/span").text
         return expiration_date
     
-    def get_data_from_smerp(self, item, description, brand):
+    def get_data_from_smerp(self, description, brand):
         """
         Realiza uma busca automatizada no site "smerp" e extrai informações específicas de uma entrada correspondente.
 
         Args:
-        - item (str): Número do item que está sendo pesquisado.
         - description (str): Descrição do item a ser pesquisado.
         - brand (str ou dict): Nome da marca como uma string ou um dicionário contendo a chave 'Name' com o nome da marca.
 
@@ -258,6 +257,7 @@ class SearchInSmerp:
         >>> print(register, process_number, expiration_date)
         """
         
+        reg_candidates = []
         b = brand if isinstance(brand, str) else brand['Name']
         
         chrome_options = self.configure_chrome_options()
@@ -276,13 +276,19 @@ class SearchInSmerp:
         
         matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
         if not matchesURL:
-            print(f'{m} {item}')
             driver.quit()
-            return -1, -1, -1
+            return reg_candidates
         
         process_number = self.extract_process_number(wait)
         register = self.extract_register(wait)
         expiration_date = self.extract_expiration_date(wait)
             
         driver.quit()
-        return register, process_number, expiration_date
+        reg_candidates.append(
+            {
+                'register': register,
+                'process_number': process_number,
+                'expiration_date': expiration_date
+            }
+        )
+        return reg_candidates

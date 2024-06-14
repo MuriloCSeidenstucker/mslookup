@@ -1,0 +1,6 @@
+{
+    "patterns": [
+        "\\b(\\d+\\s*(?:MG\\/ML|UI\\/ML|MG|MCG|UI|ML|G)\\b)",
+        "\\b(\\d+\\/\\d+\\s*MG\\b)"
+    ]
+}

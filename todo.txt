@@ -1,6 +1,14 @@
-OBJETIVOS A SE FAZER:
+OBJETIVOS A SE FAZER
+PRINCIPAL:
 [  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
-    [  ] Criar um documento que conste todas informações necessárias/relevantes das concentrações dos medicamentos.
+    [  ] Elaborar uma maneira de extrair informações sobre a concentração e a apresentação das descrições dos medicamentos.
+    [  ] Elaborar uma verificação que utiliza a concentração e/ou a apresentação obtida, a fim de validar o registro encontrado.
+    Para dar certo essa validação da concentração/apresentação, será necessário obter uma lista de registros candidatos, pois, caso o registro
+    não passe pela validação, será necessário procurar novamente outro registro, porém refazer todo o processo me parece muito custoso. Para
+    solucionar isso, estou pensando em separar as funções de encontrar registros e validação dos registros. E ainda, estou pensando em armazenar
+    informações relevantes dos registros encontrados na primeira vez, em formato JSON, para facilitar nas buscas futuras.
+
+SECUNDÁRIOS:
 [  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
 melhor de fazer isso.
     [Ok] Adicionado docstring em todas classes e seus métodos.
@@ -11,6 +19,9 @@ melhor de fazer isso.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos. Quando é fornecido uma descrição de um item que não seja medicamento
 o programa não lida muito bem, ele continua agindo normalmente e tenta obter o registro, mas no fim, só perde tempo.
+[  ] Verificar utilização desnecessária do método get_register da classe OpenDataAnvisa.
+    Percebi que mesmo quando a API falha em extrair as substâncias da descrição, ela ainda tenta utilizar o método get_register de OpenDataAnvisa,
+    mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
 [Ok] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
