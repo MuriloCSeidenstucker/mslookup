@@ -20,7 +20,6 @@ class Test:
     BRAND_COL = 'MARCA'
     
     def __init__(self):
-        print("Executando __init__")
         self.data_processor = DataProcessor(self.FILE_PATH)
         self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
         self.pdfManager = PDFManager()
@@ -31,33 +30,36 @@ class Test:
         self.d_path = os.path.join(os.path.expanduser('~'), 'Downloads')
 
     def run(self):
-        reg_candidates = self.get_candidate_data()
+        candidate_data = self.get_candidate_data()
                 
         has_pdf = False
-        if reg_candidates:
-            for reg in reg_candidates:
-                has_pdf_in_db = self.pdfManager.get_pdf_in_db(reg['register'])
+        if candidate_data:
+            for candidate in candidate_data:
+                if candidate['reg_candidates']:
+                    # Estou pegando apenas o primeiro registro
+                    first_reg = candidate['reg_candidates'][0]
+                    has_pdf_in_db = self.pdfManager.get_pdf_in_db(first_reg['register'])
+                    if not has_pdf_in_db:
+                        self.anvisaDomain.get_register_as_pdf(
+                            first_reg['register'],
+                            candidate['concentration'],
+                            first_reg['process_number']
+                        )
+                        self.pdfManager.copy_and_rename_file(
+                            self.d_path,
+                            first_reg['register'],
+                            first_reg['expiration_date']
+                        )
                 
-                if not has_pdf_in_db:
-                    self.anvisaDomain.get_register_as_pdf(
-                        reg['register'],
-                        entry['concentration'],
-                        reg['process_number']
-                    )
-                    self.pdfManager.copy_and_rename_file(
-                        self.d_path,
-                        reg['register'],
-                        reg['expiration_date']
-                    )
-                    
-                has_pdf = Utils.rename_downloaded_pdf(self.d_path, f'Item {entry['item']}')
+                has_pdf = Utils.rename_downloaded_pdf(self.d_path, f'Item {candidate['item']}')
             
-        self.report_data.append({'Item': entry['item'],
-                            'Descrição': entry['description'],
-                            'Marca': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
-                            'Registro': registration_data['registration'] if registration_data['registration'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente',
-                            })
+                self.report_data.append({'Item': candidate['item'],
+                                         'Descrição': candidate['description'],
+                                         'Concentração_Obtida': candidate['concentration'],
+                                         'Laboratório': candidate['laboratory'],
+                                         'Registro': first_reg['register'] if first_reg['register'] != -1 else 'Não encontrado',
+                                         'PDF': 'OK' if has_pdf else 'Pendente',
+                                         })
             
         self.generate_report()
         
@@ -67,17 +69,13 @@ class Test:
             candidate_data.append(
                 {
                     'item': entry['item'],
+                    'description': entry['description'],
                     'concentration': entry['concentration'],
+                    'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
                     'reg_candidates': self.get_registration_data(entry['description'], entry['brand'])
                 }
             )
-            self.report_data.append(
-                {
-                    'Item': entry['item'],
-                    'Descrição': entry['description'],
-                    'Marca': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
-                }
-            )
+            
         return candidate_data
             
     

@@ -149,7 +149,7 @@ class SearchInSmerp:
                     message = 'Registro vencido para o item:'
                     driver.back()
                     continue
-            except ValueError as e:
+            except Exception as e:
                 print(f'Data consta como:{ref_date_str}. Formato incorreto')
             
             smerp_brand = dataset.find_element(By.XPATH, "//div[contains(text(), 'Nome da Empresa/Detentor')]/following-sibling::div").text
@@ -270,11 +270,17 @@ class SearchInSmerp:
         except TimeoutException as e:
             print('Erro ao tentar realizar a busca no Google')
             driver.quit()
-            return -1, -1, -1
+            return reg_candidates
                 
         smerp_urls = self.get_smerp_urls(driver, wait)
         
-        matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
+        try:
+            matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
+        except Exception as e:
+            print('Erro matchesURL')
+            driver.quit()
+            return reg_candidates
+            
         if not matchesURL:
             driver.quit()
             return reg_candidates

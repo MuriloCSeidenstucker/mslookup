@@ -101,10 +101,11 @@ class OpenDataAnvisa:
                     for substance in register_data['substances']:
                         sub_normalized = Utils.remove_accents_and_spaces(substance)
                         if sub_normalized in selected_subs:
-                            date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
                             date_formatted = -1
-                            if isinstance(date, str) or isinstance(date, datetime):
-                                date_formatted = date.strftime("%d/%m/%Y")
+                            if register_data['expiration_date'] != 'nan':
+                                date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
+                                if isinstance(date, str) or isinstance(date, datetime):
+                                    date_formatted = date.strftime("%d/%m/%Y")
                             reg_candidates.append(
                                 {
                                     'register': register,
@@ -123,10 +124,11 @@ class OpenDataAnvisa:
                         for substance in register_data['substances']:
                             sub_normalized = Utils.remove_accents_and_spaces(substance)
                             if all(word in sub_normalized for word in words):
-                                date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
                                 date_formatted = -1
-                                if isinstance(date, str) or isinstance(date, datetime):
-                                    date_formatted = date.strftime("%d/%m/%Y")
+                                if register_data['expiration_date'] != 'nan':
+                                    date = datetime.strptime(register_data['expiration_date'], '%Y-%m-%d %H:%M:%S')
+                                    if isinstance(date, str) or isinstance(date, datetime):
+                                        date_formatted = date.strftime("%d/%m/%Y")
                                 reg_candidates.append(
                                     {
                                         'register': register,

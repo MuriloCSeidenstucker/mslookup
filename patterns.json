@@ -1,6 +1,7 @@
 {
     "patterns": [
-        "\\b(\\d+\\s*(?:MG\\/ML|UI\\/ML|MG|MCG|UI|ML|G)\\b)",
-        "\\b(\\d+\\/\\d+\\s*MG\\b)"
+        "\\b(\\d+\\s*(?:mg\\/ml|ui\\/ml|mg|mcg|ui|ml|g)\\b)",
+        "\\b(\\d+\\/\\d+\\s*mg\\b)",
+        "\\b(\\d+\\s*%)"
     ]
 }

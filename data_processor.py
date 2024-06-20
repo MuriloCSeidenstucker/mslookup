@@ -42,8 +42,9 @@ class DataProcessor:
         return data["patterns"]
     
     def get_concentration(self, a_description, a_patterns):
+        lower_description = a_description.lower()
         for pattern in a_patterns:
-            match = re.search(pattern, a_description)
+            match = re.search(pattern, lower_description)
             if match:
                 return match.group()
         return "Concentração não encontrada"

@@ -9,6 +9,8 @@ PRINCIPAL:
     informações relevantes dos registros encontrados na primeira vez, em formato JSON, para facilitar nas buscas futuras.
 
 SECUNDÁRIOS:
+[  ] Criar uma maneira de verificar se encontrou corretamente a página da Anvisa, caso contrário, acusar que talvez o site da Anvisa esteja
+fora do ar.
 [  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
 melhor de fazer isso.
     [Ok] Adicionado docstring em todas classes e seus métodos.
