@@ -20,8 +20,13 @@ class Test:
     BRAND_COL = 'MARCA'
     
     def __init__(self):
-        self.data_processor = DataProcessor(self.FILE_PATH)
-        self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
+        # self.data_processor = DataProcessor(self.FILE_PATH)
+        # self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
+        self.data = [{'item': 1,
+                     'description': 'teste',
+                     'brand': {'Name': 'lab_test',
+                               'Linked': []},
+                     'concentration': '250mg/ml'}]
         self.pdfManager = PDFManager()
         self.anvisaDomain = AnvisaDomain()
         self.smerp_search = SearchInSmerp()
@@ -77,14 +82,13 @@ class Test:
             )
             
         return candidate_data
-            
     
     def generate_report(self):
         report_df = pd.DataFrame(self.report_data)
         report_df.to_excel('relatorio_registros.xlsx', index=False)
 
     def get_registration_data(self, a_description, a_laboratory):
-        reg_candidates =[]
+        reg_candidates = []
         
         reg_candidates = self.anvisa_search.get_register(a_description, a_laboratory)
         if not reg_candidates:

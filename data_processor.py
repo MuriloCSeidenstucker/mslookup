@@ -4,6 +4,7 @@ import re
 import pandas as pd
 
 from utils import Utils
+from typing import List, Dict, Union, Any
 
 class DataProcessor:
     def __init__(self, file_path):
@@ -220,7 +221,7 @@ class DataProcessor:
             else:
                 return description
 
-    def get_data(self, item_col, desc_col, brand_col):
+    def get_data(self, item_col: str, desc_col: str, brand_col: str) -> List[Dict[str, Any]]:
         """
         Acessa a planilha de medicamentos e filtra as informações relevantes.
 
@@ -262,4 +263,4 @@ class DataProcessor:
                 
         report_df = pd.DataFrame(report_data)
         report_df.to_excel('relatorio_proc_dados.xlsx', index=False)   
-        return data                 
+        return data                
