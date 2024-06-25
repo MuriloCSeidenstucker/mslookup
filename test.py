@@ -20,13 +20,13 @@ class Test:
     BRAND_COL = 'MARCA'
     
     def __init__(self):
-        # self.data_processor = DataProcessor(self.FILE_PATH)
-        # self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
-        self.data = [{'item': 1,
-                     'description': 'teste',
-                     'brand': {'Name': 'lab_test',
-                               'Linked': []},
-                     'concentration': '250mg/ml'}]
+        self.data_processor = DataProcessor(self.FILE_PATH)
+        self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
+        # self.data = [{'item': 1,
+        #              'description': 'teste',
+        #              'brand': {'Name': 'lab_test',
+        #                        'Linked': []},
+        #              'concentration': '250mg/ml'}]
         self.pdfManager = PDFManager()
         self.anvisaDomain = AnvisaDomain()
         self.smerp_search = SearchInSmerp()
@@ -37,6 +37,26 @@ class Test:
     def run(self):
         candidate_data = self.get_candidate_data()
                 
+        self.process_candidate_pdfs(candidate_data)
+            
+        self.generate_report()
+        
+    def get_candidate_data(self):
+        candidate_data = []
+        for i, entry in enumerate(self.data):
+            candidate_data.append(
+                {
+                    'item': entry['item'],
+                    'description': entry['description'],
+                    'concentration': entry['concentration'],
+                    'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
+                    'reg_candidates': self.get_registration_data(entry['description'], entry['brand'])
+                }
+            )
+            
+        return candidate_data
+    
+    def process_candidate_pdfs(self, candidate_data):
         has_pdf = False
         if candidate_data:
             for candidate in candidate_data:
@@ -65,23 +85,6 @@ class Test:
                                          'Registro': first_reg['register'] if first_reg['register'] != -1 else 'Não encontrado',
                                          'PDF': 'OK' if has_pdf else 'Pendente',
                                          })
-            
-        self.generate_report()
-        
-    def get_candidate_data(self):
-        candidate_data = []
-        for i, entry in enumerate(self.data):
-            candidate_data.append(
-                {
-                    'item': entry['item'],
-                    'description': entry['description'],
-                    'concentration': entry['concentration'],
-                    'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
-                    'reg_candidates': self.get_registration_data(entry['description'], entry['brand'])
-                }
-            )
-            
-        return candidate_data
     
     def generate_report(self):
         report_df = pd.DataFrame(self.report_data)
