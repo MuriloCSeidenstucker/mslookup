@@ -1,35 +1,31 @@
 import os
 import re
 import shutil
+import logging
 
 from datetime import datetime
+from logger_config import main_logger
 
 class PDFManager:
     def __init__(self):
-        """
-        Classe responsável pela gestão de arquivos PDF relacionados a registros.
-
-        Esta classe oferece métodos para buscar e manipular arquivos PDF com base em registros
-        e datas de expiração específicas.
-        """
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
+        self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
     
-    def get_pdf_in_db(self, target_reg):
-        """
-        Busca um arquivo PDF correspondente ao número de registro fornecido no diretório 'registers_pdf'.
-
-        Args:
-            target_reg (int): O número de registro a ser buscado.
-
-        Returns:
-            bool: True se o arquivo PDF correspondente ao registro for encontrado e copiado com sucesso,
-            False se o registro não for encontrado ou se o arquivo estiver vencido.
-        """
+    def get_pdf_in_db(self, target_reg: str) -> bool:
+        if not isinstance(target_reg, str):
+            self.logger.error(f'Invalid input type for target_reg: {type(target_reg)}')
+            return False
+        
         pattern = r'(\d{9})_(\d{2}-\d{2}-\d{4})'
-
         path = 'registers_pdf'
+        
+        try:
+            files = os.listdir(path)
+        except OSError as e:
+            self.logger.error(f'Error listing directory {path}: {e}')
+            return False
 
-        for file in os.listdir(path):
+        for file in files:
             file_path = os.path.join(path, file)
             
             if os.path.isfile(file_path):
@@ -40,55 +36,80 @@ class PDFManager:
                     register = match.group(1)
                         
                     if int(target_reg) == int(register):
-                        dt = datetime.strptime(expiration_date, '%d-%m-%Y')
+                        try:
+                            dt = datetime.strptime(expiration_date, '%d-%m-%Y')
+                        except ValueError as e:
+                            self.logger.error(f'Error parsing date {expiration_date}: {e}')
+                            continue
+                        
                         if dt < datetime.now():
-                            print(f'{file} está vencido')
+                            self.logger.warning(f'{file} is expired')
                             return False
                         
                         new_file_name = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
                         destination_path = os.path.join(self.DOWNLOAD_PATH, new_file_name)
-                        shutil.copy2(file_path, destination_path)
-                        print(f'{target_reg} encontrado em {file}')
+                        
+                        try:
+                            shutil.copy2(file_path, destination_path)
+                        except Exception as e:
+                            self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
+                            return False
+                        
+                        self.logger.info(f'Registration: {target_reg} found in {file}')
                         return True
                     
-        print(f'{target_reg} não encontrado')
+        self.logger.info(f'Registration {target_reg} not found in database')
         return False
     
-    def copy_and_rename_file(self, register, expiration_date):
-        """
-        Copia e renomeia um arquivo PDF do diretório de origem para o diretório 'registers_pdf'
-        com base no número de registro e na data de expiração fornecidos.
-
-        Args:
-            register (str): O número de registro associado ao arquivo PDF.
-            expiration_date (str): A data de expiração associada ao arquivo PDF no formato 'dd/mm/yyyy',
-                ou '-1' se não houver data de expiração.
-        """ 
-        exp_date_formated = expiration_date.replace('/', '-') if expiration_date != -1 else 'sem-data'
+    def copy_and_rename_file(self, register: str, expiration_date: str) -> None:
+        if not isinstance(register, str) or not isinstance(expiration_date, str):
+            self.logger.error('Invalid input types for register or expiration_date')
+            return
         
+        exp_date_formatted = expiration_date.replace('/', '-') if expiration_date != '-1' else 'no-date'
         target_path = 'registers_pdf'
-
         searched_file_name = "Consultas - Agência Nacional de Vigilância Sanitária.pdf"
 
         if os.path.exists(self.DOWNLOAD_PATH):
-            for file in os.listdir(self.DOWNLOAD_PATH):
+            try:
+                files = os.listdir(self.DOWNLOAD_PATH)
+            except Exception as e:
+                self.logger.error(f'Error listing directory {self.DOWNLOAD_PATH}: {e}')
+                return
+            
+            for file in files:
                 file_path = os.path.join(self.DOWNLOAD_PATH, file)
                 
                 if os.path.isfile(file_path) and file == searched_file_name:
-                    new_file_name = f'{register}_{exp_date_formated}.pdf'
+                    new_file_name = f'{register}_{exp_date_formatted}.pdf'
                     destination_path = os.path.join(target_path, new_file_name)
-                    shutil.copy2(file_path, destination_path)
-                    print("Arquivo copiado e renomeado com sucesso.")
+                    
+                    try:
+                        shutil.copy2(file_path, destination_path)
+                    except Exception as e:
+                        self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
+                        return
+                    
+                    self.logger.info("File successfully copied and renamed.")
                     break
             else:
-                print("Nenhum arquivo com o nome procurado foi encontrado.")
+                self.logger.warning("No file with the searched name was found.")
         else:
-            print("O diretório de origem especificado não existe.")
+            self.logger.error("The specified source directory does not exist.")
 
-    def rename_downloaded_pdf(self, new_name):
-        files = os.listdir(self.DOWNLOAD_PATH)
-    
+    def rename_downloaded_pdf(self, new_name: str) -> bool:
+        if not isinstance(new_name, str):
+            self.logger.error(f'Invalid input type for new_name: {type(new_name)}')
+            return False
+        
+        try:
+            files = os.listdir(self.DOWNLOAD_PATH)
+        except Exception as e:
+            self.logger.error(f'Error listing directory {self.DOWNLOAD_PATH}: {e}')
+            return False
+        
         pdf_file = None
+        
         for file in files:
             if (file.startswith('Consultas - Agência Nacional de Vigilância Sanitária') and
                 file.endswith('.pdf')):
@@ -108,8 +129,14 @@ class PDFManager:
                         break
                     i += 1
                     
-            os.rename(old_path, new_path)
+            try:
+                os.rename(old_path, new_path)
+            except Exception as e:
+                self.logger.error(f'Error renaming file {old_path} to {new_path}: {e}')
+                return False
+            
+            self.logger.info("File successfully renamed.")
             return True
         else:
-            print("Nenhum arquivo PDF com o nome padrão encontrado na pasta de downloads.")
+            self.logger.warning("No PDF file with the standard name found in the downloads folder.")
             return False
