@@ -1,10 +1,7 @@
-import os
-import pandas as pd
-
-from utils import Utils
 from pdf_manager import PDFManager
 from data_processor import DataProcessor
 from search_in_smerp import SearchInSmerp
+from report_generator import ReportGenerator
 from access_anvisa_domain import AnvisaDomain
 from search_in_open_data_anvisa import OpenDataAnvisa
 
@@ -22,24 +19,16 @@ class Test:
     def __init__(self):
         self.data_processor = DataProcessor(self.FILE_PATH)
         self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
-        # self.data = [{'item': 1,
-        #              'description': 'teste',
-        #              'brand': {'Name': 'lab_test',
-        #                        'Linked': []},
-        #              'concentration': '250mg/ml'}]
         self.pdfManager = PDFManager()
         self.anvisaDomain = AnvisaDomain()
         self.smerp_search = SearchInSmerp()
         self.anvisa_search = OpenDataAnvisa()
-        self.report_data = []
-        self.d_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+        self.report_generator = ReportGenerator()
 
     def run(self):
         candidate_data = self.get_candidate_data()
-                
         self.process_candidate_pdfs(candidate_data)
-            
-        self.generate_report()
+        self.report_generator.generate_report()
         
     def get_candidate_data(self):
         candidate_data = []
@@ -71,24 +60,19 @@ class Test:
                             first_reg['process_number']
                         )
                         self.pdfManager.copy_and_rename_file(
-                            self.d_path,
                             first_reg['register'],
                             first_reg['expiration_date']
                         )
                 
-                has_pdf = Utils.rename_downloaded_pdf(self.d_path, f'Item {candidate['item']}')
+                has_pdf = self.pdfManager.rename_downloaded_pdf(f'Item {candidate['item']}')
             
-                self.report_data.append({'Item': candidate['item'],
+                self.report_generator.add_entry({'Item': candidate['item'],
                                          'Descrição': candidate['description'],
                                          'Concentração_Obtida': candidate['concentration'],
                                          'Laboratório': candidate['laboratory'],
                                          'Registro': first_reg['register'] if first_reg['register'] != -1 else 'Não encontrado',
                                          'PDF': 'OK' if has_pdf else 'Pendente',
                                          })
-    
-    def generate_report(self):
-        report_df = pd.DataFrame(self.report_data)
-        report_df.to_excel('relatorio_registros.xlsx', index=False)
 
     def get_registration_data(self, a_description, a_laboratory):
         reg_candidates = []
