@@ -1,89 +1,36 @@
 from pdf_manager import PDFManager
-from data_processor import DataProcessor
 from search_in_smerp import SearchInSmerp
 from report_generator import ReportGenerator
 from access_anvisa_domain import AnvisaDomain
 from search_in_open_data_anvisa import OpenDataAnvisa
 
+from Services.data_processor_service import DataProcessorService
+from Services.candidate_data_service import CandidateDataService
+from Services.pdf_processing_service import PDFProcessingService
+
 class Test:
-
-    # FILE_PATH = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
-    # FILE_PATH = r"D:\Projects\LearningSeleniumAndPython\data_for_testing\Itens_Errados.xlsx"
-    # FILE_PATH = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
-    FILE_PATH = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
-    # FILE_PATH = r"data_for_testing\Controle_Operacao_000000_Cidade.xlsm"
-    ITEM_COL = 'ITEM'
-    DESC_COL = 'DESCRIÇÃO'
-    BRAND_COL = 'MARCA'
-    
-    def __init__(self):
-        self.data_processor = DataProcessor(self.FILE_PATH)
-        self.data = self.data_processor.get_data(self.ITEM_COL, self.DESC_COL, self.BRAND_COL)
-        self.pdfManager = PDFManager()
-        self.anvisaDomain = AnvisaDomain()
-        self.smerp_search = SearchInSmerp()
-        self.anvisa_search = OpenDataAnvisa()
-        self.report_generator = ReportGenerator()
-
+    def __init__(self, file_path, item_col, desc_col, brand_col, pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator):
+            self.data_service = DataProcessorService(file_path, item_col, desc_col, brand_col)
+            self.candidate_data_service = CandidateDataService(anvisa_search, smerp_search)
+            self.pdf_processing_service = PDFProcessingService(pdf_manager, anvisa_domain, report_generator)
+        
     def run(self):
-        candidate_data = self.get_candidate_data()
-        self.process_candidate_pdfs(candidate_data)
-        self.report_generator.generate_report()
-        
-    def get_candidate_data(self):
-        candidate_data = []
-        for i, entry in enumerate(self.data):
-            candidate_data.append(
-                {
-                    'item': entry['item'],
-                    'description': entry['description'],
-                    'concentration': entry['concentration'],
-                    'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
-                    'reg_candidates': self.get_registration_data(entry['description'], entry['brand'])
-                }
-            )
-            
-        return candidate_data
-    
-    def process_candidate_pdfs(self, candidate_data):
-        has_pdf = False
-        if candidate_data:
-            for candidate in candidate_data:
-                if candidate['reg_candidates']:
-                    # Estou pegando apenas o primeiro registro
-                    first_reg = candidate['reg_candidates'][0]
-                    has_pdf_in_db = self.pdfManager.get_pdf_in_db(first_reg['register'])
-                    if not has_pdf_in_db:
-                        self.anvisaDomain.get_register_as_pdf(
-                            first_reg['register'],
-                            candidate['concentration'],
-                            first_reg['process_number']
-                        )
-                        self.pdfManager.copy_and_rename_file(
-                            first_reg['register'],
-                            first_reg['expiration_date']
-                        )
-                
-                has_pdf = self.pdfManager.rename_downloaded_pdf(f'Item {candidate['item']}')
-            
-                self.report_generator.add_entry({'Item': candidate['item'],
-                                         'Descrição': candidate['description'],
-                                         'Concentração_Obtida': candidate['concentration'],
-                                         'Laboratório': candidate['laboratory'],
-                                         'Registro': first_reg['register'] if first_reg['register'] != -1 else 'Não encontrado',
-                                         'PDF': 'OK' if has_pdf else 'Pendente',
-                                         })
+        data = self.data_service.get_data()
+        candidate_data = self.candidate_data_service.get_candidate_data(data)
+        self.pdf_processing_service.process_candidate_pdfs(candidate_data)
+        self.pdf_processing_service.generate_report()
 
-    def get_registration_data(self, a_description, a_laboratory):
-        reg_candidates = []
-        
-        reg_candidates = self.anvisa_search.get_register(a_description, a_laboratory)
-        if not reg_candidates:
-            # Estou considerando apenas o primeiro caso que estiver correto.
-            reg_candidates = self.smerp_search.get_data_from_smerp(a_description, a_laboratory)
-        
-        return reg_candidates
-    
 if __name__ == "__main__":
-    test = Test()
-    test.run()
+    # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+    file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
+    item_col = 'ITEM'
+    desc_col = 'DESCRIÇÃO'
+    brand_col = 'MARCA'
+    pdf_manager = PDFManager()
+    anvisa_domain = AnvisaDomain()
+    smerp_search = SearchInSmerp()
+    anvisa_search = OpenDataAnvisa()
+    report_generator = ReportGenerator()
+    
+    main = Test(file_path, item_col, desc_col, brand_col, pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator)
+    main.run()
