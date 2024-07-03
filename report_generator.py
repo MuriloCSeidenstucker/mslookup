@@ -22,7 +22,7 @@ class ReportGenerator:
                 raise ValueError(f"Key must be a string, got {type(key)}")
         
         self.report_data.append(entry)
-        self.logger.info(f"Item {self.entry_count}: Entry successfully added")
+        self.logger.info(f"Item {self.entry_count}: Entry successfully added to report\n")
     
     def generate_report(self, filename: str = 'relatorio_registros.xlsx') -> None:
         if not filename.endswith('.xlsx'):

@@ -4,9 +4,9 @@ from report_generator import ReportGenerator
 from access_anvisa_domain import AnvisaDomain
 from search_in_open_data_anvisa import OpenDataAnvisa
 
-from Services.data_processor_service import DataProcessorService
-from Services.candidate_data_service import CandidateDataService
-from Services.pdf_processing_service import PDFProcessingService
+from services.data_processor_service import DataProcessorService
+from services.candidate_data_service import CandidateDataService
+from services.pdf_processing_service import PDFProcessingService
 
 class Test:
     def __init__(self, file_path, item_col, desc_col, brand_col, pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator):
@@ -22,7 +22,8 @@ class Test:
 
 if __name__ == "__main__":
     # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
-    file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
+    # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
+    file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'

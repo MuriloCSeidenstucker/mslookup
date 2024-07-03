@@ -257,7 +257,6 @@ class DataProcessor:
                         'Laboratório Final': brand if isinstance(brand, str) else brand['Name'],
                         'Registro': '',
                         'PDF': '',
-                        'Tempo Decorrido': ''
                         })
                 
                 

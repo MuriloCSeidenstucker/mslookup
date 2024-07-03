@@ -52,7 +52,7 @@ class Program:
                 anvisaDomain.get_register_as_pdf(register, process_number)
                 pdfManager.copy_and_rename_file(d_path, register, expiration_date)
                 
-            has_pdf = pdfManager.rename_downloaded_pdf(d_path, f'Item {entry['item']}')
+            has_pdf = pdfManager.rename_downloaded_pdf(d_path, f'Item_{entry['item']}')
             
         report_data.append({'Item': entry['item'],
                             'Descrição': entry['description'],

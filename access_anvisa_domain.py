@@ -1,6 +1,10 @@
-import json
+import os
 import re
+import json
+import logging
+
 from time import sleep
+from logger_config import main_logger
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,45 +13,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 from utils import Utils
+from pdf_manager import PDFManager
 
 class AnvisaDomain:
-    """
-    A classe AnvisaDomain automatiza a extração e a impressão de registros de medicamentos
-    do site da Anvisa (Agência Nacional de Vigilância Sanitária) usando o Selenium WebDriver 
-    com o navegador Chrome.
-
-    Objetivo:
-    -----------
-    O principal objetivo desta classe é acessar o site da Anvisa, navegar até as páginas de 
-    registros de medicamentos específicos e salvar essas páginas como arquivos PDF.
-
-    Funcionalidades:
-    ----------------
-    - Configura o navegador Chrome para automação, incluindo preferências de impressão.
-    - Verifica a presença de números de processo nas páginas da Anvisa.
-    - Obtém o número do processo correspondente a um número de registro de medicamento.
-    - Tenta imprimir a página de registro do medicamento como PDF se o número do processo 
-      corresponder.
-    - Controla o fluxo principal para obter o registro de um medicamento como PDF, 
-      gerenciando o navegador e tratando possíveis falhas na impressão.
-    """
+    def __init__(self) -> None:
+        self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
+        self.pdf_manager = PDFManager()
+    
     def configure_chrome_options(self, detach=False):
-        """
-        Configura as opções do navegador Chrome para automação.
-
-        Args:
-            detach (bool, opcional): Se True, o navegador será configurado para permanecer aberto após a execução do script. 
-            Por padrão, é False.
-
-        Returns:
-            selenium.webdriver.ChromeOptions: As opções configuradas do navegador Chrome.
-
-        Funcionalidades:
-        ----------------
-        - Configura as preferências do navegador para salvar impressões como PDF.
-        - Ativa a impressão em modo quiosque.
-        - Permite a opção de manter o navegador aberto após a execução do script.
-        """
         chrome_options = webdriver.ChromeOptions()
         settings = {
             "recentDestinations": [{
@@ -65,43 +38,14 @@ class AnvisaDomain:
         return chrome_options
     
     def process_number_to_be_present(self, webdriver):
-        """
-        Verifica se um número de processo está presente na página carregada.
-
-        Args:
-            webdriver (selenium.webdriver.Chrome): O objeto WebDriver do Selenium, representando o navegador em que a página está carregada.
-
-        Returns:
-            bool: True se um número de processo estiver presente e for uma string; False caso contrário.
-
-        Raises:
-            NoSuchElementException: Se o elemento com o XPath especificado não for encontrado na página.
-        """
         process_number = webdriver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text
         return isinstance(process_number, str) and process_number
+    
+    def registration_to_be_present(self, webdriver):
+        reg_found = webdriver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]/td[5]').text
+        return isinstance(reg_found, str) and reg_found
         
     def get_process_number(self, driver, wait, register):
-        """
-        Obtém o número do processo correspondente a um número de registro de medicamento na página da Anvisa.
-
-        Args:
-            driver (selenium.webdriver.Chrome): O objeto WebDriver do Selenium, representando o navegador.
-            wait (selenium.webdriver.support.ui.WebDriverWait): O objeto WebDriverWait usado para esperar até
-                que o elemento desejado esteja presente na página.
-            register (str): O número de registro do medicamento para o qual o número do processo será obtido.
-
-        Returns:
-            str: O número do processo correspondente ao número de registro do medicamento.
-
-        Raises:
-            TimeoutException: Se o elemento com o XPath especificado não estiver presente na página após o tempo limite.
-            
-        Funcionalidades:
-        ----------------
-        - Acessa a URL da consulta de medicamentos da Anvisa com base no número de registro fornecido.
-        - Utiliza um localizador XPath para encontrar o número do processo na página.
-        - Remove caracteres não numéricos do número do processo.
-        """
         register_url = rf'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro={register}'
         driver.get(register_url)
         
@@ -110,81 +54,124 @@ class AnvisaDomain:
         
         pattern = r'\D'
         return re.sub(pattern, '', process_number)
+        
+    # def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register):
+    #     driver.get(rf'{anvisa_medicamento_url}{register}')
+        
+    #     try:
+    #         registration_is_present = wait.until(self.registration_to_be_present)
+    #         reg_btn = driver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]')
+    #         reg_btn.click()
+            
+    #         page_is_loaded = wait.until(self.process_number_to_be_present)
+    #         presentations = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
+    #         match = any(Utils.remove_accents_and_spaces(a_concentration) in
+    #                     Utils.remove_accents_and_spaces(presentation.text)
+    #                     for presentation in presentations)
+            
+    #         register_found = driver.find_element(By.XPATH, '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[3]/td[2]').text
+    #         if register_found == register and match:
+    #             driver.execute_script('window.print();')
+    #             sleep(0.5)
+    #             return True
+    #         else:
+    #             print(f'O número do processo constante na Anvisa está diferente')
+    #             return False
+    #     except TimeoutException as e:
+    #         print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{register}/')
+    #         return False
     
-    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, process_number_formatted, a_concentration):
-        """
-        Tenta imprimir o registro de um medicamento da Anvisa como PDF.
-
-        Args:
-            driver (selenium.webdriver.Chrome): O objeto WebDriver do Selenium, representando o navegador.
-            wait (selenium.webdriver.support.ui.WebDriverWait): O objeto WebDriverWait usado para esperar
-                até que o elemento desejado esteja presente na página.
-            anvisa_medicamento_url (str): A URL base para acessar as páginas de registro de medicamentos da Anvisa.
-            process_number_formatted (str): O número de processo formatado do medicamento para o qual a impressão será tentada.
-
-        Returns:
-            bool: True se a impressão for bem-sucedida e o número do processo corresponder; False caso contrário.
-
-        Raises:
-            TimeoutException: Se o elemento esperado não estiver presente na página após o tempo limite.
-            
-        Funcionalidades:
-        ----------------
-        - Acessa a página específica de um medicamento na Anvisa com base no número de processo formatado fornecido.
-        - Verifica se o número do processo presente na página corresponde ao número fornecido.
-        - Executa a impressão da página se o número do processo correspondente for encontrado.
-        - Manipula exceções caso ocorra um timeout durante o processo de impressão.
-
-        Notas:
-        ------
-        Este método tenta acessar a página específica de um medicamento na Anvisa usando o número de processo 
-        formatado fornecido. Verifica se o número do processo presente na página corresponde ao número fornecido 
-        e, se sim, executa a impressão da página. Caso contrário, imprime uma mensagem de erro.
-        """
-        driver.get(rf'{anvisa_medicamento_url}{process_number_formatted}/')
+    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register):
+        url = rf'{anvisa_medicamento_url}{register}'
+        driver.get(url)
+        
         try:
-            number_is_present = wait.until(self.process_number_to_be_present)
+            if not self.wait_for_registration_presence(wait, url):
+                return False
             
+            if not self.click_registration_button(driver, url):
+                return False
+            
+            if not self.wait_for_page_load(wait):
+                return False
+            
+            if not self.verify_concentration(driver, a_concentration):
+                return False
+            
+            if not self.verify_registration(driver, register):
+                return False
+            
+            self.print_page(driver)
+            
+            if not self.pdf_manager.pdf_was_printed():
+                self.logger.warning('The printed pdf was not found in the download folder')
+                return False
+            
+            self.logger.info(f'Registration: {register} printed successfully')
+            return True
+        except TimeoutException:
+            self.logger.error(f'Error trying to print: {register}')
+            return False
+        
+    def wait_for_registration_presence(self, wait, url):
+        try:
+            wait.until(self.registration_to_be_present)
+            return True
+        except TimeoutException:
+            self.logger.error(f'Registration not found on the page: {url}')
+            return False
+        
+    def click_registration_button(self, driver, url):
+        try:
+            reg_btn = driver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]')
+            reg_btn.click()
+            return True
+        except Exception as e:
+            self.logger.error(f'Error when clicking the registration button on the page: {url}')
+            return False
+        
+    def wait_for_page_load(self, wait):
+        try:
+            wait.until(self.process_number_to_be_present)
+            return True
+        except TimeoutException:
+            self.logger.error('The page did not fully load')
+            return False
+        
+    def verify_concentration(self, driver, a_concentration):
+        try:
             presentations = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
             match = any(Utils.remove_accents_and_spaces(a_concentration) in
                         Utils.remove_accents_and_spaces(presentation.text)
                         for presentation in presentations)
             
-            anvisa_process_number = driver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text if number_is_present else ''
-            pattern = r'\D'
-            anvisa_process_number_formatted = re.sub(pattern, '', anvisa_process_number)
-            if process_number_formatted == anvisa_process_number_formatted and match:
-                driver.execute_script('window.print();')
-                sleep(0.5)
+            if match:
                 return True
             else:
-                print(f'O número do processo constante na Anvisa está diferente')
+                self.logger.warning('Concentration found does not match')
                 return False
-        except TimeoutException as e:
-            print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{process_number_formatted}/')
+        except Exception as e:
+            self.logger.error(f'Error verifying concentration: {e}')
             return False
         
+    def verify_registration(self, driver, register):
+        try:
+            register_found = driver.find_element(By.XPATH, '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[3]/td[2]').text
+            if register_found == register:
+                return True
+            else:
+                self.logger.warning('The registration found on the Anvisa page does not match')
+                return False
+        except Exception as e:
+            self.logger.error(f'Error verifying registration: {e}')
+            return False
+        
+    def print_page(self, driver):
+        driver.execute_script('window.print();')
+        sleep(0.5)
+        
     def get_register_as_pdf(self, register, a_concentration, process_number=None):
-        """
-        Obtém o registro de um medicamento da Anvisa como um arquivo PDF.
-
-        Args:
-            register (str): O número de registro do medicamento cujo registro será obtido.
-            process_number (str, opcional): O número de processo do medicamento. Se fornecido, será usado diretamente para a obtenção
-                do registro. Caso contrário, o número de processo será obtido automaticamente com base no número de registro.
-
-        Returns:
-            bool: True se o registro for obtido com sucesso como PDF; False caso contrário.
-
-        Funcionalidades:
-        ----------------
-        - Configura as opções do navegador Chrome para a impressão em modo quiosque e salvação como PDF.
-        - Inicializa o WebDriver do Selenium e uma espera explícita.
-        - Obtém o número de processo do medicamento, se não fornecido explicitamente.
-        - Tenta imprimir o registro do medicamento como PDF.
-        - Encerra o navegador após a obtenção do registro.
-        """
-        anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/'
+        anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro='
         
         chrome_options = self.configure_chrome_options(detach=True)
         driver = webdriver.Chrome(options=chrome_options)
@@ -193,9 +180,9 @@ class AnvisaDomain:
         defined_process_number = (process_number if not process_number is None
                                   else self.get_process_number(driver, wait, register))
         
-        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, defined_process_number, a_concentration)
+        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, a_concentration, register)
         if not success:
-            print(f'Não foi possível obter o registro: {register}')
+            self.logger.error(f'Failed to obtain the registration {register} as a PDF')
             driver.quit()
             return False
             

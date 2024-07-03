@@ -9,18 +9,23 @@ class PDFProcessingService:
             if candidate['reg_candidates']:
                 first_reg = candidate['reg_candidates'][0]
                 has_pdf_in_db = self.pdf_manager.get_pdf_in_db(first_reg['register'])
+                registration_obtained = False
                 if not has_pdf_in_db:
-                    self.anvisa_domain.get_register_as_pdf(
+                    registration_obtained = self.anvisa_domain.get_register_as_pdf(
                         first_reg['register'],
                         candidate['concentration'],
                         first_reg['process_number']
                     )
-                    self.pdf_manager.copy_and_rename_file(
-                        first_reg['register'],
-                        first_reg['expiration_date']
+                    if registration_obtained:
+                        self.pdf_manager.copy_and_rename_file(
+                            first_reg['register'],
+                            first_reg['expiration_date']
                     )
                 
-                has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
+                has_pdf = False
+                if has_pdf_in_db or registration_obtained:
+                    has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
+                    
                 self.report_generator.add_entry({
                     'Item': candidate['item'],
                     'Descrição': candidate['description'],

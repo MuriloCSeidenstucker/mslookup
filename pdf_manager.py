@@ -9,6 +9,7 @@ from logger_config import main_logger
 class PDFManager:
     def __init__(self):
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
+        self.STANDARD_NAME = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
     
     def get_pdf_in_db(self, target_reg: str) -> bool:
@@ -46,7 +47,7 @@ class PDFManager:
                             self.logger.warning(f'{file} is expired')
                             return False
                         
-                        new_file_name = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
+                        new_file_name = self.STANDARD_NAME
                         destination_path = os.path.join(self.DOWNLOAD_PATH, new_file_name)
                         
                         try:
@@ -55,7 +56,7 @@ class PDFManager:
                             self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
                             return False
                         
-                        self.logger.info(f'Registration: {target_reg} found in {file}')
+                        self.logger.info(f'Registration: {target_reg} found in database as {file}')
                         return True
                     
         self.logger.info(f'Registration {target_reg} not found in database')
@@ -63,12 +64,12 @@ class PDFManager:
     
     def copy_and_rename_file(self, register: str, expiration_date: str) -> None:
         if not isinstance(register, str) or not isinstance(expiration_date, str):
-            self.logger.error('Invalid input types for register or expiration_date')
+            self.logger.error(f'Invalid input types for register:{type(register)} or expiration_date:{type(expiration_date)}')
             return
         
         exp_date_formatted = expiration_date.replace('/', '-') if expiration_date != '-1' else 'no-date'
         target_path = 'registers_pdf'
-        searched_file_name = "Consultas - Agência Nacional de Vigilância Sanitária.pdf"
+        searched_file_name = self.STANDARD_NAME
 
         if os.path.exists(self.DOWNLOAD_PATH):
             try:
@@ -77,6 +78,7 @@ class PDFManager:
                 self.logger.error(f'Error listing directory {self.DOWNLOAD_PATH}: {e}')
                 return
             
+            file_found = False
             for file in files:
                 file_path = os.path.join(self.DOWNLOAD_PATH, file)
                 
@@ -90,12 +92,14 @@ class PDFManager:
                         self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
                         return
                     
-                    self.logger.info("File successfully copied and renamed.")
+                    self.logger.info(f'File successfully copied and renamed to database: {new_file_name}')
+                    file_found = True
                     break
-            else:
-                self.logger.warning("No file with the searched name was found.")
+                
+            if not file_found:
+                self.logger.warning(f'{self.copy_and_rename_file.__name__}: No PDF file with the standard name found in {self.DOWNLOAD_PATH}')
         else:
-            self.logger.error("The specified source directory does not exist.")
+            self.logger.error('The specified source directory does not exist.')
 
     def rename_downloaded_pdf(self, new_name: str) -> bool:
         if not isinstance(new_name, str):
@@ -135,8 +139,23 @@ class PDFManager:
                 self.logger.error(f'Error renaming file {old_path} to {new_path}: {e}')
                 return False
             
-            self.logger.info("File successfully renamed.")
+            self.logger.info(f'File successfully renamed to {new_path}')
             return True
         else:
-            self.logger.warning("No PDF file with the standard name found in the downloads folder.")
+            self.logger.warning(f'{self.rename_downloaded_pdf.__name__}: No PDF file with the standard name found in {self.DOWNLOAD_PATH}')
+            return False
+        
+    def pdf_was_printed(self) -> bool:
+        try:
+            if not os.path.isdir(self.DOWNLOAD_PATH):
+                raise ValueError(f'The provided path "{self.DOWNLOAD_PATH}" is not a valid directory')
+            
+            for root, dirs, files in os.walk(self.DOWNLOAD_PATH):
+                if self.STANDARD_NAME in files:
+                    return True
+            
+            self.logger.info(f'Failed to print the file as PDF. Not found in "{root}"')
+            return False
+        except Exception as e:
+            self.logger.error(f'An error occurred: {e}')
             return False
