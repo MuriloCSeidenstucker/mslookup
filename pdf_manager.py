@@ -1,25 +1,58 @@
+import json
 import os
 import re
 import shutil
 import logging
 
 from datetime import datetime
+from typing import Any, Dict, List
 from logger_config import main_logger
+from utils import Utils
 
 class PDFManager:
     def __init__(self):
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
         self.STANDARD_NAME = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
+        self.db = self.load_json('pdf_db.json')
+        
+    def load_json(self, json_file: str) -> Dict[str, Any]:
+        try:
+            with open(json_file, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+            self.logger.info(f"JSON file '{json_file}' loaded successfully.")
+            return data
+        except (IOError, json.JSONDecodeError) as e:
+            self.logger.error(f"Error reading or parsing JSON file {json_file}: {e}")
+            raise
     
-    def get_pdf_in_db(self, target_reg: str) -> bool:
+    def get_pdf_in_db(self, target_reg: str, concentration: str) -> bool:
         if not isinstance(target_reg, str):
             self.logger.error(f'Invalid input type for target_reg: {type(target_reg)}')
             return False
-        
-        pattern = r'(\d{9})_(\d{2}-\d{2}-\d{4})'
+
         path = 'registers_pdf'
+
+        if target_reg not in self.db:
+            self.logger.info(f'Registration {target_reg} not found in database')
+            return False
+
+        expiration_date = self.db[target_reg]['expiration_date']
+        presentations = self.db[target_reg]['presentations']
+
+        try:
+            exp_date = datetime.strptime(expiration_date, '%d/%m/%Y')
+        except ValueError as e:
+            self.logger.error(f'Error parsing date {expiration_date}: {e}')
+            return False
+
+        if exp_date < datetime.now():
+            self.logger.warning(f'Registration {target_reg} is expired')
+            return False
         
+        if not self.verify_concentration(concentration, presentations):
+            return False
+
         try:
             files = os.listdir(path)
         except OSError as e:
@@ -28,39 +61,39 @@ class PDFManager:
 
         for file in files:
             file_path = os.path.join(path, file)
-            
+
             if os.path.isfile(file_path):
-                match = re.match(pattern, file)
-                
-                if match:
-                    expiration_date = match.group(2)
-                    register = match.group(1)
-                        
-                    if int(target_reg) == int(register):
-                        try:
-                            dt = datetime.strptime(expiration_date, '%d-%m-%Y')
-                        except ValueError as e:
-                            self.logger.error(f'Error parsing date {expiration_date}: {e}')
-                            continue
-                        
-                        if dt < datetime.now():
-                            self.logger.warning(f'{file} is expired')
-                            return False
-                        
-                        new_file_name = self.STANDARD_NAME
-                        destination_path = os.path.join(self.DOWNLOAD_PATH, new_file_name)
-                        
-                        try:
-                            shutil.copy2(file_path, destination_path)
-                        except Exception as e:
-                            self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
-                            return False
-                        
-                        self.logger.info(f'Registration: {target_reg} found in database as {file}')
-                        return True
-                    
-        self.logger.info(f'Registration {target_reg} not found in database')
+                pattern = rf'{target_reg}_\d{{2}}-\d{{2}}-\d{{4}}'
+                if re.match(pattern, file):
+                    new_file_name = self.STANDARD_NAME
+                    destination_path = os.path.join(self.DOWNLOAD_PATH, new_file_name)
+
+                    try:
+                        shutil.copy2(file_path, destination_path)
+                    except Exception as e:
+                        self.logger.error(f'Error copying file {file_path} to {destination_path}: {e}')
+                        return False
+
+                    self.logger.info(f'Registration: {target_reg} found in database as {file}')
+                    return True
+
+        self.logger.info(f'Registration {target_reg} not found in directory')
         return False
+    
+    def verify_concentration(self, concentration: str, presentations: List[str]) -> bool:
+        try:
+            match = any(Utils.remove_accents_and_spaces(concentration) in
+                        Utils.remove_accents_and_spaces(presentation)
+                        for presentation in presentations)
+            
+            if match:
+                return True
+            else:
+                self.logger.warning('Concentration found does not match')
+                return False
+        except Exception as e:
+            self.logger.error(f'Error verifying concentration: {e}')
+            return False
     
     def copy_and_rename_file(self, register: str, expiration_date: str) -> None:
         if not isinstance(register, str) or not isinstance(expiration_date, str):

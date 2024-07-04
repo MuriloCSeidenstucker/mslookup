@@ -28,7 +28,7 @@ if __name__ == "__main__":
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'
     pdf_manager = PDFManager()
-    anvisa_domain = AnvisaDomain()
+    anvisa_domain = AnvisaDomain(pdf_manager)
     smerp_search = SearchInSmerp()
     anvisa_search = OpenDataAnvisa()
     report_generator = ReportGenerator()

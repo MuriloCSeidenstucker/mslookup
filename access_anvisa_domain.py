@@ -1,4 +1,3 @@
-import os
 import re
 import json
 import logging
@@ -10,15 +9,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 from utils import Utils
 from pdf_manager import PDFManager
 
 class AnvisaDomain:
-    def __init__(self) -> None:
+    def __init__(self, pdf_manager: PDFManager) -> None:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
-        self.pdf_manager = PDFManager()
+        self.pdf_manager = pdf_manager
     
     def configure_chrome_options(self, detach=False):
         chrome_options = webdriver.ChromeOptions()
@@ -81,7 +81,7 @@ class AnvisaDomain:
     #         print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{register}/')
     #         return False
     
-    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register):
+    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register, exp_date, reg_data):
         url = rf'{anvisa_medicamento_url}{register}'
         driver.get(url)
         
@@ -95,7 +95,8 @@ class AnvisaDomain:
             if not self.wait_for_page_load(wait):
                 return False
             
-            if not self.verify_concentration(driver, a_concentration):
+            concentration_matches, presentations = self.verify_concentration(driver, a_concentration)
+            if not concentration_matches:
                 return False
             
             if not self.verify_registration(driver, register):
@@ -106,6 +107,8 @@ class AnvisaDomain:
             if not self.pdf_manager.pdf_was_printed():
                 self.logger.warning('The printed pdf was not found in the download folder')
                 return False
+            
+            reg_data[str(register)] = {'expiration_date': exp_date, 'presentations': presentations}
             
             self.logger.info(f'Registration: {register} printed successfully')
             return True
@@ -138,21 +141,23 @@ class AnvisaDomain:
             self.logger.error('The page did not fully load')
             return False
         
-    def verify_concentration(self, driver, a_concentration):
+    def verify_concentration(self, driver, concentration):
         try:
-            presentations = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
-            match = any(Utils.remove_accents_and_spaces(a_concentration) in
+            presentations_elements = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
+            match = any(Utils.remove_accents_and_spaces(concentration) in
                         Utils.remove_accents_and_spaces(presentation.text)
-                        for presentation in presentations)
+                        for presentation in presentations_elements)
+            
+            presentations_texts = [presentation.text for presentation in presentations_elements if isinstance(presentation, WebElement)]
             
             if match:
-                return True
+                return True, presentations_texts
             else:
                 self.logger.warning('Concentration found does not match')
-                return False
+                return False, presentations_texts
         except Exception as e:
             self.logger.error(f'Error verifying concentration: {e}')
-            return False
+            return False, presentations_texts
         
     def verify_registration(self, driver, register):
         try:
@@ -170,17 +175,17 @@ class AnvisaDomain:
         driver.execute_script('window.print();')
         sleep(0.5)
         
-    def get_register_as_pdf(self, register, a_concentration, process_number=None):
+    def get_register_as_pdf(self, register, a_concentration, exp_date, reg_data):
         anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro='
         
         chrome_options = self.configure_chrome_options(detach=True)
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
         
-        defined_process_number = (process_number if not process_number is None
-                                  else self.get_process_number(driver, wait, register))
+        # defined_process_number = (process_number if not process_number is None
+        #                           else self.get_process_number(driver, wait, register))
         
-        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, a_concentration, register)
+        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, a_concentration, register, exp_date, reg_data)
         if not success:
             self.logger.error(f'Failed to obtain the registration {register} as a PDF')
             driver.quit()
