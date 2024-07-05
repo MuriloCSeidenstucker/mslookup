@@ -12,8 +12,6 @@ class CandidateDataService:
     def get_candidate_data(self, data):
         candidate_data = []
         for entry in data:
-            if entry['item'] == 26:
-                pass
             candidate_data.append({
                 'item': entry['item'],
                 'description': entry['description'],

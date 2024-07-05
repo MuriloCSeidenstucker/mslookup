@@ -14,12 +14,17 @@ class PDFProcessingService:
     
     def process_candidate_pdfs(self, candidate_data):
         reg_data = {}
+        data_updated = False
+        
         for candidate in candidate_data:
+            
+            data_modified = False
+            
             if candidate['reg_candidates']:
                 first_reg = candidate['reg_candidates'][0]
-                if first_reg['register'] == 26:
-                    pass
-                has_pdf_in_db = self.pdf_manager.get_pdf_in_db(first_reg['register'], candidate['concentration'])
+                    
+                has_pdf_in_db = self.pdf_manager.get_pdf_in_db(first_reg['register'], candidate['concentration'], data_updated)
+                
                 registration_obtained = False
                 if not has_pdf_in_db:
                     registration_obtained = self.anvisa_domain.get_register_as_pdf(
@@ -29,6 +34,7 @@ class PDFProcessingService:
                         reg_data
                     )
                     if registration_obtained:
+                        data_modified = True
                         self.pdf_manager.copy_and_rename_file(
                             first_reg['register'],
                             first_reg['expiration_date']
@@ -55,8 +61,13 @@ class PDFProcessingService:
                     'Registro': 'Não encontrado',
                     'PDF': 'Pendente',
                 })
-        self.generate_json_file(reg_data, 'pdf_db.json')
                 
+            if data_modified:
+                self.generate_json_file(reg_data, 'pdf_db.json')
+                data_updated = True
+            else:
+                data_updated = False
+        
     def generate_report(self):
         self.report_generator.generate_report()
         

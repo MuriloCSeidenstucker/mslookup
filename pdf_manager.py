@@ -26,10 +26,13 @@ class PDFManager:
             self.logger.error(f"Error reading or parsing JSON file {json_file}: {e}")
             raise
     
-    def get_pdf_in_db(self, target_reg: str, concentration: str) -> bool:
+    def get_pdf_in_db(self, target_reg: str, concentration: str, data_updated: bool) -> bool:
         if not isinstance(target_reg, str):
             self.logger.error(f'Invalid input type for target_reg: {type(target_reg)}')
             return False
+        
+        if data_updated:
+            self.db = self.load_json('pdf_db.json')
 
         path = 'registers_pdf'
 

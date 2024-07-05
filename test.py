@@ -21,9 +21,9 @@ class Test:
         self.pdf_processing_service.generate_report()
 
 if __name__ == "__main__":
-    # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
+    file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
     # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
-    file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
+    # file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'
