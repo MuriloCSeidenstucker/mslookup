@@ -1,6 +1,8 @@
+import logging
 import re
 
 from typing import Dict, List, Tuple, Union
+from logger_config import main_logger
 from urllib.parse import urlparse
 from unidecode import unidecode
 from datetime import datetime
@@ -14,6 +16,9 @@ from selenium.webdriver.support.expected_conditions import (visibility_of_elemen
                                                             presence_of_element_located)
 
 class SearchInSmerp:
+    def __init__(self):
+        self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
+    
     def configure_chrome_options(self, detach: bool = False) -> webdriver.ChromeOptions:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_experimental_option("detach", detach)
@@ -99,14 +104,17 @@ class SearchInSmerp:
         b = brand if isinstance(brand, str) else brand['Name']
         
         chrome_options = self.configure_chrome_options()
-
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
 
         try:
             self.perform_google_search(driver, wait, description, b)
         except TimeoutException as e:
-            print('Erro ao tentar realizar a busca no Google')
+            self.logger.error('Timeout while performing Google search: %s', e.msg)
+            driver.quit()
+            return reg_candidates
+        except Exception as e:
+            self.logger.error('Unexpected error while performing Google search: %s', e.msg)
             driver.quit()
             return reg_candidates
                 
@@ -114,20 +122,33 @@ class SearchInSmerp:
         
         try:
             matchesURL, m = self.find_matching_smerp_entry(driver, wait, b, smerp_urls)
+        except TimeoutException as e:
+            self.logger.error('Timeout while finding matching SMERP entry: %s', e.msg)
+            driver.quit()
+            return reg_candidates
         except Exception as e:
-            print('Erro matchesURL')
+            self.logger.error('Error while finding matching SMERP entry: %s', e.msg)
             driver.quit()
             return reg_candidates
             
         if not matchesURL:
             driver.quit()
+            self.logger.info('No matching URL found in SMERP.')
             return reg_candidates
         
-        process_number = self.extract_process_number(wait)
-        register = self.extract_register(wait)
-        expiration_date = self.extract_expiration_date(wait)
-            
-        driver.quit()
+        try:
+            process_number = self.extract_process_number(wait)
+            register = self.extract_register(wait)
+            expiration_date = self.extract_expiration_date(wait)
+        except TimeoutException as e:
+            self.logger.error('Timeout while extracting data from SMERP: %s', e.msg)
+            return reg_candidates
+        except Exception as e:
+            self.logger.error('Error while extracting data from SMERP: %s', e.msg)
+            return reg_candidates
+        finally:
+            driver.quit()
+        
         reg_candidates.append(
             {
                 'register': register,
