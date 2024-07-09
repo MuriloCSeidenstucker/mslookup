@@ -4,19 +4,10 @@ import re
 import pandas as pd
 
 from utils import Utils
-from typing import List, Dict, Union, Any
+from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
-    def __init__(self, file_path):
-        """
-        Inicializa o DataProcessor com o caminho para a planilha de medicamentos.
-
-        Esta classe acessa uma planilha que contém informações sobre medicamentos e coleta
-        dados importantes para a futura obtenção dos registros.
-
-        Args:
-            file_path (str): O caminho para a planilha que será utilizada para a coleta dos dados.
-        """
+    def __init__(self, file_path: str):
         self.df = pd.read_excel(file_path)
         
         with open('laboratories.json', 'r', encoding='utf-8') as file:
@@ -37,49 +28,20 @@ class DataProcessor:
         self.patterns_path = 'patterns.json'
         self.patterns = self.load_patterns(self.patterns_path)
         
-    def load_patterns(self, a_path):
-        with open(a_path, 'r') as file:
+    def load_patterns(self, path: str) -> List[str]:
+        with open(path, 'r') as file:
             data = json.load(file)
         return data["patterns"]
     
-    def get_concentration(self, a_description, a_patterns):
-        lower_description = a_description.lower()
-        for pattern in a_patterns:
+    def get_concentration(self, description: str, patterns: List[str]) -> str:
+        lower_description = description.lower()
+        for pattern in patterns:
             match = re.search(pattern, lower_description)
             if match:
                 return match.group()
         return "Concentração não encontrada"
             
-    def create_abbreviation_map(self):
-        """
-        Acessa um arquivo JSON com informações detalhadas de laboratórios e cria um dicionário de mapeamento.
-
-        Este método carrega um arquivo JSON que contém informações detalhadas sobre laboratórios, incluindo nomes completos,
-        CNPJs, abreviações e laboratórios vinculados. Ele então cria um dicionário onde as chaves são as abreviações dos
-        laboratórios e os valores são dicionários com as informações detalhadas correspondentes.
-
-        Formato estrutural do arquivo JSON:
-        {
-            "laboratories": [
-                {
-                    "full_name": "BIOSINTÉTICA FARMACÊUTICA LTDA",
-                    "cnpj": "53162095000106",
-                    "abbreviations": ["biosintetica", "bio sintetica"],
-                    "linked": ["ACHÉ LABORATÓRIOS FARMACÊUTICOS S.A"]
-                },
-                {
-                    "full_name": "ACHÉ LABORATÓRIOS FARMACÊUTICOS S.A",
-                    "cnpj": "60659463002992",
-                    "abbreviations": ["ache"]
-                },
-                ...
-            ]
-        }
-
-        Returns:
-            Dict[str, Dict[str, Any]]: Um dicionário onde cada chave é uma abreviação de laboratório e o valor é um dicionário
-            contendo as informações detalhadas do laboratório, como 'full_name', 'cnpj', e 'linked'.
-        """
+    def create_abbreviation_map(self) -> Dict[str, Dict[str, Any]]:
         laboratories = self.labs_json['laboratories']
         abbreviation_map = {}
 
@@ -97,18 +59,7 @@ class DataProcessor:
         
         return abbreviation_map
     
-    def process_substances(self):
-        """
-        Extrai substâncias únicas da coluna 'SUBSTÂNCIA' do DataFrame.
-        
-        Retorna uma lista ordenada de substâncias únicas, ordenadas por comprimento em ordem decrescente,
-        juntamente com o comprimento da substância mais curta encontrada.
-
-        Returns:
-            tuple: Uma tupla contendo:
-                - sorted_substances (list): Uma lista de substâncias únicas ordenadas por comprimento em ordem decrescente.
-                - shortest_length (int): O comprimento da substância mais curta encontrada.
-        """
+    def process_substances(self) -> Tuple[List[str], int]:
         substances_set = set()
         shortest_length = float('inf')
         
@@ -134,20 +85,7 @@ class DataProcessor:
         return sorted(substances_set, key=len, reverse=True), shortest_length
 
     
-    def get_brand(self, brand):
-        """
-        Acessa uma coleção de laboratórios e busca informações relevantes de um laboratório específico.
-
-        Este método verifica se o laboratório fornecido está presente na coleção. Se encontrado, retorna um dicionário
-        com informações detalhadas sobre o laboratório. Caso contrário, retorna o nome do laboratório fornecido como parâmetro.
-
-        Args:
-            brand (str): Nome do laboratório a ser buscado na coleção de laboratórios.
-            
-        Returns:
-            Union[Dict[str, Any], str]: Um dicionário com informações relevantes do laboratório encontrado, ou
-            o nome do laboratório fornecido se não for encontrado.
-        """
+    def get_brand(self, brand: str) -> Union[Dict[str, str], str]:
         brand_normalized = Utils.remove_accents_and_spaces(brand)
 
         if brand_normalized in self.abbreviation_map:
@@ -156,33 +94,7 @@ class DataProcessor:
         print(f"A marca: {brand} não foi encontrada no banco de dados")
         return brand
     
-    def get_filtered_description(self, description):
-        """
-        Obtém uma descrição filtrada de um medicamento.
-
-        Este método recebe uma descrição de um medicamento como entrada e tenta extrair informações
-        relevantes dela, removendo as substâncias conhecidas afim de evitar buscas desnecessárias
-        e retornando uma descrição filtrada.
-
-        Args:
-            description (str): A descrição do medicamento.
-
-        Returns:
-            str: Uma descrição filtrada, contendo apenas informações relevantes sobre o medicamento,
-            ou a descrição original se nenhuma informação relevante puder ser extraída.
-
-        Note:
-            Este método percorre uma lista de substâncias conhecidas e verifica se elas estão presentes
-            na descrição do medicamento. Se uma substância é encontrada na descrição, ela é removida da
-            descrição resultante, para evitar processamento desnecessário.
-
-            O método utiliza a normalização de texto para remover acentos e espaços das descrições e das
-            substâncias conhecidas antes de realizar a comparação.
-
-            Além disso, ele utiliza um parâmetro `shortest_substance` para determinar o tamanho mínimo
-            de uma palavra considerada como uma substância. Isso é útil para evitar a busca por
-            substrings muito curtas que não representam substâncias válidas.
-        """
+    def get_filtered_description(self, description: str) -> str:
         filtered_desc = ''
         description_normalized = Utils.remove_accents_and_spaces(description)
         
@@ -222,21 +134,6 @@ class DataProcessor:
                 return description
 
     def get_data(self, item_col: str, desc_col: str, brand_col: str) -> List[Dict[str, Any]]:
-        """
-        Acessa a planilha de medicamentos e filtra as informações relevantes.
-
-        Este método itera sobre cada linha da planilha de medicamentos, tentando obter a descrição
-        e o laboratório mais precisos possível para garantir a precisão ao buscar os registros da ANVISA.
-
-        Args:
-            item_col (str): Nome exato da coluna referente ao número dos itens da planilha de medicamentos.
-            desc_col (str): Nome exato da coluna referente às descrições da planilha de medicamentos.
-            brand_col (str): Nome exato da coluna referente aos laboratórios da planilha de medicamentos.
-            
-        Returns:
-            list: Uma lista de dicionários contendo as informações filtradas dos medicamentos. Cada dicionário
-                contém as chaves 'item', 'description' e 'brand'.
-        """
         data = []
         report_data = []
         for index, row in self.df.iterrows():

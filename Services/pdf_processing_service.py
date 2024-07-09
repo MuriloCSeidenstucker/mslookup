@@ -17,41 +17,43 @@ class PDFProcessingService:
         data_updated = False
         
         for candidate in candidate_data:
-            
+                        
             data_modified = False
             
             if candidate['reg_candidates']:
-                first_reg = candidate['reg_candidates'][0]
+                for reg in candidate['reg_candidates']:
+                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], candidate['concentration'], data_updated)
                     
-                has_pdf_in_db = self.pdf_manager.get_pdf_in_db(first_reg['register'], candidate['concentration'], data_updated)
-                
-                registration_obtained = False
-                if not has_pdf_in_db:
-                    registration_obtained = self.anvisa_domain.get_register_as_pdf(
-                        first_reg['register'],
-                        candidate['concentration'],
-                        first_reg['expiration_date'],
-                        reg_data
-                    )
-                    if registration_obtained:
-                        data_modified = True
-                        self.pdf_manager.copy_and_rename_file(
-                            first_reg['register'],
-                            first_reg['expiration_date']
-                    )
-                
-                has_pdf = False
-                if has_pdf_in_db or registration_obtained:
-                    has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
+                    registration_obtained = False
+                    if not has_pdf_in_db:
+                        registration_obtained = self.anvisa_domain.get_register_as_pdf(
+                            reg['register'],
+                            candidate['concentration'],
+                            reg['expiration_date'],
+                            reg_data
+                        )
+                        if registration_obtained:
+                            data_modified = True
+                            self.pdf_manager.copy_and_rename_file(
+                                reg['register'],
+                                reg['expiration_date']
+                            )
                     
-                self.report_generator.add_entry({
-                    'Item': candidate['item'],
-                    'Descrição': candidate['description'],
-                    'Concentração_Obtida': candidate['concentration'],
-                    'Laboratório': candidate['laboratory'],
-                    'Registro': first_reg['register'] if first_reg['register'] != -1 else 'Não encontrado',
-                    'PDF': 'OK' if has_pdf else 'Pendente',
-                })
+                    has_pdf = False
+                    if has_pdf_in_db or registration_obtained:
+                        has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
+                        
+                    self.report_generator.add_entry({
+                        'Item': candidate['item'],
+                        'Descrição': candidate['description'],
+                        'Concentração_Obtida': candidate['concentration'],
+                        'Laboratório': candidate['laboratory'],
+                        'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
+                        'PDF': 'OK' if has_pdf else 'Pendente',
+                    })
+                    
+                    if has_pdf:
+                        break
             else:
                 self.report_generator.add_entry({
                     'Item': candidate['item'],
@@ -87,8 +89,19 @@ class PDFProcessingService:
                     updated_presentations = set(existing_data[key]['presentations']).union(set(value['presentations']))
                     existing_data[key]['presentations'] = list(updated_presentations)
                     
-                    existing_expiration_date = datetime.strptime(existing_data[key]['expiration_date'], '%d/%m/%Y')
-                    new_expiration_date = datetime.strptime(value['expiration_date'], '%d/%m/%Y')
+                    existing_exp_date_str = existing_data[key]['expiration_date']
+                    new_exp_date_str = value['expiration_date']
+                    
+                    if isinstance(existing_exp_date_str, str) and existing_exp_date_str != 'nan':
+                        existing_expiration_date = datetime.strptime(existing_exp_date_str, '%d/%m/%Y')
+                    else:
+                        existing_expiration_date = datetime.min
+                    
+                    if isinstance(new_exp_date_str, str) and new_exp_date_str != 'nan':
+                        new_expiration_date = datetime.strptime(new_exp_date_str, '%d/%m/%Y')
+                    else:
+                        new_expiration_date = datetime.min
+                    
                     if new_expiration_date > existing_expiration_date:
                         existing_data[key]['expiration_date'] = value['expiration_date']
 

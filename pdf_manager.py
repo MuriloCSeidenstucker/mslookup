@@ -44,7 +44,12 @@ class PDFManager:
         presentations = self.db[target_reg]['presentations']
 
         try:
-            exp_date = datetime.strptime(expiration_date, '%d/%m/%Y')
+            if isinstance(expiration_date, str):
+                exp_date = datetime.strptime(expiration_date, '%d/%m/%Y')
+            elif isinstance(expiration_date, int):
+                exp_date = datetime(1970, 1, 1)
+            else:
+                raise ValueError("Invalid expiration date format")
         except ValueError as e:
             self.logger.error(f'Error parsing date {expiration_date}: {e}')
             return False

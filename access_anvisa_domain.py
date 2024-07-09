@@ -3,6 +3,7 @@ import json
 import logging
 
 from time import sleep
+from typing import Any, Dict, List, Tuple, Union
 from logger_config import main_logger
 
 from selenium import webdriver
@@ -20,7 +21,7 @@ class AnvisaDomain:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
     
-    def configure_chrome_options(self, detach=False):
+    def configure_chrome_options(self, detach: bool = False) -> webdriver.ChromeOptions:
         chrome_options = webdriver.ChromeOptions()
         settings = {
             "recentDestinations": [{
@@ -37,15 +38,15 @@ class AnvisaDomain:
         chrome_options.add_argument('--kiosk-printing')
         return chrome_options
     
-    def process_number_to_be_present(self, webdriver):
+    def process_number_to_be_present(self, webdriver: webdriver) -> bool:
         process_number = webdriver.find_element(By.XPATH, "//th[contains(text(), 'Processo')]/following-sibling::td/a").text
         return isinstance(process_number, str) and process_number
     
-    def registration_to_be_present(self, webdriver):
+    def registration_to_be_present(self, webdriver: webdriver) -> bool:
         reg_found = webdriver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]/td[5]').text
         return isinstance(reg_found, str) and reg_found
         
-    def get_process_number(self, driver, wait, register):
+    def get_process_number(self, driver: webdriver, wait: WebDriverWait, register: str) -> str:
         register_url = rf'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro={register}'
         driver.get(register_url)
         
@@ -81,7 +82,15 @@ class AnvisaDomain:
     #         print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{register}/')
     #         return False
     
-    def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register, exp_date, reg_data):
+    def try_print_anvisa_register(self,
+                                  driver: webdriver,
+                                  wait: WebDriverWait,
+                                  anvisa_medicamento_url: str,
+                                  concentration: str,
+                                  register: str,
+                                  exp_date: str,
+                                  reg_data: Dict[str, Dict[str, Union[str, List[str]]]]) -> bool:
+        
         url = rf'{anvisa_medicamento_url}{register}'
         driver.get(url)
         
@@ -95,7 +104,7 @@ class AnvisaDomain:
             if not self.wait_for_page_load(wait):
                 return False
             
-            concentration_matches, presentations = self.verify_concentration(driver, a_concentration)
+            concentration_matches, presentations = self.verify_concentration(driver, concentration)
             if not concentration_matches:
                 return False
             
@@ -116,7 +125,7 @@ class AnvisaDomain:
             self.logger.error(f'Error trying to print: {register}')
             return False
         
-    def wait_for_registration_presence(self, wait, url):
+    def wait_for_registration_presence(self, wait: WebDriverWait, url: str) -> bool:
         try:
             wait.until(self.registration_to_be_present)
             return True
@@ -124,7 +133,7 @@ class AnvisaDomain:
             self.logger.error(f'Registration not found on the page: {url}')
             return False
         
-    def click_registration_button(self, driver, url):
+    def click_registration_button(self, driver: webdriver, url: str) -> bool:
         try:
             reg_btn = driver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]')
             reg_btn.click()
@@ -133,7 +142,7 @@ class AnvisaDomain:
             self.logger.error(f'Error when clicking the registration button on the page: {url}')
             return False
         
-    def wait_for_page_load(self, wait):
+    def wait_for_page_load(self, wait: WebDriverWait) -> bool:
         try:
             wait.until(self.process_number_to_be_present)
             return True
@@ -141,7 +150,7 @@ class AnvisaDomain:
             self.logger.error('The page did not fully load')
             return False
         
-    def verify_concentration(self, driver, concentration):
+    def verify_concentration(self, driver: webdriver, concentration: str) -> Tuple[bool, List[str]]:
         try:
             presentations_elements = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
             match = any(Utils.remove_accents_and_spaces(concentration) in
@@ -159,7 +168,7 @@ class AnvisaDomain:
             self.logger.error(f'Error verifying concentration: {e}')
             return False, presentations_texts
         
-    def verify_registration(self, driver, register):
+    def verify_registration(self, driver: webdriver, register: str) -> bool:
         try:
             register_found = driver.find_element(By.XPATH, '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[3]/td[2]').text
             if register_found == register:
@@ -171,11 +180,16 @@ class AnvisaDomain:
             self.logger.error(f'Error verifying registration: {e}')
             return False
         
-    def print_page(self, driver):
+    def print_page(self, driver: webdriver):
         driver.execute_script('window.print();')
         sleep(0.5)
         
-    def get_register_as_pdf(self, register, a_concentration, exp_date, reg_data):
+    def get_register_as_pdf(self,
+                            register: str,
+                            concentration: str,
+                            exp_date: str,
+                            reg_data: Dict[str, Dict[str, Union[str, List[str]]]]) -> bool:
+        
         anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro='
         
         chrome_options = self.configure_chrome_options(detach=True)
@@ -185,7 +199,7 @@ class AnvisaDomain:
         # defined_process_number = (process_number if not process_number is None
         #                           else self.get_process_number(driver, wait, register))
         
-        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, a_concentration, register, exp_date, reg_data)
+        success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, concentration, register, exp_date, reg_data)
         if not success:
             self.logger.error(f'Failed to obtain the registration {register} as a PDF')
             driver.quit()
