@@ -23,6 +23,11 @@
             "abbreviations": ["farmace"]
         },
         {
+            "full_name": "MUNDIPHARMA BRASIL PRODUTOS MÉDICOS E FARMACÊUTICOS LTDA",
+            "cnpj": "15127898000130",
+            "abbreviations": ["mundipharma", "mundifarma", "mundi"]
+        },
+        {
             "full_name": "GERMED FARMACEUTICA LTDA",
             "cnpj": "45992062000165",
             "abbreviations": ["germed"],
@@ -37,7 +42,7 @@
         {
             "full_name": "NOVA QUIMICA FARMACÊUTICA S/A",
             "cnpj": "72593791000111",
-            "abbreviations": ["nq", "nova quimica", "novaquimica", "n quimica"],
+            "abbreviations": ["nq", "nova quimica", "novaquimica", "n quimica", "nova quim."],
             "linked": ["EMS S/A", "GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA", "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA"]
         },
         {
@@ -72,6 +77,11 @@
             "abbreviations": ["teuto"]
         },
         {
+            "full_name": "CASULA & VASCONCELOS INDÚSTRIA FARMACÊUTICA E COMÉRCIO LTDA",
+            "cnpj": "05155425000193",
+            "abbreviations": ["citopharma", "cito", "citofarma"]
+        },
+        {
             "full_name": "CHIESI FARMACÊUTICA LTDA",
             "cnpj": "61363032000146",
             "abbreviations": ["chiesi"]
@@ -84,7 +94,7 @@
         {
             "full_name": "UNIÃO QUÍMICA FARMACÊUTICA NACIONAL S/A",
             "cnpj": "60665981000118",
-            "abbreviations": ["união química", "uniaoquimica", "uquimica", "u.quimica", "u quimica", "genom"]
+            "abbreviations": ["união química", "união quim.", "uniaoquimica", "uquimica", "u.quimica", "u quimica", "genom", "genon"]
         },
         {
             "full_name": "BIOLAB SANUS FARMACÊUTICA LTDA",
@@ -97,14 +107,29 @@
             "abbreviations": ["libbs", "libs", "lib"]
         },
         {
+            "full_name": "MYRALIS INDÚSTRIA FARMACÊUTICA LTDA",
+            "cnpj": "17440261000125",
+            "abbreviations": ["myralis", "miralis"]
+        },
+        {
             "full_name": "TORRENT DO BRASIL LTDA",
             "cnpj": "33078528000132",
             "abbreviations": ["torrent"]
         },
         {
+            "full_name": "BRISTOL-MYERS SQUIBB FARMACÊUTICA LTDA",
+            "cnpj": "56998982000107",
+            "abbreviations": ["bristol", "myers"]
+        },
+        {
             "full_name": "BLAU FARMACÊUTICA S.A.",
             "cnpj": "58430828000160",
             "abbreviations": ["blau", "prothya"]
+        },
+        {
+            "full_name": "GALDERMA BRASIL LTDA",
+            "cnpj": "00317372000146",
+            "abbreviations": ["galderma", "gauderma"]
         },
         {
             "full_name": "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA",
@@ -123,6 +148,15 @@
             "cnpj": "15800545000150",
             "abbreviations": ["abbvie"],
             "linked": ["ALLERGAN PRODUTOS FARMACÊUTICOS LTDA"]
+        },{
+            "full_name": "LABORATÓRIOS SERVIER DO BRASIL LTDA",
+            "cnpj": "42374207000176",
+            "abbreviations": ["servier"]
+        },
+        {
+            "full_name": "SANTISA LABORATÓRIO FARMACÊUTICO S/A",
+            "cnpj": "04099395000182",
+            "abbreviations": ["santisa"]
         },
         {
             "full_name": "SANOFI MEDLEY FARMACÊUTICA LTDA",
@@ -139,7 +173,7 @@
         {
             "full_name": "EMS S/A",
             "cnpj": "57507378000365",
-            "abbreviations": ["ems", "em.s", "e.ms", "e m s", "sem", "brace"],
+            "abbreviations": ["ems", "e.m.s.", "em.s", "e.ms", "e m s", "sem", "brace"],
             "linked": ["EMS SIGMA PHARMA LTDA", "GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA", "MULTILAB INDÚSTRIA E COMÉRCIO DE PRODUTOS FARMACÊUTICOS LTDA", "NOVA QUIMICA FARMACÊUTICA S/A"]
         },
         {
@@ -178,7 +212,14 @@
         {
             "full_name": "AMGEN BIOTECNOLOGIA DO BRASIL LTDA",
             "cnpj": "18774815000193",
-            "abbreviations": ["amgen", "amgem", "angen", "angem"]
+            "abbreviations": ["amgen", "amgem", "angen", "angem"],
+            "linked": ["LABORATÓRIO QUÍMICO FARMACÊUTICO BERGAMO LTDA"]
+        },
+        {
+            "full_name": "LABORATÓRIO QUÍMICO FARMACÊUTICO BERGAMO LTDA",
+            "cnpj": "61282661000141",
+            "abbreviations": ["bergamo"],
+            "linked": ["AMGEN BIOTECNOLOGIA DO BRASIL LTDA"]
         },
         {
             "full_name": "TRB PHARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA LTDA",
@@ -199,7 +240,7 @@
         {
             "full_name": "LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA",
             "cnpj": "29785870000103",
-            "abbreviations": ["neo quimica", "neo", "neoquimica"],
+            "abbreviations": ["neo quimica", "neo", "neoquimica", "neo quim."],
             "linked": ["HYPERA S.A.", "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A"]
         },
         {
@@ -233,6 +274,11 @@
             "linked": ["DAIICHI SANKYO BRASIL FARMACÊUTICA LTDA"]
         },
         {
+            "full_name": "ADIUM S.A.",
+            "cnpj": "55980684000127",
+            "abbreviations": ["adium", "adiun"]
+        },
+        {
             "full_name": "MYLAN LABORATORIOS LTDA",
             "cnpj": "11643096000122",
             "abbreviations": ["mylan", "milan", "mylam", "milam", "viatris"]
@@ -248,6 +294,11 @@
             "abbreviations": ["pharlab", "parlab"]
         },
         {
+            "full_name": "LABORATÓRIO FARMACÊUTICO VITAMED LTDA",
+            "cnpj": "29346301000153",
+            "abbreviations": ["vitamed"]
+        },
+        {
             "full_name": "UNICHEM FARMACÊUTICA DO BRASIL LTDA",
             "cnpj": "05399786000185",
             "abbreviations": ["unichem", "unichen", "unicem"]
@@ -255,12 +306,17 @@
         {
             "full_name": "BOEHRINGER INGELHEIM DO BRASIL QUÍMICA E FARMACÊUTICA LTDA",
             "cnpj": "60831658000177",
-            "abbreviations": ["boehringer", "boeringer", "boehrimger", "boerimger", "ingelheim"]
+            "abbreviations": ["boehringer", "boeringer", "boehrimger", "boerimger", "ingelheim", "boheringer"]
         },
         {
             "full_name": "MEDQUIMICA INDUSTRIA FARMACEUTICA LTDA",
             "cnpj": "17875154000120",
             "abbreviations": ["medquimica", "med quimica", "med", "Lupin"]
+        },
+        {
+            "full_name": "ZAMBON LABORATÓRIOS FARMACÊUTICOS LTDA.",
+            "cnpj": "61100004000136",
+            "abbreviations": ["zambon", "zambom", "zanbon", "zanbom"]
         },
         {
             "full_name": "GLAXOSMITHKLINE BRASIL LTDA",
@@ -272,7 +328,18 @@
             "full_name": "NOVARTIS BIOCIENCIAS S.A",
             "cnpj": "56994502000130",
             "abbreviations": ["novartis", "novartes"],
-            "linked": ["SANDOZ DO BRASIL INDÚSTRIA FARMACÊUTICA LTDA", "GLAXOSMITHKLINE BRASIL LTDA"]
+            "linked": ["SANDOZ DO BRASIL INDÚSTRIA FARMACÊUTICA LTDA", "GLAXOSMITHKLINE BRASIL LTDA", "ALCON LABORATÓRIOS DO BRASIL LTDA"]
+        },
+        {
+            "full_name": "ALCON LABORATÓRIOS DO BRASIL LTDA",
+            "cnpj": "60412327000100",
+            "abbreviations": ["alcon", "alcom"],
+            "linked": ["NOVARTIS BIOCIENCIAS S.A"]
+        },
+        {
+            "full_name": "ASPEN PHARMA INDÚSTRIA FARMACÊUTICA LTDA",
+            "cnpj": "02433631000120",
+            "abbreviations": ["aspen", "aspem"]
         },
         {
             "full_name": "APSEN FARMACEUTICA S/A",
@@ -314,6 +381,31 @@
             "linked": ["BIOMM SA"]
         },
         {
+            "full_name": "BAYER S.A.",
+            "cnpj": "14372981000102",
+            "abbreviations": ["bayer", "baier"]
+        },
+        {
+            "full_name": "BL INDÚSTRIA OTICA LTDA",
+            "cnpj": "27011022000103",
+            "abbreviations": ["bausch", "bl", "bl otica", "bauschlomb", "lomb"]
+        },
+        {
+            "full_name": "LABORATÓRIOS BALDACCI LTDA",
+            "cnpj": "61150447000131",
+            "abbreviations": ["baldacci", "baldaci"]
+        },
+        {
+            "full_name": "ASTRAZENECA DO BRASIL LTDA",
+            "cnpj": "60318797000100",
+            "abbreviations": ["astrazeneca", "astraseneca", "astrazenica"]
+        },
+        {
+            "full_name": "ASTELLAS FARMA BRASIL IMPORTAÇÃO E DISTRIBUIÇÃO DE MEDICAMENTOS",
+            "cnpj": "07768134000104",
+            "abbreviations": ["astellas", "astelas", "astella"]
+        },
+        {
             "full_name": "BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI",
             "cnpj": "46179008000168",
             "abbreviations": ["brasterapica"],
@@ -323,6 +415,12 @@
             "full_name": "BRASTERAPICA INDUSTRIA FARMACEUTICA LTDA",
             "cnpj": "46179008000168",
             "abbreviations": ["brasterapica"],
+            "linked": ["BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI"]
+        },
+        {
+            "full_name": "UCB BIOPHARMA LTDA.",
+            "cnpj": "64711500000114",
+            "abbreviations": ["meizler", "meisler", "ucb", "biopharma", "ucb biopharma"],
             "linked": ["BRASTERAPICA INDUSTRIA FARMACEUTICA EIRELI"]
         },
         {
@@ -348,6 +446,11 @@
             "linked": ["HALEX ISTAR INDÚSTRIA FARMACÊUTICA SA"]
         },
         {
+            "full_name": "INSTITUTO BIOCHIMICO INDÚSTRIA FARMACÊUTICA LTDA",
+            "cnpj": "33258401000103",
+            "abbreviations": ["biochimico", "bioquimico"]
+        },
+        {
             "full_name": "JP INDUSTRIA FARMACEUTICA S/A",
             "cnpj": "55972087000150",
             "abbreviations": ["jp"]
@@ -355,19 +458,94 @@
         {
             "full_name": "CELLERA FARMACÊUTICA S.A.",
             "cnpj": "33173097000274",
-            "abbreviations": ["cellera", "celera"],
+            "abbreviations": ["cellera", "celera", "delta"],
             "linked": ["JANSSEN-CILAG FARMACÊUTICA LTDA"]
+        },
+        {
+            "full_name": "MARJAN INDÚSTRIA E COMÉRCIO LTDA",
+            "cnpj": "60726692000181",
+            "abbreviations": ["marjan", "marjam"]
         },
         {
             "full_name": "JANSSEN-CILAG FARMACÊUTICA LTDA",
             "cnpj": "51780468000187",
-            "abbreviations": ["janssen", "jansen", "janssem", "jansem", "cilag", "jamssen"],
+            "abbreviations": ["janssen", "jansen", "janssem", "jansem", "cilag", "jamssen", "JOHNSON", "JOnhSON", "JOHNSOm"],
             "linked": ["CELLERA FARMACÊUTICA S.A."]
         },
         {
             "full_name": "PHARMASCIENCE INDUSTRIA FARMACEUTICA S.A",
             "cnpj": "25773037000183",
             "abbreviations": ["pharmascience", "pharmacience", "Innecorp"]
+        },
+        {
+            "full_name": "SUPERA FARMA LABORATÓRIOS S.A",
+            "cnpj": "43312503000105",
+            "abbreviations": ["supera", "superra"]
+        },
+        {
+            "full_name": "ORGANON FARMACÊUTICA LTDA.",
+            "cnpj": "45987013000134",
+            "abbreviations": ["organon", "organom"],
+            "linked": ["SUPERA FARMA LABORATÓRIOS S.A", "MERCK SHARP & DOHME FARMACEUTICA LTDA."]
+        },
+        {
+            "full_name": "MERCK SHARP & DOHME FARMACEUTICA LTDA.",
+            "cnpj": "03560974000118",
+            "abbreviations": ["msd"],
+            "linked": ["MERCK S/A"]
+        },
+        {
+            "full_name": "MERCK S/A",
+            "cnpj": "33069212000184",
+            "abbreviations": ["merck", "merk", "merc"],
+            "linked": ["MERCK SHARP & DOHME FARMACEUTICA LTDA."]
+        },
+        {
+            "full_name": "LABORATÓRIOS B. BRAUN S/A",
+            "cnpj": "31673254000102",
+            "abbreviations": ["b.braun", "braun", "bbraun"]
+        },
+        {
+            "full_name": "KLEY HERTZ FARMACEUTICA S.A",
+            "cnpj": "92695691000103",
+            "abbreviations": ["kleyhertz", "kley", "hertz", "kleyherts"]
+        },
+        {
+            "full_name": "ARESE PHARMA LTDA",
+            "cnpj": "07670111000154",
+            "abbreviations": ["arese", "areze"]
+        },
+        {
+            "full_name": "FRESENIUS KABI BRASIL LTDA",
+            "cnpj": "49324221000104",
+            "abbreviations": ["fresenius", "freseniu"],
+            "linked": ["FRESENIUS MEDICAL CARE LTDA"]
+        },
+        {
+            "full_name": "GREENPHARMA QUÍMICA E FARMACÊUTICA LTDA",
+            "cnpj": "33408105000133",
+            "abbreviations": ["greenpharma", "green", "greenfarma", "grenpharma"]
+        },
+        {
+            "full_name": "MABRA FARMACEUTICA LTDA",
+            "cnpj": "09545589000188",
+            "abbreviations": ["mabra"]
+        },
+        {
+            "full_name": "ABBOTT LABORATÓRIOS DO BRASIL LTDA",
+            "cnpj": "56998701000116",
+            "abbreviations": ["abbott", "abbot", "abott", "abot"],
+            "linked": ["ABBOTT PRODUTOS PARA SAÚDE LTDA."]
+        },
+        {
+            "full_name": "SANVAL COMÉRCIO E INDÚSTRIA LTDA",
+            "cnpj": "61068755000112",
+            "abbreviations": ["sanval", "sanvau"]
+        },
+        {
+            "full_name": "MAWDSLEYS PHARMACEUTICALS DO BRASIL LTDA",
+            "cnpj": "19501429000190",
+            "abbreviations": ["mawdsleys", "mawdsley", "mawdsleis"]
         },
         {
             "full_name": "NATIVITA IND. COM. LTDA",
@@ -378,11 +556,6 @@
             "full_name": "NATULAB LABORATÓRIO S.A",
             "cnpj": "02456955000183",
             "abbreviations": ["natulab"]
-        },
-        {
-            "full_name": "MERCK S/A",
-            "cnpj": "33069212000184",
-            "abbreviations": ["merck", "merk", "merc"]
         },
         {
             "full_name": "SUN FARMACÊUTICA DO BRASIL LTDA",
@@ -399,12 +572,17 @@
         {
             "full_name": "PRATI DONADUZZI & CIA LTDA",
             "cnpj": "73856593000166",
-            "abbreviations": ["prati donaduzzi", "prati", "donaduzzi"]
+            "abbreviations": ["prati donaduzzi", "prati", "donaduzzi", "pratti"]
+        },
+        {
+            "full_name": "MOMENTA FARMACÊUTICA LTDA.",
+            "cnpj": "14806008000154",
+            "abbreviations": ["momenta"]
         },
         {
             "full_name": "FARMOQUÍMICA S/A",
             "cnpj": "33349473000158",
-            "abbreviations": ["fqm", "fmq", "mfq"],
+            "abbreviations": ["fqm", "fmq", "mfq", "divcom", "divcon"],
             "linked": ["ZEST FARMACÊUTICA LTDA", "VIDFARMA INDÚSTRIA DE MEDICAMENTOS LTDA"]
         },
         {

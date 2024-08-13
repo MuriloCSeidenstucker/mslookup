@@ -20,10 +20,10 @@ class PDFManager:
         try:
             with open(json_file, 'r', encoding='utf-8') as file:
                 data = json.load(file)
-            self.logger.info(f"JSON file '{json_file}' loaded successfully.")
+            self.logger.info(f"JSON file '{json_file}' loaded successfully\n")
             return data
         except (IOError, json.JSONDecodeError) as e:
-            self.logger.error(f"Error reading or parsing JSON file {json_file}: {e}")
+            self.logger.error(f"Error reading or parsing JSON file {json_file}: {e}\n")
             raise
     
     def get_pdf_in_db(self, target_reg: str, concentration: str, data_updated: bool) -> bool:
