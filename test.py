@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # file_path = r"data_for_testing\Controle_Operacao_PE_090092024_Araxa.xlsm"
     # file_path = r"data_for_testing\Controle_Operacao_PE_042024_Frutal.xlsm"
     # file_path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
-    file_path = r"D:\Documents\Licitacoes\DM\Preg Eletr\Cadastrar\PE_900172024_Catalao\Controle_Operacao_PE_900172024_Catalao.xlsm"
+    file_path = r"data_for_testing\Controle_Operacao_000000_Cidade.xlsm"
     item_col = 'ITEM'
     desc_col = 'DESCRIÇÃO'
     brand_col = 'MARCA'

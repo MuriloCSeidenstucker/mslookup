@@ -21,7 +21,7 @@ class PDFProcessingService:
             data_modified = False
             
             if candidate['reg_candidates']:
-                for reg in candidate['reg_candidates']:
+                for i, reg in enumerate(candidate['reg_candidates']):
                     has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], candidate['concentration'], data_updated)
                     
                     registration_obtained = False
@@ -43,16 +43,25 @@ class PDFProcessingService:
                     if has_pdf_in_db or registration_obtained:
                         has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
                         
-                    self.report_generator.add_entry({
-                        'Item': candidate['item'],
-                        'Descrição': candidate['description'],
-                        'Concentração_Obtida': candidate['concentration'],
-                        'Laboratório': candidate['laboratory'],
-                        'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
-                        'PDF': 'OK' if has_pdf else 'Pendente',
-                    })
+                    if i == len(candidate['reg_candidates']) - 1:
+                        self.report_generator.add_entry({
+                            'Item': candidate['item'],
+                            'Descrição': candidate['description'],
+                            'Concentração_Obtida': candidate['concentration'],
+                            'Laboratório': candidate['laboratory'],
+                            'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
+                            'PDF': 'OK' if has_pdf else 'Pendente',
+                        })
                     
                     if has_pdf:
+                        self.report_generator.add_entry({
+                            'Item': candidate['item'],
+                            'Descrição': candidate['description'],
+                            'Concentração_Obtida': candidate['concentration'],
+                            'Laboratório': candidate['laboratory'],
+                            'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
+                            'PDF': 'OK' if has_pdf else 'Pendente',
+                        })
                         break
             else:
                 self.report_generator.add_entry({
@@ -92,7 +101,9 @@ class PDFProcessingService:
                     existing_exp_date_str = existing_data[key]['expiration_date']
                     new_exp_date_str = value['expiration_date']
                     
-                    if isinstance(existing_exp_date_str, str) and existing_exp_date_str != 'nan':
+                    if (isinstance(existing_exp_date_str, str) and
+                        existing_exp_date_str != 'nan' and
+                        existing_exp_date_str != 'DATA INVÁLIDA'):
                         existing_expiration_date = datetime.strptime(existing_exp_date_str, '%d/%m/%Y')
                     else:
                         existing_expiration_date = datetime.min
