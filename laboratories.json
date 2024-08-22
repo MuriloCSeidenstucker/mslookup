@@ -77,7 +77,7 @@
             "abbreviations": ["teuto"]
         },
         {
-            "full_name": "CASULA & VASCONCELOS INDÚSTRIA FARMACÊUTICA E COMÉRCIO LTDA",
+            "full_name": "VASCONCELOS INDUSTRIA FARMACEUTICA E COMERCIO LTDA",
             "cnpj": "05155425000193",
             "abbreviations": ["citopharma", "cito", "citofarma"]
         },
@@ -138,17 +138,6 @@
             "linked": ["EMS S/A", "GERMED FARMACEUTICA LTDA", "LEGRAND PHARMA INDÚSTRIA FARMACÊUTICA LTDA"]
         },
         {
-            "full_name": "ALLERGAN PRODUTOS FARMACÊUTICOS LTDA",
-            "cnpj": "43426626000177",
-            "abbreviations": ["allergan", "alergan"],
-            "linked": ["ABBVIE FARMACÊUTICA LTDA"]
-        },
-        {
-            "full_name": "ABBVIE FARMACÊUTICA LTDA",
-            "cnpj": "15800545000150",
-            "abbreviations": ["abbvie"],
-            "linked": ["ALLERGAN PRODUTOS FARMACÊUTICOS LTDA"]
-        },{
             "full_name": "LABORATÓRIOS SERVIER DO BRASIL LTDA",
             "cnpj": "42374207000176",
             "abbreviations": ["servier"]
@@ -328,13 +317,25 @@
             "full_name": "NOVARTIS BIOCIENCIAS S.A",
             "cnpj": "56994502000130",
             "abbreviations": ["novartis", "novartes"],
-            "linked": ["SANDOZ DO BRASIL INDÚSTRIA FARMACÊUTICA LTDA", "GLAXOSMITHKLINE BRASIL LTDA", "ALCON LABORATÓRIOS DO BRASIL LTDA"]
+            "linked": ["SANDOZ DO BRASIL INDÚSTRIA FARMACÊUTICA LTDA", "GLAXOSMITHKLINE BRASIL LTDA", "ALCON LABORATÓRIOS DO BRASIL LTDA", "ALLERGAN PRODUTOS FARMACÊUTICOS LTDA"]
         },
         {
             "full_name": "ALCON LABORATÓRIOS DO BRASIL LTDA",
             "cnpj": "60412327000100",
             "abbreviations": ["alcon", "alcom"],
-            "linked": ["NOVARTIS BIOCIENCIAS S.A"]
+            "linked": ["NOVARTIS BIOCIENCIAS S.A", "ALLERGAN PRODUTOS FARMACÊUTICOS LTDA"]
+        },
+        {
+            "full_name": "ALLERGAN PRODUTOS FARMACÊUTICOS LTDA",
+            "cnpj": "43426626000177",
+            "abbreviations": ["allergan", "alergan"],
+            "linked": ["ABBVIE FARMACÊUTICA LTDA", "NOVARTIS BIOCIENCIAS S.A", "ALCON LABORATÓRIOS DO BRASIL LTDA"]
+        },
+        {
+            "full_name": "ABBVIE FARMACÊUTICA LTDA",
+            "cnpj": "15800545000150",
+            "abbreviations": ["abbvie"],
+            "linked": ["ALLERGAN PRODUTOS FARMACÊUTICOS LTDA"]
         },
         {
             "full_name": "ASPEN PHARMA INDÚSTRIA FARMACÊUTICA LTDA",

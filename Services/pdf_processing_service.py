@@ -43,16 +43,6 @@ class PDFProcessingService:
                     if has_pdf_in_db or registration_obtained:
                         has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
                         
-                    if i == len(candidate['reg_candidates']) - 1:
-                        self.report_generator.add_entry({
-                            'Item': candidate['item'],
-                            'Descrição': candidate['description'],
-                            'Concentração_Obtida': candidate['concentration'],
-                            'Laboratório': candidate['laboratory'],
-                            'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente',
-                        })
-                    
                     if has_pdf:
                         self.report_generator.add_entry({
                             'Item': candidate['item'],
@@ -63,6 +53,16 @@ class PDFProcessingService:
                             'PDF': 'OK' if has_pdf else 'Pendente',
                         })
                         break
+                        
+                    if i == len(candidate['reg_candidates']) - 1:
+                        self.report_generator.add_entry({
+                            'Item': candidate['item'],
+                            'Descrição': candidate['description'],
+                            'Concentração_Obtida': candidate['concentration'],
+                            'Laboratório': candidate['laboratory'],
+                            'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
+                            'PDF': 'OK' if has_pdf else 'Pendente',
+                        })
             else:
                 self.report_generator.add_entry({
                     'Item': candidate['item'],
