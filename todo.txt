@@ -1,6 +1,11 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
-[  ] Melhorar informações do relatório.
+[  ] Criar uma interface.
+    [  ] Melhorar a estrutura do projeto atual antes ?
+    [  ] Estudar a melhor maneira de criar uma interface.
+
+[  ] Criar um executável/instalador.
+    [  ] Estudar como fazer isso.
 
 SECUNDÁRIOS:
 [  ] Criar uma maneira de verificar se encontrou corretamente a página da Anvisa, caso contrário, acusar que talvez o site da Anvisa esteja
@@ -19,6 +24,7 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
+[Ok] Melhorar informações do relatório.
 [Ok] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
     [Ok] Elaborar uma maneira de extrair informações sobre a concentração e a apresentação das descrições dos medicamentos.
     [Ok] Elaborar uma verificação que utiliza a concentração e/ou a apresentação obtida, a fim de validar o registro encontrado.
