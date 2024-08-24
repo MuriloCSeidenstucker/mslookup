@@ -1,12 +1,6 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
-[  ] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
-    [  ] Elaborar uma maneira de extrair informações sobre a concentração e a apresentação das descrições dos medicamentos.
-    [  ] Elaborar uma verificação que utiliza a concentração e/ou a apresentação obtida, a fim de validar o registro encontrado.
-    Para dar certo essa validação da concentração/apresentação, será necessário obter uma lista de registros candidatos, pois, caso o registro
-    não passe pela validação, será necessário procurar novamente outro registro, porém refazer todo o processo me parece muito custoso. Para
-    solucionar isso, estou pensando em separar as funções de encontrar registros e validação dos registros. E ainda, estou pensando em armazenar
-    informações relevantes dos registros encontrados na primeira vez, em formato JSON, para facilitar nas buscas futuras.
+[  ] Melhorar informações do relatório.
 
 SECUNDÁRIOS:
 [  ] Criar uma maneira de verificar se encontrou corretamente a página da Anvisa, caso contrário, acusar que talvez o site da Anvisa esteja
@@ -17,7 +11,6 @@ melhor de fazer isso.
 [  ] Padronizar nomes e adicionar validação dos argumentos.
 [  ] Organizar o projeto, refatorar e criar uma melhor estrutura. Está começando a ficar tudo muito confuso.
 [  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
-[  ] Melhorar informações do relatório.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos. Quando é fornecido uma descrição de um item que não seja medicamento
 o programa não lida muito bem, ele continua agindo normalmente e tenta obter o registro, mas no fim, só perde tempo.
@@ -26,6 +19,13 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
+[Ok] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
+    [Ok] Elaborar uma maneira de extrair informações sobre a concentração e a apresentação das descrições dos medicamentos.
+    [Ok] Elaborar uma verificação que utiliza a concentração e/ou a apresentação obtida, a fim de validar o registro encontrado.
+    Para dar certo essa validação da concentração/apresentação, será necessário obter uma lista de registros candidatos, pois, caso o registro
+    não passe pela validação, será necessário procurar novamente outro registro, porém refazer todo o processo me parece muito custoso. Para
+    solucionar isso, estou pensando em separar as funções de encontrar registros e validação dos registros. E ainda, estou pensando em armazenar
+    informações relevantes dos registros encontrados na primeira vez, em formato JSON, para facilitar nas buscas futuras.
 [Ok] Aumentar a precisão das buscas realizadas usando os dados abertos da anvisa, para não depender do smerp.
 [Ok] Corrigir filtro de descrição no momento de buscar os registros na planilha da anvisa. Removi as preposições, mas ainda há muito a ser
     melhorado.

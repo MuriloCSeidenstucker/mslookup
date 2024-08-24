@@ -29,6 +29,7 @@ class CandidateDataService:
         for entry in data:
             candidate_data.append({
                 'item': entry['item'],
+                'origin_description': entry['origin_description'],
                 'description': entry['description'],
                 'concentration': entry['concentration'],
                 'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],

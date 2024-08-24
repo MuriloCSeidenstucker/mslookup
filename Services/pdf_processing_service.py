@@ -3,10 +3,14 @@ import logging
 
 from datetime import datetime
 from typing import Dict, List
+
+from pdf_manager import PDFManager
 from logger_config import main_logger
+from report_generator import ReportGenerator
+from access_anvisa_domain import AnvisaDomain
 
 class PDFProcessingService:
-    def __init__(self, pdf_manager, anvisa_domain, report_generator):
+    def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain, report_generator: ReportGenerator):
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
@@ -46,8 +50,8 @@ class PDFProcessingService:
                     if has_pdf:
                         self.report_generator.add_entry({
                             'Item': candidate['item'],
-                            'Descrição': candidate['description'],
-                            'Concentração_Obtida': candidate['concentration'],
+                            'Descrição': candidate['origin_description'],
+                            'Concentração_Encontrada': candidate['concentration'],
                             'Laboratório': candidate['laboratory'],
                             'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
                             'PDF': 'OK' if has_pdf else 'Pendente',
@@ -57,8 +61,8 @@ class PDFProcessingService:
                     if i == len(candidate['reg_candidates']) - 1:
                         self.report_generator.add_entry({
                             'Item': candidate['item'],
-                            'Descrição': candidate['description'],
-                            'Concentração_Obtida': candidate['concentration'],
+                            'Descrição': candidate['origin_description'],
+                            'Concentração_Encontrada': candidate['concentration'],
                             'Laboratório': candidate['laboratory'],
                             'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
                             'PDF': 'OK' if has_pdf else 'Pendente',
@@ -66,8 +70,8 @@ class PDFProcessingService:
             else:
                 self.report_generator.add_entry({
                     'Item': candidate['item'],
-                    'Descrição': candidate['description'],
-                    'Concentração_Obtida': candidate['concentration'],
+                    'Descrição': candidate['origin_description'],
+                    'Concentração_Encontrada': candidate['concentration'],
                     'Laboratório': candidate['laboratory'],
                     'Registro': 'Não encontrado',
                     'PDF': 'Pendente',

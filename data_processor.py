@@ -139,16 +139,17 @@ class DataProcessor:
         for index, row in self.df.iterrows():
             if pd.notna(row[brand_col]):
                 brand = self.get_brand(row[brand_col])
-                description = self.get_filtered_description(row[desc_col])
+                filtered_description = self.get_filtered_description(row[desc_col])
                 concentration = self.get_concentration(row[desc_col], self.patterns)
                 data.append({'item': row[item_col],
-                             'description': description,
+                             'origin_description': row[desc_col],
+                             'description': filtered_description,
                              'brand': brand,
                              'concentration': concentration})
                 
                 report_data.append({'Item': row[item_col],
                         'Descrição Original': row[desc_col],
-                        'Descrição Final': description,
+                        'Descrição Final': filtered_description,
                         'Concentração': concentration,
                         'Laboratório Original': row[brand_col],
                         'Laboratório Final': brand if isinstance(brand, str) else brand['Name'],
