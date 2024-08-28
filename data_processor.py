@@ -13,20 +13,17 @@ class DataProcessor:
         self.patterns_path = 'patterns.json'
         self.patterns = load_json(self.patterns_path)
         
-        labs_path = 'laboratories.json'
-        self.labs_json = load_json(labs_path)
+        self.prepositions_path = 'prepositions.json'
+        self.PREPOSITIONS = load_json(self.prepositions_path)
+        
+        self.labs_path = 'laboratories.json'
+        self.labs_json = load_json(self.labs_path)
         self.abbreviation_map = self.create_abbreviation_map()
         
         reference_path = os.path.join(os.path.dirname(__file__), 'TA_PRECO_MEDICAMENTO_GOV.xlsx')
         selected_columns = ['SUBSTÂNCIA', 'CNPJ', 'LABORATÓRIO', 'EAN 1', 'PRODUTO', 'APRESENTAÇÃO']
         self.reference_df = pd.read_excel(reference_path, skiprows=52, usecols=selected_columns)
         self.substances_set, self.shortest_substance = self.process_substances()
-        
-        self.PREPOSITIONS = [
-            'a', 'ante', 'após', 'até', 'com', 'contra', 'de', 'desde', 'em', 'entre', 
-            'para', 'per', 'perante', 'por', 'sem', 'sob', 'sobre', 'trás',
-            'da', 'do', 'das', 'dos', 'na', 'no', 'nas', 'nos', 'pela', 'pelo', 'pelas', 'pelos', 'à', 'às', 'ao', 'aos'
-        ]
         
     def get_concentration(self, description: str, patterns: List[str]) -> str:
         lower_description = description.lower()
@@ -76,9 +73,7 @@ class DataProcessor:
                     if len(substance) < shortest_length:
                         shortest_length = len(substance)
 
-
         return sorted(substances_set, key=len, reverse=True), shortest_length
-
     
     def get_brand(self, brand: str) -> Union[Dict[str, str], str]:
         brand_normalized = Utils.remove_accents_and_spaces(brand)
@@ -115,7 +110,7 @@ class DataProcessor:
             for substance in self.substances_set:
                 substance_words = [Utils.remove_accents_and_spaces(word) for word in substance.split()]
                 substance_words_clean = [word for word in substance_words if len(word) >= self.shortest_substance]
-                substance_words_clean = [word for word in substance_words_clean if word not in self.PREPOSITIONS]
+                substance_words_clean = [word for word in substance_words_clean if word not in self.PREPOSITIONS['prepositions']]
                 for sub in substance_words_clean:
                     if sub in description_normalized:
                         filtered_desc += f'{sub};'
@@ -151,7 +146,6 @@ class DataProcessor:
                         'Registro': '',
                         'PDF': '',
                         })
-                
                 
         report_df = pd.DataFrame(report_data)
         report_df.to_excel('relatorio_proc_dados.xlsx', index=False)   

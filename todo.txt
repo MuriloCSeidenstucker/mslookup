@@ -1,5 +1,8 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
+[  ] Refatorar projeto.
+    [  ] Refatorar a classe DataProcessor.
+
 [  ] Criar uma interface.
     [  ] Melhorar a estrutura do projeto atual antes ?
     [  ] Estudar a melhor maneira de criar uma interface.
