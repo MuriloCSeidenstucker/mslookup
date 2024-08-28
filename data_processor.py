@@ -1,17 +1,20 @@
 import os
-import json
 import re
 import pandas as pd
 
 from utils import Utils
+from json_manager import load_json
 from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
     def __init__(self, file_path: str):
         self.df = pd.read_excel(file_path)
         
-        with open('laboratories.json', 'r', encoding='utf-8') as file:
-            self.labs_json = json.load(file)
+        self.patterns_path = 'patterns.json'
+        self.patterns = load_json(self.patterns_path)
+        
+        labs_path = 'laboratories.json'
+        self.labs_json = load_json(labs_path)
         self.abbreviation_map = self.create_abbreviation_map()
         
         reference_path = os.path.join(os.path.dirname(__file__), 'TA_PRECO_MEDICAMENTO_GOV.xlsx')
@@ -25,17 +28,9 @@ class DataProcessor:
             'da', 'do', 'das', 'dos', 'na', 'no', 'nas', 'nos', 'pela', 'pelo', 'pelas', 'pelos', 'à', 'às', 'ao', 'aos'
         ]
         
-        self.patterns_path = 'patterns.json'
-        self.patterns = self.load_patterns(self.patterns_path)
-        
-    def load_patterns(self, path: str) -> List[str]:
-        with open(path, 'r') as file:
-            data = json.load(file)
-        return data["patterns"]
-    
     def get_concentration(self, description: str, patterns: List[str]) -> str:
         lower_description = description.lower()
-        for pattern in patterns:
+        for pattern in patterns["patterns"]:
             match = re.search(pattern, lower_description)
             if match:
                 return match.group()
