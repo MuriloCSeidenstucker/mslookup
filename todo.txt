@@ -1,7 +1,7 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
 [  ] Refatorar projeto.
-    [  ] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
+    [Ok] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
     o próximo módulo possa usar.
 
 [  ] Criar uma interface.
@@ -12,6 +12,8 @@ PRINCIPAL:
     [  ] Estudar como fazer isso.
 
 SECUNDÁRIOS:
+[  ] Adicionar uma maneira de atualizar automaticamente as planilhas da Anvisa.
+    [  ] A planilha 'TA_PRECO_MEDICAMENTO_GOV' pode variar o número de linhas, o que alteraria o skiprows. Pensar em como lidar com isso.
 [  ] Criar uma maneira de verificar se encontrou corretamente a página da Anvisa, caso contrário, acusar que talvez o site da Anvisa esteja
 fora do ar.
 [  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
