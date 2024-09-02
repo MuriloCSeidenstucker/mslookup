@@ -1,7 +1,8 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
 [  ] Refatorar projeto.
-    [  ] Refatorar a classe DataProcessor.
+    [  ] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
+    o próximo módulo possa usar.
 
 [  ] Criar uma interface.
     [  ] Melhorar a estrutura do projeto atual antes ?

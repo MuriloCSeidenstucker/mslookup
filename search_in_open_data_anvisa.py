@@ -2,6 +2,7 @@ import os
 
 import pandas as pd
 
+from df_manager import load_data
 from utils import Utils
 from datetime import datetime
 from typing import Any, Union, List, Dict
@@ -9,7 +10,8 @@ from typing import Any, Union, List, Dict
 class OpenDataAnvisa:
     def __init__(self):
         file_path = os.path.join(os.path.dirname(__file__), 'DADOS_ABERTOS_MEDICAMENTOS.xlsx')
-        self.df = pd.read_excel(file_path)
+        parquet_path = 'DADOS_ABERTOS_MEDICAMENTOS.parquet'
+        self.df = load_data(file_path, parquet_path)
         self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()
         self.laboratory_registers = self.create_data_map()
         

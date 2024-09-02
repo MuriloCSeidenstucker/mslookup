@@ -4,6 +4,7 @@ import pandas as pd
 
 from utils import Utils
 from json_manager import load_json
+from df_manager import load_data
 from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
@@ -21,8 +22,10 @@ class DataProcessor:
         self.abbreviation_map = self.create_abbreviation_map()
         
         reference_path = os.path.join(os.path.dirname(__file__), 'TA_PRECO_MEDICAMENTO_GOV.xlsx')
+        parquet_path = 'TA_PRECO_MEDICAMENTO_GOV.parquet'
+        skiprows = 52
         selected_columns = ['SUBSTÂNCIA', 'CNPJ', 'LABORATÓRIO', 'EAN 1', 'PRODUTO', 'APRESENTAÇÃO']
-        self.reference_df = pd.read_excel(reference_path, skiprows=52, usecols=selected_columns)
+        self.reference_df = load_data(reference_path, parquet_path, skiprows, selected_columns)
         self.substances_set, self.shortest_substance = self.process_substances()
         
     def get_concentration(self, description: str, patterns: List[str]) -> str:
@@ -148,5 +151,5 @@ class DataProcessor:
                         })
                 
         report_df = pd.DataFrame(report_data)
-        report_df.to_excel('relatorio_proc_dados.xlsx', index=False)   
-        return data                
+        report_df.to_excel('relatorio_proc_dados.xlsx', index=False)
+        return data
