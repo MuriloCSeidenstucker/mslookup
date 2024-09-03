@@ -1,20 +1,18 @@
 import os
 import re
-import pickle
-import hashlib
 import pandas as pd
 
 from utils import Utils
-from json_manager import load_json
 from df_manager import load_data
+from json_manager import load_json
+from checkpoint_manager import CheckpointManager
 from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
     def __init__(self, file_path: str):
         self.df = pd.read_excel(file_path)
-        self.checkpoint_file = 'data_checkpoint.pkl'
-        self.identifier_file = 'data_identifier.pkl'
         self.checkpoint_interval = 2
+        self.checkpoint_manager = CheckpointManager()
         
         self.patterns_path = 'patterns.json'
         self.patterns = load_json(self.patterns_path)
@@ -32,24 +30,6 @@ class DataProcessor:
         selected_columns = ['SUBSTÂNCIA', 'CNPJ', 'LABORATÓRIO', 'EAN 1', 'PRODUTO', 'APRESENTAÇÃO']
         self.reference_df = load_data(reference_path, parquet_path, skiprows, selected_columns)
         self.substances_set, self.shortest_substance = self.process_substances()
-        
-    def generate_identifier(self) -> str:
-        return hashlib.md5(pd.util.hash_pandas_object(self.df).values).hexdigest()
-
-    def save_checkpoint(self, data, identifier):
-        with open(self.checkpoint_file, 'wb') as f:
-            pickle.dump({'data': data, 'identifier': identifier}, f)
-        with open(self.identifier_file, 'w') as f:
-            f.write(identifier)
-
-    def load_checkpoint(self):
-        if os.path.exists(self.checkpoint_file) and os.path.exists(self.identifier_file):
-            with open(self.identifier_file, 'r') as f:
-                saved_identifier = f.read()
-            with open(self.checkpoint_file, 'rb') as f:
-                checkpoint = pickle.load(f)
-            return checkpoint, saved_identifier
-        return {'data': []}, None
         
     def get_concentration(self, description: str, patterns: List[str]) -> str:
         lower_description = description.lower()
@@ -152,10 +132,9 @@ class DataProcessor:
     def get_data(self, item_col: str, desc_col: str, brand_col: str) -> List[Dict[str, Any]]:
         data = []
         report_data = []
-        current_identifier = self.generate_identifier()
+        current_identifier = self.checkpoint_manager.generate_identifier(self.df)
         
-        # Carregar dados do último ponto salvo, se o identificador corresponder
-        checkpoint, saved_identifier = self.load_checkpoint()
+        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint()
         if saved_identifier == current_identifier:
             data.extend(checkpoint['data'])
             start_index = len(data)
@@ -182,18 +161,13 @@ class DataProcessor:
                         'Registro': '',
                         'PDF': '',
                         })
-                
-            # Salvar ponto de verificação periodicamente
+            
             if len(data) % self.checkpoint_interval == 0:
-                self.save_checkpoint(data, current_identifier)
+                self.checkpoint_manager.save_checkpoint(data, current_identifier)
                 
         report_df = pd.DataFrame(report_data)
         report_df.to_excel('relatorio_proc_dados.xlsx', index=False)
         
-        # Remover arquivo de checkpoint após sucesso
-        if os.path.exists(self.checkpoint_file):
-            os.remove(self.checkpoint_file)
-        if os.path.exists(self.identifier_file):
-            os.remove(self.identifier_file)
+        self.checkpoint_manager.delete_checkpoint()
             
         return data
