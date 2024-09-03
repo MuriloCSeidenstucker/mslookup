@@ -132,8 +132,8 @@ class DataProcessor:
     def get_data(self, item_col: str, desc_col: str, brand_col: str) -> List[Dict[str, Any]]:
         data = []
         report_data = []
-        current_identifier = self.checkpoint_manager.generate_identifier(self.df)
         
+        current_identifier = self.checkpoint_manager.generate_identifier(self.df)
         checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint()
         if saved_identifier == current_identifier:
             data.extend(checkpoint['data'])
@@ -161,7 +161,7 @@ class DataProcessor:
                         'Registro': '',
                         'PDF': '',
                         })
-            
+                        
             if len(data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(data, current_identifier)
                 

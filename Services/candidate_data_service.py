@@ -1,7 +1,9 @@
 import logging
 
+from checkpoint_manager import CheckpointManager
 from logger_config import main_logger
 from search_in_smerp import SearchInSmerp
+from typing import List, Dict, Any
 from search_in_open_data_anvisa import OpenDataAnvisa
 
 class CandidateDataService:
@@ -9,6 +11,11 @@ class CandidateDataService:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.anvisa_search = anvisa_search
         self.smerp_search = smerp_search
+        
+        self.checkpoint_file: str = 'candidate_data_checkpoint.pkl'
+        self.identifier_file: str = 'candidate_data_identifier.pkl'
+        self.checkpoint_manager = CheckpointManager(self.checkpoint_file, self.identifier_file)
+        self.checkpoint_interval = 2
     
     def get_registration_data(self, description, laboratory, item):
         self.logger.info(f'Fetching registration data for item: {item}')
@@ -24,9 +31,18 @@ class CandidateDataService:
                 self.logger.warning('No candidates found in both ANVISA and SMERP data\n')
         return reg_candidates
     
-    def get_candidate_data(self, data):
+    def get_candidate_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         candidate_data = []
-        for entry in data:
+        
+        current_identifier = self.checkpoint_manager.generate_identifier(data)
+        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint()
+        if saved_identifier == current_identifier:
+            candidate_data.extend(checkpoint['data'])
+            start_index = len(candidate_data)
+        else:
+            start_index = 0
+        
+        for index, entry in enumerate(data[start_index:], start=start_index):
             candidate_data.append({
                 'item': entry['item'],
                 'origin_description': entry['origin_description'],
@@ -35,5 +51,11 @@ class CandidateDataService:
                 'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
                 'reg_candidates': self.get_registration_data(entry['description'], entry['brand'], entry['item'])
             })
+                        
+            if len(candidate_data) % self.checkpoint_interval == 0:
+                self.checkpoint_manager.save_checkpoint(candidate_data, current_identifier)
+            
+        self.checkpoint_manager.delete_checkpoint()
+        
         self.logger.info('Candidate data generation complete\n\n')
         return candidate_data
