@@ -134,7 +134,7 @@ class DataProcessor:
         report_data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(self.df)
-        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint()
+        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='data_processor')
         if saved_identifier == current_identifier:
             data.extend(checkpoint['data'])
             start_index = len(data)
@@ -163,11 +163,11 @@ class DataProcessor:
                         })
                         
             if len(data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(data, current_identifier)
+                self.checkpoint_manager.save_checkpoint(data, stage='data_processor')
                 
         report_df = pd.DataFrame(report_data)
         report_df.to_excel('relatorio_proc_dados.xlsx', index=False)
         
-        self.checkpoint_manager.delete_checkpoint()
+        self.checkpoint_manager.save_checkpoint(data, stage='data_processor')
             
         return data

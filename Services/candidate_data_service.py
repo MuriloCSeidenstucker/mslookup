@@ -12,9 +12,7 @@ class CandidateDataService:
         self.anvisa_search = anvisa_search
         self.smerp_search = smerp_search
         
-        self.checkpoint_file: str = 'candidate_data_checkpoint.pkl'
-        self.identifier_file: str = 'candidate_data_identifier.pkl'
-        self.checkpoint_manager = CheckpointManager(self.checkpoint_file, self.identifier_file)
+        self.checkpoint_manager = CheckpointManager()
         self.checkpoint_interval = 2
     
     def get_registration_data(self, description, laboratory, item):
@@ -35,7 +33,7 @@ class CandidateDataService:
         candidate_data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(data)
-        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint()
+        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='candidate_service')
         if saved_identifier == current_identifier:
             candidate_data.extend(checkpoint['data'])
             start_index = len(candidate_data)
@@ -53,9 +51,9 @@ class CandidateDataService:
             })
                         
             if len(candidate_data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(candidate_data, current_identifier)
+                self.checkpoint_manager.save_checkpoint(candidate_data, stage='candidate_service')
             
-        self.checkpoint_manager.delete_checkpoint()
+        self.checkpoint_manager.save_checkpoint(candidate_data, stage='candidate_service')
         
         self.logger.info('Candidate data generation complete\n\n')
         return candidate_data
