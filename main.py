@@ -11,6 +11,7 @@ class Main:
         self.candidate_data_service = candidate_data_service
         self.pdf_processing_service = pdf_processing_service
         self.checkpoint_manager = checkpoint_manager
+        self.all_stages_completed = False
         
     def execute(self):
         try:
@@ -18,8 +19,10 @@ class Main:
             candidate_data = self.candidate_data_service.get_candidate_data(data)
             self.pdf_processing_service.process_candidate_pdfs(candidate_data)
             self.pdf_processing_service.generate_report()
+            self.all_stages_completed = True
         finally:
-            checkpoint_manager.delete_checkpoints()
+            if self.all_stages_completed:
+                checkpoint_manager.delete_checkpoints()
 
 
 if __name__ == "__main__":
@@ -27,11 +30,11 @@ if __name__ == "__main__":
 
     input = Input()
     entry = input.start()
-    data_service = DataProcessorService(entry)
-    candidate_data_service = CandidateDataService(anvisa_search, smerp_search)
+    checkpoint_manager = CheckpointManager()
+    data_service = DataProcessorService(entry, checkpoint_manager)
+    candidate_data_service = CandidateDataService(anvisa_search, smerp_search, checkpoint_manager)
     pdf_processing_service = PDFProcessingService(pdf_manager, anvisa_domain, report_generator)
     
-    checkpoint_manager = CheckpointManager()
 
     main = Main(data_service, candidate_data_service, pdf_processing_service, checkpoint_manager)
     main.execute()

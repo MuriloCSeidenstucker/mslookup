@@ -5,14 +5,13 @@ import pandas as pd
 from utils import Utils
 from df_manager import load_data
 from json_manager import load_json
-from checkpoint_manager import CheckpointManager
 from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str, checkpoint_manager):
         self.df = pd.read_excel(file_path)
         self.checkpoint_interval = 2
-        self.checkpoint_manager = CheckpointManager()
+        self.checkpoint_manager = checkpoint_manager
         
         self.patterns_path = 'patterns.json'
         self.patterns = load_json(self.patterns_path)
@@ -163,11 +162,11 @@ class DataProcessor:
                         })
                         
             if len(data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(data, stage='data_processor')
+                self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
                 
         report_df = pd.DataFrame(report_data)
         report_df.to_excel('relatorio_proc_dados.xlsx', index=False)
         
-        self.checkpoint_manager.save_checkpoint(data, stage='data_processor')
+        self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
             
         return data

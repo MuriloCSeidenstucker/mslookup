@@ -17,8 +17,7 @@ class CheckpointManager:
     def generate_identifier(self, data: Any) -> str:
         return self.hash_func(data)
 
-    def save_checkpoint(self, data: Any, stage: str):
-        identifier = self.generate_identifier(data)
+    def save_checkpoint(self, data: Any, stage: str, identifier: str):
         checkpoint_file = os.path.join(self.checkpoint_dir, f'{stage}_checkpoint.pkl')
         identifier_file = os.path.join(self.checkpoint_dir, f'{stage}_identifier.txt')
         

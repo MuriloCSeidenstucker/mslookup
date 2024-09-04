@@ -1,18 +1,17 @@
 import logging
 
-from checkpoint_manager import CheckpointManager
 from logger_config import main_logger
 from search_in_smerp import SearchInSmerp
 from typing import List, Dict, Any
 from search_in_open_data_anvisa import OpenDataAnvisa
 
 class CandidateDataService:
-    def __init__(self, anvisa_search: OpenDataAnvisa, smerp_search: SearchInSmerp):
+    def __init__(self, anvisa_search: OpenDataAnvisa, smerp_search: SearchInSmerp, checkpoint_manager):
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.anvisa_search = anvisa_search
         self.smerp_search = smerp_search
         
-        self.checkpoint_manager = CheckpointManager()
+        self.checkpoint_manager = checkpoint_manager
         self.checkpoint_interval = 2
     
     def get_registration_data(self, description, laboratory, item):
@@ -51,9 +50,9 @@ class CandidateDataService:
             })
                         
             if len(candidate_data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(candidate_data, stage='candidate_service')
+                self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
             
-        self.checkpoint_manager.save_checkpoint(candidate_data, stage='candidate_service')
+        self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
         
         self.logger.info('Candidate data generation complete\n\n')
         return candidate_data
