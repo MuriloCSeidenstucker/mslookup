@@ -1,5 +1,5 @@
 class Input:
-    def start(self):
+    def get_input(self):
         print('[input] Starting...')
         file_path = self.get_file_path()
         item_col = self.get_item_column_name()

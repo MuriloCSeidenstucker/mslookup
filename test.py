@@ -1,5 +1,5 @@
 from config import load_config
-from services.data_processor_service import DataProcessorService
+from services.input_processor_service import InputProcessorService
 from services.candidate_data_service import CandidateDataService
 from services.pdf_processing_service import PDFProcessingService
 
@@ -19,7 +19,7 @@ class Test:
 if __name__ == "__main__":
     file_path, item_col, desc_col, brand_col, pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator = load_config()
 
-    data_service = DataProcessorService(file_path, item_col, desc_col, brand_col)
+    data_service = InputProcessorService(file_path, item_col, desc_col, brand_col)
     candidate_data_service = CandidateDataService(anvisa_search, smerp_search)
     pdf_processing_service = PDFProcessingService(pdf_manager, anvisa_domain, report_generator)
 

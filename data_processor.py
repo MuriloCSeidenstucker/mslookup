@@ -8,8 +8,7 @@ from json_manager import load_json
 from typing import List, Dict, Tuple, Union, Any
 
 class DataProcessor:
-    def __init__(self, file_path: str, checkpoint_manager):
-        self.df = pd.read_excel(file_path)
+    def __init__(self, checkpoint_manager):
         self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
         
@@ -128,11 +127,10 @@ class DataProcessor:
             else:
                 return description
 
-    def get_data(self, item_col: str, desc_col: str, brand_col: str) -> List[Dict[str, Any]]:
+    def process_input(self, filtered_input: List[Dict[str, str]]) -> List[Dict[str, Any]]:
         data = []
-        report_data = []
         
-        current_identifier = self.checkpoint_manager.generate_identifier(self.df)
+        current_identifier = self.checkpoint_manager.generate_identifier(filtered_input)
         checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='data_processor')
         if saved_identifier == current_identifier:
             data.extend(checkpoint['data'])
@@ -140,33 +138,21 @@ class DataProcessor:
         else:
             start_index = 0
             
-        for index, row in self.df.iloc[start_index:].iterrows():
-            if pd.notna(row[brand_col]):
-                brand = self.get_brand(row[brand_col])
-                filtered_description = self.get_filtered_description(row[desc_col])
-                concentration = self.get_concentration(row[desc_col], self.patterns)
-                data.append({'item': row[item_col],
-                             'origin_description': row[desc_col],
-                             'description': filtered_description,
-                             'brand': brand,
-                             'concentration': concentration})
-                
-                report_data.append({'Item': row[item_col],
-                        'Descrição Original': row[desc_col],
-                        'Descrição Final': filtered_description,
-                        'Concentração': concentration,
-                        'Laboratório Original': row[brand_col],
-                        'Laboratório Final': brand if isinstance(brand, str) else brand['Name'],
-                        'Registro': '',
-                        'PDF': '',
-                        })
+        for index, row in enumerate(filtered_input[start_index:]):
+            brand = self.get_brand(row['brand'])
+            filtered_description = self.get_filtered_description(row['description'])
+            concentration = self.get_concentration(row['description'], self.patterns)
+            data.append({
+                'item': row['item'],
+                'origin_description': row['description'],
+                'description': filtered_description,
+                'brand': brand,
+                'concentration': concentration
+            })
                         
             if len(data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
                 
-        report_df = pd.DataFrame(report_data)
-        report_df.to_excel('relatorio_proc_dados.xlsx', index=False)
-        
         self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
             
         return data
