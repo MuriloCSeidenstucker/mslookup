@@ -12,7 +12,7 @@ class CandidateDataService:
         self.smerp_search = smerp_search
         
         self.checkpoint_manager = checkpoint_manager
-        self.checkpoint_interval = 2
+        self.checkpoint_interval = 10
     
     def get_registration_data(self, description, laboratory, item):
         self.logger.info(f'Fetching registration data for item: {item}')
@@ -48,7 +48,7 @@ class CandidateDataService:
                 'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
                 'reg_candidates': self.get_registration_data(entry['description'], entry['brand'], entry['item'])
             })
-                        
+                                    
             if len(candidate_data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
             

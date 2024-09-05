@@ -10,7 +10,7 @@ from typing import List, Dict, Tuple, Union, Any
 class DataProcessor:
     def __init__(self, file_path: str, checkpoint_manager):
         self.df = pd.read_excel(file_path)
-        self.checkpoint_interval = 2
+        self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
         
         self.patterns_path = 'patterns.json'
