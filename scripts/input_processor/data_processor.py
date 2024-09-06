@@ -2,10 +2,11 @@ import os
 import re
 import pandas as pd
 
-from utils import Utils
-from df_manager import load_data
-from json_manager import load_json
 from typing import List, Dict, Tuple, Union, Any
+
+from scripts.utils import Utils
+from scripts.df_manager import load_data
+from scripts.json_manager import load_json
 
 class DataProcessor:
     def __init__(self, checkpoint_manager):
@@ -22,7 +23,7 @@ class DataProcessor:
         self.labs_json = load_json(self.labs_path)
         self.abbreviation_map = self.create_abbreviation_map()
         
-        reference_path = os.path.join(os.path.dirname(__file__), 'TA_PRECO_MEDICAMENTO_GOV.xlsx')
+        reference_path = 'TA_PRECO_MEDICAMENTO_GOV.xlsx'
         parquet_path = 'TA_PRECO_MEDICAMENTO_GOV.parquet'
         skiprows = 52
         selected_columns = ['SUBSTÂNCIA', 'CNPJ', 'LABORATÓRIO', 'EAN 1', 'PRODUTO', 'APRESENTAÇÃO']

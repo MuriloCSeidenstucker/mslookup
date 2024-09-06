@@ -1,15 +1,15 @@
 import os
-
 import pandas as pd
 
-from df_manager import load_data
-from utils import Utils
 from datetime import datetime
 from typing import Any, Union, List, Dict
 
+from scripts.utils import Utils
+from scripts.df_manager import load_data
+
 class OpenDataAnvisa:
     def __init__(self):
-        file_path = os.path.join(os.path.dirname(__file__), 'DADOS_ABERTOS_MEDICAMENTOS.xlsx')
+        file_path = 'DADOS_ABERTOS_MEDICAMENTOS.xlsx'
         parquet_path = 'DADOS_ABERTOS_MEDICAMENTOS.parquet'
         self.df = load_data(file_path, parquet_path)
         self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()

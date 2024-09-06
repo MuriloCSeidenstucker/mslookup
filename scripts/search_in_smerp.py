@@ -1,12 +1,13 @@
 import logging
 import re
 
-from typing import Dict, List, Tuple, Union
-from logger_config import main_logger
-from urllib.parse import urlparse
-from unidecode import unidecode
-from datetime import datetime
 from time import sleep
+from datetime import datetime
+from unidecode import unidecode
+from urllib.parse import urlparse
+from typing import Dict, List, Tuple, Union
+
+from scripts.logger_config import main_logger
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By

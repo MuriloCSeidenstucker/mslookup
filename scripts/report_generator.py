@@ -2,7 +2,8 @@ import logging
 import pandas as pd
 
 from typing import Any, Dict, List
-from logger_config import main_logger
+
+from scripts.logger_config import main_logger
 
 class ReportGenerator:
     def __init__(self):

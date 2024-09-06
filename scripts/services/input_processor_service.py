@@ -1,7 +1,8 @@
 import pandas as pd
 
 from typing import Any, Dict, List
-from data_processor import DataProcessor
+
+from scripts.input_processor.data_processor import DataProcessor
 
 class InputProcessorService:
     def __init__(self, checkpoint_manager):

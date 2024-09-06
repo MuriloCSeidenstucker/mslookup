@@ -1,9 +1,9 @@
-from config import load_config
-from input import Input
-from services.input_processor_service import InputProcessorService
-from services.candidate_data_service import CandidateDataService
-from services.pdf_processing_service import PDFProcessingService
-from checkpoint_manager import CheckpointManager
+from scripts.config import load_config
+from scripts.input import Input
+from scripts.services.input_processor_service import InputProcessorService
+from scripts.services.candidate_data_service import CandidateDataService
+from scripts.services.pdf_processing_service import PDFProcessingService
+from scripts.checkpoint_manager import CheckpointManager
 
 class Main:
     def __init__(self,

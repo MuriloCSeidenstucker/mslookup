@@ -6,8 +6,9 @@ import logging
 
 from datetime import datetime
 from typing import Any, Dict, List
-from logger_config import main_logger
-from utils import Utils
+
+from scripts.logger_config import main_logger
+from scripts.utils import Utils
 
 class PDFManager:
     def __init__(self):
