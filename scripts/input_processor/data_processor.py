@@ -1,27 +1,25 @@
-import os
 import re
 import pandas as pd
 
-from typing import List, Dict, Tuple, Union, Any
+from typing import List, Dict, Tuple, Any
 
 from scripts.utils import Utils
 from scripts.df_manager import load_data
 from scripts.json_manager import load_json
+from scripts.input_processor.brand_processor import BrandProcessor
 
 class DataProcessor:
     def __init__(self, checkpoint_manager):
+        self.brand_processor = BrandProcessor()
+        
         self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
-        
-        self.patterns_path = 'patterns.json'
-        self.patterns = load_json(self.patterns_path)
         
         self.prepositions_path = 'prepositions.json'
         self.PREPOSITIONS = load_json(self.prepositions_path)
         
-        self.labs_path = 'laboratories.json'
-        self.labs_json = load_json(self.labs_path)
-        self.abbreviation_map = self.create_abbreviation_map()
+        self.patterns_path = 'patterns.json'
+        self.patterns = load_json(self.patterns_path)
         
         reference_path = 'TA_PRECO_MEDICAMENTO_GOV.xlsx'
         parquet_path = 'TA_PRECO_MEDICAMENTO_GOV.parquet'
@@ -37,24 +35,6 @@ class DataProcessor:
             if match:
                 return match.group()
         return "Concentração não encontrada"
-            
-    def create_abbreviation_map(self) -> Dict[str, Dict[str, Any]]:
-        laboratories = self.labs_json['laboratories']
-        abbreviation_map = {}
-
-        for lab in laboratories:
-            for abbreviation in lab['abbreviations']:
-                abbreviation_normalized = Utils.remove_accents_and_spaces(abbreviation)
-                lab_info = {
-                    "Name": lab['full_name'],
-                    "CNPJ": lab['cnpj']
-                }
-                linked = lab.get('linked')
-                if linked is not None:
-                    lab_info['Linked'] = linked
-                abbreviation_map[abbreviation_normalized] = lab_info
-        
-        return abbreviation_map
     
     def process_substances(self) -> Tuple[List[str], int]:
         substances_set = set()
@@ -79,15 +59,6 @@ class DataProcessor:
                         shortest_length = len(substance)
 
         return sorted(substances_set, key=len, reverse=True), shortest_length
-    
-    def get_brand(self, brand: str) -> Union[Dict[str, str], str]:
-        brand_normalized = Utils.remove_accents_and_spaces(brand)
-
-        if brand_normalized in self.abbreviation_map:
-            return self.abbreviation_map[brand_normalized]
-
-        print(f"A marca: {brand} não foi encontrada no banco de dados")
-        return brand
     
     def get_filtered_description(self, description: str) -> str:
         filtered_desc = ''
@@ -140,7 +111,7 @@ class DataProcessor:
             start_index = 0
             
         for index, row in enumerate(filtered_input[start_index:]):
-            brand = self.get_brand(row['brand'])
+            brand = self.brand_processor.get_brand(row['brand'])
             filtered_description = self.get_filtered_description(row['description'])
             concentration = self.get_concentration(row['description'], self.patterns)
             data.append({
