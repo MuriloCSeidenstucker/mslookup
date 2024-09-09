@@ -2,9 +2,9 @@ import pandas as pd
 
 from typing import List, Tuple
 
-from scripts.utils import Utils
-from scripts.df_manager import load_data
-from scripts.json_manager import load_json
+from src.utils import Utils
+from src.df_manager import load_data
+from src.json_manager import load_json
 
 class DescriptionProcessor:
     def __init__(self) -> None:

@@ -4,10 +4,10 @@ import logging
 from datetime import datetime
 from typing import Dict, List
 
-from scripts.pdf_manager import PDFManager
-from scripts.logger_config import main_logger
-from scripts.report_generator import ReportGenerator
-from scripts.access_anvisa_domain import AnvisaDomain
+from src.pdf_manager import PDFManager
+from src.logger_config import main_logger
+from src.report_generator import ReportGenerator
+from src.access_anvisa_domain import AnvisaDomain
 
 class PDFProcessingService:
     def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain, report_generator: ReportGenerator):

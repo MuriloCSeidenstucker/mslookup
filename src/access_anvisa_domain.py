@@ -12,9 +12,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
-from scripts.utils import Utils
-from scripts.pdf_manager import PDFManager
-from scripts.logger_config import main_logger
+from src.utils import Utils
+from src.pdf_manager import PDFManager
+from src.logger_config import main_logger
 
 class AnvisaDomain:
     def __init__(self, pdf_manager: PDFManager) -> None:

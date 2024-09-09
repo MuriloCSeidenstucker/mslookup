@@ -1,10 +1,10 @@
-from scripts.config import load_config
+from src.config import load_config
 
-from scripts.input_manager import InputManager
-from scripts.checkpoint_manager import CheckpointManager
-from scripts.services.candidate_data_service import CandidateDataService
-from scripts.services.pdf_processing_service import PDFProcessingService
-from scripts.services.input_processor_service import InputProcessorService
+from src.input_manager import InputManager
+from src.checkpoint_manager import CheckpointManager
+from src.services.candidate_data_service import CandidateDataService
+from src.services.pdf_processing_service import PDFProcessingService
+from src.services.input_processor_service import InputProcessorService
 
 class Main:
     def __init__(self,

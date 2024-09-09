@@ -2,9 +2,9 @@ import logging
 
 from typing import List, Dict, Any
 
-from scripts.logger_config import main_logger
-from scripts.search_in_smerp import SearchInSmerp
-from scripts.search_in_open_data_anvisa import OpenDataAnvisa
+from src.logger_config import main_logger
+from src.search_in_smerp import SearchInSmerp
+from src.search_in_open_data_anvisa import OpenDataAnvisa
 
 class CandidateDataService:
     def __init__(self, anvisa_search: OpenDataAnvisa, smerp_search: SearchInSmerp, checkpoint_manager):

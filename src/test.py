@@ -1,7 +1,7 @@
-from scripts.config import load_config
-from scripts.services.input_processor_service import InputProcessorService
-from scripts.services.candidate_data_service import CandidateDataService
-from scripts.services.pdf_processing_service import PDFProcessingService
+from src.config import load_config
+from src.services.input_processor_service import InputProcessorService
+from src.services.candidate_data_service import CandidateDataService
+from src.services.pdf_processing_service import PDFProcessingService
 
 class Test:
     def __init__(self, data_service, candidate_data_service, pdf_processing_service):

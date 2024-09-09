@@ -2,7 +2,7 @@ import pandas as pd
 
 from typing import Any, Dict, List
 
-from scripts.input_processors.input_processor import InputProcessor
+from src.input_processors.input_processor import InputProcessor
 
 class InputProcessorService:
     def __init__(self, checkpoint_manager):

@@ -7,7 +7,7 @@ from unidecode import unidecode
 from urllib.parse import urlparse
 from typing import Dict, List, Tuple, Union
 
-from scripts.logger_config import main_logger
+from src.logger_config import main_logger
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By

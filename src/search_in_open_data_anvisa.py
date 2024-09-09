@@ -4,8 +4,8 @@ import pandas as pd
 from datetime import datetime
 from typing import Any, Union, List, Dict
 
-from scripts.utils import Utils
-from scripts.df_manager import load_data
+from src.utils import Utils
+from src.df_manager import load_data
 
 class OpenDataAnvisa:
     def __init__(self):

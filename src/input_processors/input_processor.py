@@ -2,9 +2,9 @@ from typing import List, Dict, Any
 
 import pandas as pd
 
-from scripts.input_processors.brand_processor import BrandProcessor
-from scripts.input_processors.description_processor import DescriptionProcessor
-from scripts.input_processors.concentration_processor import ConcentrationProcessor
+from src.input_processors.brand_processor import BrandProcessor
+from src.input_processors.description_processor import DescriptionProcessor
+from src.input_processors.concentration_processor import ConcentrationProcessor
 
 class InputProcessor:
     def __init__(self, checkpoint_manager):

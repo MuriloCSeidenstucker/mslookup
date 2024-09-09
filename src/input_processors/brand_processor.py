@@ -1,7 +1,7 @@
 from typing import Any, Dict, Union
 
-from scripts.utils import Utils
-from scripts.json_manager import load_json
+from src.utils import Utils
+from src.json_manager import load_json
 
 class BrandProcessor:
     def __init__(self) -> None:

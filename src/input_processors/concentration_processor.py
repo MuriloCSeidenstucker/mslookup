@@ -1,6 +1,6 @@
 import re
 
-from scripts.json_manager import load_json
+from src.json_manager import load_json
 
 class ConcentrationProcessor:
     def __init__(self) -> None:
