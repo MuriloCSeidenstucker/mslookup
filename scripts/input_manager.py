@@ -1,6 +1,5 @@
-class Input:
-    def get_input(self):
-        print('[input] Starting...')
+class InputManager:
+    def get_raw_input(self):
         file_path = self.get_file_path()
         item_col = self.get_item_column_name()
         desc_col = self.get_description_column_name()
@@ -13,11 +12,10 @@ class Input:
             'brand_col': brand_col
         }
         
-        print('[input] Starting done!')
         return entry
     
     def get_file_path(self):
-        path = r"data_for_testing\Controle_Operacao_PE_112024_Campina-Verde.xlsm"
+        path = r"data_for_testing\test_quick_4.xlsm"
         return path
     
     def get_item_column_name(self):

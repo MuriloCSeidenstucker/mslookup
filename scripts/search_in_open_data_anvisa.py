@@ -9,8 +9,8 @@ from scripts.df_manager import load_data
 
 class OpenDataAnvisa:
     def __init__(self):
-        file_path = 'DADOS_ABERTOS_MEDICAMENTOS.xlsx'
-        parquet_path = 'DADOS_ABERTOS_MEDICAMENTOS.parquet'
+        file_path = r'data\DADOS_ABERTOS_MEDICAMENTOS.xlsx'
+        parquet_path = r'data\DADOS_ABERTOS_MEDICAMENTOS.parquet'
         self.df = load_data(file_path, parquet_path)
         self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()
         self.laboratory_registers = self.create_data_map()

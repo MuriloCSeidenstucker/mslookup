@@ -52,6 +52,6 @@ class CheckpointManager:
             for file_path in self.checkpoints_to_delete:
                 if os.path.exists(file_path):
                     os.remove(file_path)
-            self.checkpoints_to_delete = []  # Clear the list after deletion
+            self.checkpoints_to_delete = []
         except IOError as e:
             print(f"Error deleting checkpoints: {e}")

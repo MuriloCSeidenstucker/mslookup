@@ -1,10 +1,12 @@
 from typing import List, Dict, Any
 
-from scripts.input_processor.brand_processor import BrandProcessor
-from scripts.input_processor.description_processor import DescriptionProcessor
-from scripts.input_processor.concentration_processor import ConcentrationProcessor
+import pandas as pd
 
-class DataProcessor:
+from scripts.input_processors.brand_processor import BrandProcessor
+from scripts.input_processors.description_processor import DescriptionProcessor
+from scripts.input_processors.concentration_processor import ConcentrationProcessor
+
+class InputProcessor:
     def __init__(self, checkpoint_manager):
         self.brand_processor = BrandProcessor()
         self.description_processor = DescriptionProcessor()
@@ -12,8 +14,28 @@ class DataProcessor:
         
         self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
+        
+    def read_raw_input(self, raw_input: Dict[str, str]) -> List[Dict[str, str]]:
+        filtered_input = []
+        file_path = raw_input['file_path']
+        item_col = raw_input['item_col']
+        desc_col = raw_input['desc_col']
+        brand_col = raw_input['brand_col']
+        
+        df = pd.read_excel(file_path)
+        for index, row in df.iterrows():
+            if pd.notna(row[brand_col]):
+                filtered_input.append({
+                    'item': row[item_col],
+                    'description': row[desc_col],
+                    'brand': row[brand_col]
+                })
+        
+        return filtered_input
 
-    def process_input(self, filtered_input: List[Dict[str, str]]) -> List[Dict[str, Any]]:
+    def process_input(self, raw_input: Dict[str, str]) -> List[Dict[str, Any]]:
+        filtered_input = self.read_raw_input(raw_input)
+        
         data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(filtered_input)

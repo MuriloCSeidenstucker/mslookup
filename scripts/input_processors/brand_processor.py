@@ -5,7 +5,7 @@ from scripts.json_manager import load_json
 
 class BrandProcessor:
     def __init__(self) -> None:
-        self.labs_path = 'laboratories.json'
+        self.labs_path = r'resources\laboratories.json'
         self.labs_json = load_json(self.labs_path)
         self.abbreviation_map = self.create_abbreviation_map()
         

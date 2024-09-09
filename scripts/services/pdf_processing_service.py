@@ -78,7 +78,7 @@ class PDFProcessingService:
                 })
                 
             if data_modified:
-                self.generate_json_file(reg_data, 'pdf_db.json')
+                self.generate_json_file(reg_data, r'resources\pdf_db.json')
                 data_updated = True
             else:
                 data_updated = False

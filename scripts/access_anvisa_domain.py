@@ -55,32 +55,6 @@ class AnvisaDomain:
         
         pattern = r'\D'
         return re.sub(pattern, '', process_number)
-        
-    # def try_print_anvisa_register(self, driver, wait, anvisa_medicamento_url, a_concentration, register):
-    #     driver.get(rf'{anvisa_medicamento_url}{register}')
-        
-    #     try:
-    #         registration_is_present = wait.until(self.registration_to_be_present)
-    #         reg_btn = driver.find_element(By.XPATH, '//*[@id="containerTable"]/table/tbody/tr[2]')
-    #         reg_btn.click()
-            
-    #         page_is_loaded = wait.until(self.process_number_to_be_present)
-    #         presentations = driver.find_elements(By.CSS_SELECTOR, '.col-xs-4.ng-binding')
-    #         match = any(Utils.remove_accents_and_spaces(a_concentration) in
-    #                     Utils.remove_accents_and_spaces(presentation.text)
-    #                     for presentation in presentations)
-            
-    #         register_found = driver.find_element(By.XPATH, '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[3]/td[2]').text
-    #         if register_found == register and match:
-    #             driver.execute_script('window.print();')
-    #             sleep(0.5)
-    #             return True
-    #         else:
-    #             print(f'O número do processo constante na Anvisa está diferente')
-    #             return False
-    #     except TimeoutException as e:
-    #         print(rf'Erro ao tentar a impressão de: {anvisa_medicamento_url}{register}/')
-    #         return False
     
     def try_print_anvisa_register(self,
                                   driver: webdriver,
@@ -195,9 +169,6 @@ class AnvisaDomain:
         chrome_options = self.configure_chrome_options(detach=True)
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
-        
-        # defined_process_number = (process_number if not process_number is None
-        #                           else self.get_process_number(driver, wait, register))
         
         success = self.try_print_anvisa_register(driver, wait, anvisa_medicamentos_url, concentration, register, exp_date, reg_data)
         if not success:

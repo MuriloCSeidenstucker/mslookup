@@ -15,7 +15,7 @@ class PDFManager:
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
         self.STANDARD_NAME = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
-        self.db = self.load_json('pdf_db.json')
+        self.db = self.load_json(r'resources\pdf_db.json')
         
     def load_json(self, json_file: str) -> Dict[str, Any]:
         try:
@@ -33,7 +33,7 @@ class PDFManager:
             return False
         
         if data_updated:
-            self.db = self.load_json('pdf_db.json')
+            self.db = self.load_json(r'resources\pdf_db.json')
 
         path = 'registers_pdf'
 
