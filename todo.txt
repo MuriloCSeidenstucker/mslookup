@@ -3,6 +3,8 @@ PRINCIPAL:
 [  ] Refatorar projeto.
     [Ok] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
     o próximo módulo possa usar.
+    [Ok] Refatorar o módulo que lida com o processamento do input inicial.
+    [  ] Criar uma abstração para ser possível a estensão no futuro para produtos além de medicamentos.
 
 [  ] Criar uma interface.
     [  ] Melhorar a estrutura do projeto atual antes ?
