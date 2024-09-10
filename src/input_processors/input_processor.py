@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 
 import pandas as pd
 
+from src.products.medicine import Medicine
 from src.input_processors.brand_processor import BrandProcessor
 from src.input_processors.description_processor import DescriptionProcessor
 from src.input_processors.concentration_processor import ConcentrationProcessor
@@ -35,11 +36,12 @@ class InputProcessor:
 
     def process_input(self, raw_input: Dict[str, str]) -> List[Dict[str, Any]]:
         filtered_input = self.read_raw_input(raw_input)
+        products_type = raw_input['products_type']
         
         data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(filtered_input)
-        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='data_processor')
+        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='input_processor')
         if saved_identifier == current_identifier:
             data.extend(checkpoint['data'])
             start_index = len(data)
@@ -47,20 +49,24 @@ class InputProcessor:
             start_index = 0
             
         for index, row in enumerate(filtered_input[start_index:]):
+            
             brand = self.brand_processor.get_brand(row['brand'])
-            filtered_description = self.description_processor.get_filtered_description(row['description'])
+            filtered_description = self.description_processor.try_get_substances(row['description'])
             concentration = self.concentration_processor.get_concentration(row['description'])
-            data.append({
-                'item': row['item'],
-                'origin_description': row['description'],
-                'description': filtered_description,
-                'brand': brand,
-                'concentration': concentration
-            })
+            
+            product = Medicine(
+                item_number = row['item'],
+                description = row['description'],
+                brand = brand,
+                concentration = concentration,
+                extracted_substances = filtered_description
+            )
+            product.type = products_type
+            data.append(product)
                         
             if len(data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
+                self.checkpoint_manager.save_checkpoint(data, 'input_processor', current_identifier)
                 
-        self.checkpoint_manager.save_checkpoint(data, 'data_processor', current_identifier)
+        self.checkpoint_manager.save_checkpoint(data, 'input_processor', current_identifier)
             
         return data

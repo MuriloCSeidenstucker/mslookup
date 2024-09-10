@@ -42,8 +42,8 @@ class DescriptionProcessor:
 
         return sorted(substances_set, key=len, reverse=True), shortest_length    
     
-    def get_filtered_description(self, description: str) -> str:
-        filtered_desc = ''
+    def try_get_substances(self, description: str) -> str:
+        extracted_substances = ''
         description_normalized = Utils.remove_accents_and_spaces(description)
         
         for substance in self.substances_set:
@@ -56,13 +56,13 @@ class DescriptionProcessor:
                 continue
             
             if sub_normalized in description_normalized:
-                filtered_desc += f'{substance};'
+                extracted_substances += f'{substance};'
                 description_normalized = description_normalized.replace(sub_normalized, '')
                 
-        if filtered_desc:
-            if filtered_desc.endswith(';'):
-                filtered_desc = filtered_desc[:-1]
-            return filtered_desc
+        if extracted_substances:
+            if extracted_substances.endswith(';'):
+                extracted_substances = extracted_substances[:-1]
+            return extracted_substances
         else:
             # As descrições dos medicamentos podem trazer substâncias fora da ordem esperada, por exemplo: Sódio Cloreto.
             for substance in self.substances_set:
@@ -71,12 +71,12 @@ class DescriptionProcessor:
                 substance_words_clean = [word for word in substance_words_clean if word not in self.PREPOSITIONS['prepositions']]
                 for sub in substance_words_clean:
                     if sub in description_normalized:
-                        filtered_desc += f'{sub};'
+                        extracted_substances += f'{sub};'
                         description_normalized = description_normalized.replace(sub, '')
                         
-            if filtered_desc:
-                if filtered_desc.endswith(';'):
-                    filtered_desc = filtered_desc[:-1]
-                return filtered_desc
+            if extracted_substances:
+                if extracted_substances.endswith(';'):
+                    extracted_substances = extracted_substances[:-1]
+                return extracted_substances
             else:
-                return description
+                return None

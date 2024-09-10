@@ -3,6 +3,8 @@ import logging
 from typing import List, Dict, Any
 
 from src.logger_config import main_logger
+from src.products.product import Product
+from src.products.medicine import Medicine
 from src.search_in_smerp import SearchInSmerp
 from src.search_in_open_data_anvisa import OpenDataAnvisa
 
@@ -29,7 +31,7 @@ class CandidateDataService:
                 self.logger.warning('No candidates found in both ANVISA and SMERP data\n')
         return reg_candidates
     
-    def get_candidate_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def get_candidate_data(self, data: List[Product]) -> List[Dict[str, Any]]:
         candidate_data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(data)
@@ -41,14 +43,11 @@ class CandidateDataService:
             start_index = 0
         
         for index, entry in enumerate(data[start_index:], start=start_index):
-            candidate_data.append({
-                'item': entry['item'],
-                'origin_description': entry['origin_description'],
-                'description': entry['description'],
-                'concentration': entry['concentration'],
-                'laboratory': entry['brand'] if isinstance(entry['brand'], str) else entry['brand']['Name'],
-                'reg_candidates': self.get_registration_data(entry['description'], entry['brand'], entry['item'])
-            })
+            if isinstance(entry, Medicine):
+                description_temp = entry.extracted_substances if entry.extracted_substances is not None else entry.description
+                entry.registers = self.get_registration_data(description_temp, entry.brand, entry.item_number)
+            
+            candidate_data.append(entry)
                                     
             if len(candidate_data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
