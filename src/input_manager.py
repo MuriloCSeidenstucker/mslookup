@@ -19,7 +19,7 @@ class InputManager:
         return entry
     
     def get_file_path(self):
-        path = r"data_for_testing\test_quick_4.xlsm"
+        path = r"data_for_testing\test_full_126.xlsm"
         return path
     
     def get_products_type(self):

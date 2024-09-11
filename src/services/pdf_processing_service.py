@@ -6,6 +6,7 @@ from typing import Dict, List
 
 from src.pdf_manager import PDFManager
 from src.logger_config import main_logger
+from src.products.medicine import Medicine
 from src.report_generator import ReportGenerator
 from src.access_anvisa_domain import AnvisaDomain
 
@@ -23,16 +24,16 @@ class PDFProcessingService:
         for candidate in candidate_data:
                         
             data_modified = False
-            
-            if candidate['reg_candidates']:
-                for i, reg in enumerate(candidate['reg_candidates']):
-                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], candidate['concentration'], data_updated)
+                
+            if isinstance(candidate, Medicine) and candidate.registers:
+                for i, reg in enumerate(candidate.registers):
+                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], candidate.concentration, data_updated)
                     
                     registration_obtained = False
                     if not has_pdf_in_db:
                         registration_obtained = self.anvisa_domain.get_register_as_pdf(
                             reg['register'],
-                            candidate['concentration'],
+                            candidate.concentration,
                             reg['expiration_date'],
                             reg_data
                         )
@@ -45,36 +46,36 @@ class PDFProcessingService:
                     
                     has_pdf = False
                     if has_pdf_in_db or registration_obtained:
-                        has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate["item"]}')
+                        has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate.item_number}')
                         
                     if has_pdf:
                         self.report_generator.add_entry({
-                            'Item': candidate['item'],
-                            'Descrição': candidate['origin_description'],
-                            'Concentração_Encontrada': candidate['concentration'],
-                            'Laboratório': candidate['laboratory'],
+                            'Item': candidate.item_number,
+                            'Descrição': candidate.description,
+                            'Concentração_Encontrada': candidate.concentration,
+                            'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
                             'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente',
+                            'PDF': 'OK' if has_pdf else 'Pendente'
                         })
                         break
                         
-                    if i == len(candidate['reg_candidates']) - 1:
+                    if i == len(candidate.registers) - 1:
                         self.report_generator.add_entry({
-                            'Item': candidate['item'],
-                            'Descrição': candidate['origin_description'],
-                            'Concentração_Encontrada': candidate['concentration'],
-                            'Laboratório': candidate['laboratory'],
+                            'Item': candidate.item_number,
+                            'Descrição': candidate.description,
+                            'Concentração_Encontrada': candidate.concentration,
+                            'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
                             'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente',
+                            'PDF': 'OK' if has_pdf else 'Pendente'
                         })
             else:
                 self.report_generator.add_entry({
-                    'Item': candidate['item'],
-                    'Descrição': candidate['origin_description'],
-                    'Concentração_Encontrada': candidate['concentration'],
-                    'Laboratório': candidate['laboratory'],
+                    'Item': candidate.item_number,
+                    'Descrição': candidate.description,
+                    'Concentração_Encontrada': candidate.concentration,
+                    'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
                     'Registro': 'Não encontrado',
-                    'PDF': 'Pendente',
+                    'PDF': 'Pendente'
                 })
                 
             if data_modified:

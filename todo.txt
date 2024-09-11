@@ -14,6 +14,7 @@ PRINCIPAL:
     [  ] Estudar como fazer isso.
 
 SECUNDÁRIOS:
+[  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
 [  ] Melhorar sistema de checkpoint.
 [  ] Adicionar uma maneira de atualizar automaticamente as planilhas da Anvisa.
     [  ] A planilha 'TA_PRECO_MEDICAMENTO_GOV' pode variar o número de linhas, o que alteraria o skiprows. Pensar em como lidar com isso.
@@ -23,7 +24,6 @@ fora do ar.
 melhor de fazer isso.
     [Ok] Adicionado docstring em todas classes e seus métodos.
 [  ] Padronizar nomes e adicionar validação dos argumentos.
-[  ] Organizar o projeto, refatorar e criar uma melhor estrutura. Está começando a ficar tudo muito confuso.
 [  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
 [  ] Pensar em uma forma de buscar outros produtos além dos medicamentos. Quando é fornecido uma descrição de um item que não seja medicamento
