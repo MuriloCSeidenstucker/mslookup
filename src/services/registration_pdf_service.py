@@ -4,36 +4,37 @@ import logging
 from datetime import datetime
 from typing import Dict, List
 
+from src.products.product import Product
 from src.pdf_manager import PDFManager
 from src.logger_config import main_logger
 from src.products.medicine import Medicine
 from src.report_generator import ReportGenerator
 from src.access_anvisa_domain import AnvisaDomain
 
-class PDFProcessingService:
+class RegistrationPDFService:
     def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain, report_generator: ReportGenerator):
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
         self.report_generator = report_generator
     
-    def process_candidate_pdfs(self, candidate_data):
+    def generate_registration_pdfs(self, product_registrations: List[Product]):
         reg_data = {}
         data_updated = False
         
-        for candidate in candidate_data:
+        for product in product_registrations:
                         
             data_modified = False
                 
-            if isinstance(candidate, Medicine) and candidate.registers:
-                for i, reg in enumerate(candidate.registers):
-                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], candidate.concentration, data_updated)
+            if isinstance(product, Medicine) and product.registers:
+                for i, reg in enumerate(product.registers):
+                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], product.concentration, data_updated)
                     
                     registration_obtained = False
                     if not has_pdf_in_db:
                         registration_obtained = self.anvisa_domain.get_register_as_pdf(
                             reg['register'],
-                            candidate.concentration,
+                            product.concentration,
                             reg['expiration_date'],
                             reg_data
                         )
@@ -46,34 +47,34 @@ class PDFProcessingService:
                     
                     has_pdf = False
                     if has_pdf_in_db or registration_obtained:
-                        has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {candidate.item_number}')
+                        has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {product.item_number}')
                         
                     if has_pdf:
                         self.report_generator.add_entry({
-                            'Item': candidate.item_number,
-                            'Descrição': candidate.description,
-                            'Concentração_Encontrada': candidate.concentration,
-                            'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
+                            'Item': product.item_number,
+                            'Descrição': product.description,
+                            'Concentração_Encontrada': product.concentration,
+                            'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
                             'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
                             'PDF': 'OK' if has_pdf else 'Pendente'
                         })
                         break
                         
-                    if i == len(candidate.registers) - 1:
+                    if i == len(product.registers) - 1:
                         self.report_generator.add_entry({
-                            'Item': candidate.item_number,
-                            'Descrição': candidate.description,
-                            'Concentração_Encontrada': candidate.concentration,
-                            'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
+                            'Item': product.item_number,
+                            'Descrição': product.description,
+                            'Concentração_Encontrada': product.concentration,
+                            'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
                             'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
                             'PDF': 'OK' if has_pdf else 'Pendente'
                         })
             else:
                 self.report_generator.add_entry({
-                    'Item': candidate.item_number,
-                    'Descrição': candidate.description,
-                    'Concentração_Encontrada': candidate.concentration,
-                    'Marca': candidate.brand if isinstance(candidate.brand, str) else candidate.brand['Name'],
+                    'Item': product.item_number,
+                    'Descrição': product.description,
+                    'Concentração_Encontrada': product.concentration,
+                    'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
                     'Registro': 'Não encontrado',
                     'PDF': 'Pendente'
                 })

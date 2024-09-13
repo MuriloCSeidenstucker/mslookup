@@ -2,32 +2,32 @@ from src.config import load_config
 
 from src.input_manager import InputManager
 from src.checkpoint_manager import CheckpointManager
-from src.services.candidate_data_service import CandidateDataService
-from src.services.pdf_processing_service import PDFProcessingService
 from src.services.input_processor_service import InputProcessorService
+from src.services.registration_pdf_service import RegistrationPDFService
+from src.services.product_registration_service import ProductRegistrationService
 
 class Main:
     def __init__(self,
                  input_manager: InputManager,
                  checkpoint_manager: CheckpointManager,
-                 candidate_data_service: CandidateDataService,
-                 pdf_processing_service: PDFProcessingService,
-                 input_processor_service: InputProcessorService):
+                 input_processor_service: InputProcessorService,
+                 registration_pdf_service: RegistrationPDFService,
+                 product_registration_service: ProductRegistrationService):
         
         self.input_manager = input_manager
         self.checkpoint_manager = checkpoint_manager
-        self.candidate_data_service = candidate_data_service
-        self.pdf_processing_service = pdf_processing_service
         self.input_processor_service = input_processor_service
+        self.registration_pdf_service = registration_pdf_service
+        self.product_registration_service = product_registration_service
         self.all_stages_completed = False
         
     def execute(self):
         try:
             raw_input = self.input_manager.get_raw_input()
             processed_input = self.input_processor_service.get_processed_input(raw_input)
-            candidate_data = self.candidate_data_service.get_candidate_data(processed_input)
-            self.pdf_processing_service.process_candidate_pdfs(candidate_data)
-            self.pdf_processing_service.generate_report()
+            product_registrations = self.product_registration_service.get_product_registrations(processed_input)
+            self.registration_pdf_service.generate_registration_pdfs(product_registrations)
+            self.registration_pdf_service.generate_report()
             self.all_stages_completed = True
         finally:
             if self.all_stages_completed:
@@ -35,13 +35,19 @@ class Main:
 
 
 if __name__ == "__main__":
-    file_path, item_col, desc_col, brand_col, pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator = load_config()
+    pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator = load_config()
 
     input_manager = InputManager()
     checkpoint_manager = CheckpointManager()
     input_processor_service = InputProcessorService(checkpoint_manager)
-    candidate_data_service = CandidateDataService(anvisa_search, smerp_search, checkpoint_manager)
-    pdf_processing_service = PDFProcessingService(pdf_manager, anvisa_domain, report_generator)
+    registration_pdf_service = RegistrationPDFService(pdf_manager, anvisa_domain, report_generator)
+    product_registration_service = ProductRegistrationService(anvisa_search, smerp_search, checkpoint_manager)
 
-    main = Main(input_manager, checkpoint_manager, candidate_data_service, pdf_processing_service, input_processor_service)
+    main = Main(
+        input_manager = input_manager,
+        checkpoint_manager = checkpoint_manager,
+        input_processor_service = input_processor_service,
+        registration_pdf_service = registration_pdf_service,
+        product_registration_service = product_registration_service)
+    
     main.execute()

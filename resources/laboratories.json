@@ -221,10 +221,16 @@
             "abbreviations": ["takeda"]
         },
         {
+            "full_name": "COSMED INDUSTRIA DE COSMETICOS E MEDICAMENTOS S.A.",
+            "cnpj": "61082426000207",
+            "abbreviations": ["cosmed"],
+            "linked": ["HYPERA S.A."]
+        },
+        {
             "full_name": "HYPERA S.A.",
             "cnpj": "02932074000191",
             "abbreviations": ["hypera"],
-            "linked": ["LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA", "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A"]
+            "linked": ["LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA", "BRAINFARMA INDÚSTRIA QUÍMICA E FARMACÊUTICA S.A", "COSMED INDUSTRIA DE COSMETICOS E MEDICAMENTOS S.A.", "TAKEDA PHARMA LTDA"]
         },
         {
             "full_name": "LABORATÓRIO NEO QUÍMICA COMÉRCIO E INDÚSTRIA LTDA",

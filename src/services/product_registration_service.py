@@ -8,7 +8,7 @@ from src.products.medicine import Medicine
 from src.search_in_smerp import SearchInSmerp
 from src.search_in_open_data_anvisa import OpenDataAnvisa
 
-class CandidateDataService:
+class ProductRegistrationService:
     def __init__(self, anvisa_search: OpenDataAnvisa, smerp_search: SearchInSmerp, checkpoint_manager):
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.anvisa_search = anvisa_search
@@ -31,7 +31,7 @@ class CandidateDataService:
                 self.logger.warning('No candidates found in both ANVISA and SMERP data\n')
         return reg_candidates
     
-    def get_candidate_data(self, data: List[Product]) -> List[Dict[str, Any]]:
+    def get_product_registrations(self, data: List[Product]) -> List[Product]:
         candidate_data = []
         
         current_identifier = self.checkpoint_manager.generate_identifier(data)
