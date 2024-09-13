@@ -2,16 +2,11 @@ from typing import List, Dict, Any
 
 import pandas as pd
 
-from src.products.medicine import Medicine
-from src.input_processors.brand_processor import BrandProcessor
-from src.input_processors.description_processor import DescriptionProcessor
-from src.input_processors.concentration_processor import ConcentrationProcessor
+from src.products.product_processor import ProductProcessor
 
 class InputProcessor:
     def __init__(self, checkpoint_manager):
-        self.brand_processor = BrandProcessor()
-        self.description_processor = DescriptionProcessor()
-        self.concentration_processor = ConcentrationProcessor()
+        self.product_processor = ProductProcessor()
         
         self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
@@ -50,19 +45,14 @@ class InputProcessor:
             
         for index, row in enumerate(filtered_input[start_index:]):
             
-            brand = self.brand_processor.get_brand(row['brand'])
-            filtered_description = self.description_processor.try_get_substances(row['description'])
-            concentration = self.concentration_processor.get_concentration(row['description'])
-            
-            product = Medicine(
+            processed_product = self.product_processor.get_processed_product(
+                product_type = products_type,
                 item_number = row['item'],
                 description = row['description'],
-                brand = brand,
-                concentration = concentration,
-                extracted_substances = filtered_description
+                brand = row['brand']
             )
-            product.type = products_type
-            data.append(product)
+            
+            data.append(processed_product)
                         
             if len(data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(data, 'input_processor', current_identifier)

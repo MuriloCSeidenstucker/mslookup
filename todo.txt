@@ -4,7 +4,12 @@ PRINCIPAL:
     [Ok] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
     o próximo módulo possa usar.
     [Ok] Refatorar o módulo que lida com o processamento do input inicial.
-    [  ] Criar uma abstração para ser possível a estensão no futuro para produtos além de medicamentos.
+    [Ok] Criar uma abstração para ser possível a estensão no futuro para produtos além de medicamentos.
+        Criado a classe abstrata Product e a classe Medicine que herda de Product. Os códigos foram adaptados para rodar utilizando a classe Medicine,
+        ao invés das coleções que estavam sendo utilizadas, mas ainda não é possivel estendar para uma segunda classe do tipo Product.
+        Se for utilizado uma outra classe derivada de Product que não seja Medicine, irá quebrar.
+        Isso será resolvido no momento da implementação da nova classe.
+    [  ] Refatorar o módulo que lida com a obtenção dos registros.
 
 [  ] Criar uma interface.
     [  ] Melhorar a estrutura do projeto atual antes ?

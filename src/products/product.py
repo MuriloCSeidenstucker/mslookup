@@ -6,5 +6,4 @@ class Product(ABC):
         self.description = description
         self.brand = brand
         
-        self.type = None
         self.registers = []

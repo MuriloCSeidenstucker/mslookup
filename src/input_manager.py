@@ -1,5 +1,3 @@
-from src.products.medicine import Medicine
-
 class InputManager:
     def get_raw_input(self):
         file_path = self.get_file_path()
@@ -19,11 +17,11 @@ class InputManager:
         return entry
     
     def get_file_path(self):
-        path = r"data_for_testing\test_full_126.xlsm"
+        path = r"data_for_testing\test_quick_4.xlsm"
         return path
     
     def get_products_type(self):
-        products_type = Medicine
+        products_type = 'medicine'
         return products_type
     
     def get_item_column_name(self):
