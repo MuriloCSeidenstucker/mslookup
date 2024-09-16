@@ -35,13 +35,13 @@ class Main:
 
 
 if __name__ == "__main__":
-    pdf_manager, anvisa_domain, smerp_search, anvisa_search, report_generator = load_config()
+    pdf_manager, anvisa_domain, report_generator = load_config()
 
     input_manager = InputManager()
     checkpoint_manager = CheckpointManager()
     input_processor_service = InputProcessorService(checkpoint_manager)
+    product_registration_service = ProductRegistrationService(checkpoint_manager)
     registration_pdf_service = RegistrationPDFService(pdf_manager, anvisa_domain, report_generator)
-    product_registration_service = ProductRegistrationService(anvisa_search, smerp_search, checkpoint_manager)
 
     main = Main(
         input_manager = input_manager,

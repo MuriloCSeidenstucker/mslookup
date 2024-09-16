@@ -1,58 +1,13 @@
-import logging
+from typing import List
 
-from typing import List, Dict, Any
-
-from src.logger_config import main_logger
 from src.products.product import Product
-from src.products.medicine import Medicine
-from src.search_in_smerp import SearchInSmerp
-from src.search_in_open_data_anvisa import OpenDataAnvisa
+from src.registration_processors.registration_processor import RegistrationProcessor
 
 class ProductRegistrationService:
-    def __init__(self, anvisa_search: OpenDataAnvisa, smerp_search: SearchInSmerp, checkpoint_manager):
-        self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
-        self.anvisa_search = anvisa_search
-        self.smerp_search = smerp_search
-        
-        self.checkpoint_manager = checkpoint_manager
-        self.checkpoint_interval = 10
+    def __init__(self, checkpoint_manager):
+        self.registration_processor = RegistrationProcessor(checkpoint_manager)
     
-    def get_registration_data(self, description, laboratory, item):
-        self.logger.info(f'Fetching registration data for item: {item}')
-        reg_candidates = self.anvisa_search.get_register(description, laboratory)
-        if reg_candidates:
-            self.logger.info(f'Found {len(reg_candidates)} candidates in ANVISA data\n')
-        else:
-            self.logger.info('No candidates found in ANVISA data, searching in SMERP')
-            reg_candidates = self.smerp_search.get_data_from_smerp(description, laboratory)
-            if reg_candidates:
-                self.logger.info(f'Found {len(reg_candidates)} candidates in SMERP data\n')
-            else:
-                self.logger.warning('No candidates found in both ANVISA and SMERP data\n')
-        return reg_candidates
-    
-    def get_product_registrations(self, data: List[Product]) -> List[Product]:
-        candidate_data = []
-        
-        current_identifier = self.checkpoint_manager.generate_identifier(data)
-        checkpoint, saved_identifier = self.checkpoint_manager.load_checkpoint(stage='candidate_service')
-        if saved_identifier == current_identifier:
-            candidate_data.extend(checkpoint['data'])
-            start_index = len(candidate_data)
-        else:
-            start_index = 0
-        
-        for index, entry in enumerate(data[start_index:], start=start_index):
-            if isinstance(entry, Medicine):
-                description_temp = entry.extracted_substances if entry.extracted_substances is not None else entry.description
-                entry.registers = self.get_registration_data(description_temp, entry.brand, entry.item_number)
-            
-            candidate_data.append(entry)
-                                    
-            if len(candidate_data) % self.checkpoint_interval == 0:
-                self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
-            
-        self.checkpoint_manager.save_checkpoint(candidate_data, 'candidate_service', current_identifier)
-        
-        self.logger.info('Candidate data generation complete\n\n')
-        return candidate_data
+    def get_product_registrations(self, processed_input: List[Product]) -> List[Product]:
+        product_registrations = []
+        product_registrations = self.registration_processor.process_registrations(processed_input)
+        return product_registrations
