@@ -12,7 +12,9 @@ class SearchProcessor:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.anvisa_search = OpenDataAnvisa()
         self.smerp_search = SearchInSmerp()
-        
+
+    # Consegue obter registros apenas de medicamentos.
+    # Deverá ser estendido no momento da inclusão dos novos tipos de produtos        
     def try_search_registrations(self, product: Product) -> List[Dict[str, Union[str, int]]]:
         self.logger.info(f'Fetching registration data for item: {product.item_number}')
         registrations = []

@@ -19,6 +19,8 @@ PRINCIPAL:
     [  ] Estudar como fazer isso.
 
 SECUNDÁRIOS:
+[  ] Trazer no relatório final todos os dados importantes para que o usuário possa verificar se o registro está correto,
+    evitando assim a necessidade do usuário ter que abrir os pdfs.
 [  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
 [  ] Melhorar sistema de checkpoint.
 [  ] Adicionar uma maneira de atualizar automaticamente as planilhas da Anvisa.
