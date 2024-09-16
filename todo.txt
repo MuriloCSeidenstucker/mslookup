@@ -9,7 +9,8 @@ PRINCIPAL:
         ao invés das coleções que estavam sendo utilizadas, mas ainda não é possivel estendar para uma segunda classe do tipo Product.
         Se for utilizado uma outra classe derivada de Product que não seja Medicine, irá quebrar.
         Isso será resolvido no momento da implementação da nova classe.
-    [  ] Refatorar o módulo que lida com a obtenção dos registros.
+    [Ok] Refatorar o módulo que lida com a obtenção dos registros.
+    [  ] Refatorar o módulo que lida com a obtenção dos pdfs e gera o relatório.
 
 [  ] Criar uma interface.
     [  ] Melhorar a estrutura do projeto atual antes ?
