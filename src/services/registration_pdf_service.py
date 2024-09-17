@@ -4,9 +4,9 @@ import logging
 from datetime import datetime
 from typing import Dict, List
 
-from src.products.product import Product
-from src.pdf_manager import PDFManager
 from src.logger_config import main_logger
+from src.pdf_manager import PDFManager
+from src.products.product import Product
 from src.products.medicine import Medicine
 from src.report_generator import ReportGenerator
 from src.access_anvisa_domain import AnvisaDomain
@@ -84,9 +84,6 @@ class RegistrationPDFService:
                 data_updated = True
             else:
                 data_updated = False
-        
-    def generate_report(self):
-        self.report_generator.generate_report()
         
     def generate_json_file(self, data: Dict[str, Dict[str, List[str]]], filename: str) -> None:
         try:
