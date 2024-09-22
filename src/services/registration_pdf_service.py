@@ -2,7 +2,7 @@ import json
 import logging
 
 from datetime import datetime
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from src.logger_config import main_logger
 from src.pdf_manager import PDFManager
@@ -16,17 +16,29 @@ class RegistrationPDFService:
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
     
-    def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Product]:
+    def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
         final_result = []
         reg_data = {}
         data_updated = False
         
-        for product in product_registrations:
-                        
+        for product_index, product in enumerate(product_registrations):
+            final_result.append({
+                'Item': product.item_number,
+                'Descrição': product.description,
+                'Concentração_Encontrada': product.concentration,
+                'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
+                'Registro': '',
+                'PDF': ''})
+                                    
             data_modified = False
+            
+            if not product.registers:
+                final_result[product_index]['Registro'] = 'Não encontrado'
+                final_result[product_index]['PDF'] = 'Pendente'
+                continue
                 
-            if isinstance(product, Medicine) and product.registers:
-                for i, reg in enumerate(product.registers):
+            if isinstance(product, Medicine):
+                for reg_index, reg in enumerate(product.registers):
                     has_pdf_in_db = self.pdf_manager.get_pdf_in_db(reg['register'], product.concentration, data_updated)
                     
                     registration_obtained = False
@@ -49,34 +61,13 @@ class RegistrationPDFService:
                         has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {product.item_number}')
                         
                     if has_pdf:
-                        final_result.append({
-                            'Item': product.item_number,
-                            'Descrição': product.description,
-                            'Concentração_Encontrada': product.concentration,
-                            'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
-                            'Registro': reg['register'] if reg['register'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente'
-                        })
+                        final_result[product_index]['Registro'] = reg['register'] if reg['register'] != -1 else 'Não encontrado'
+                        final_result[product_index]['PDF'] = 'OK' if has_pdf else 'Pendente'
                         break
                         
-                    if i == len(product.registers) - 1:
-                        final_result.append({
-                            'Item': product.item_number,
-                            'Descrição': product.description,
-                            'Concentração_Encontrada': product.concentration,
-                            'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
-                            'Registro': f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado',
-                            'PDF': 'OK' if has_pdf else 'Pendente'
-                        })
-            else:
-                final_result.append({
-                    'Item': product.item_number,
-                    'Descrição': product.description,
-                    'Concentração_Encontrada': product.concentration,
-                    'Marca': product.brand if isinstance(product.brand, str) else product.brand['Name'],
-                    'Registro': 'Não encontrado',
-                    'PDF': 'Pendente'
-                })
+                    if reg_index == len(product.registers) - 1:
+                        final_result[product_index]['Registro'] = f'Último registro encontrado: {reg['register']}' if reg['register'] != -1 else 'Não encontrado'
+                        final_result[product_index]['PDF'] = 'OK' if has_pdf else 'Pendente'
                 
             if data_modified:
                 self.generate_json_file(reg_data, r'resources\pdf_db.json')

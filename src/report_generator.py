@@ -25,7 +25,7 @@ class ReportGenerator:
         self.report_data.append(entry)
         self.logger.info(f"Item {self.entry_count}: Entry successfully added to report\n")
     
-    def generate_report(self, report_data, filename: str = 'relatorio_registros.xlsx') -> None:
+    def generate_report(self, report_data: List[Dict[str, Any]], filename: str = 'relatorio_registros.xlsx') -> None:
         if not filename.endswith('.xlsx'):
             self.logger.error(f"Invalid file extension: {filename}. Expected a .xlsx file.")
             raise ValueError("Filename must end with .xlsx")
