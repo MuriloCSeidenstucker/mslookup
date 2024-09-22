@@ -8,17 +8,16 @@ from src.logger_config import main_logger
 from src.pdf_manager import PDFManager
 from src.products.product import Product
 from src.products.medicine import Medicine
-from src.report_generator import ReportGenerator
 from src.access_anvisa_domain import AnvisaDomain
 
 class RegistrationPDFService:
-    def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain, report_generator: ReportGenerator):
+    def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain):
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
-        self.report_generator = report_generator
     
-    def generate_registration_pdfs(self, product_registrations: List[Product]):
+    def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Product]:
+        final_result = []
         reg_data = {}
         data_updated = False
         
@@ -50,7 +49,7 @@ class RegistrationPDFService:
                         has_pdf = self.pdf_manager.rename_downloaded_pdf(f'Item {product.item_number}')
                         
                     if has_pdf:
-                        self.report_generator.add_entry({
+                        final_result.append({
                             'Item': product.item_number,
                             'Descrição': product.description,
                             'Concentração_Encontrada': product.concentration,
@@ -61,7 +60,7 @@ class RegistrationPDFService:
                         break
                         
                     if i == len(product.registers) - 1:
-                        self.report_generator.add_entry({
+                        final_result.append({
                             'Item': product.item_number,
                             'Descrição': product.description,
                             'Concentração_Encontrada': product.concentration,
@@ -70,7 +69,7 @@ class RegistrationPDFService:
                             'PDF': 'OK' if has_pdf else 'Pendente'
                         })
             else:
-                self.report_generator.add_entry({
+                final_result.append({
                     'Item': product.item_number,
                     'Descrição': product.description,
                     'Concentração_Encontrada': product.concentration,
@@ -84,6 +83,8 @@ class RegistrationPDFService:
                 data_updated = True
             else:
                 data_updated = False
+                
+        return final_result
         
     def generate_json_file(self, data: Dict[str, Dict[str, List[str]]], filename: str) -> None:
         try:

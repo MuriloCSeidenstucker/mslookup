@@ -29,8 +29,8 @@ class Main:
             raw_input = self.input_manager.get_raw_input()
             processed_input = self.input_processor_service.get_processed_input(raw_input)
             product_registrations = self.product_registration_service.get_product_registrations(processed_input)
-            self.registration_pdf_service.generate_registration_pdfs(product_registrations)
-            self.report_generator.generate_report()
+            final_result = self.registration_pdf_service.generate_registration_pdfs(product_registrations)
+            self.report_generator.generate_report(final_result)
             self.all_stages_completed = True
         finally:
             if self.all_stages_completed:
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     checkpoint_manager = CheckpointManager()
     input_processor_service = InputProcessorService(checkpoint_manager)
     product_registration_service = ProductRegistrationService(checkpoint_manager)
-    registration_pdf_service = RegistrationPDFService(pdf_manager, anvisa_domain, report_generator)
+    registration_pdf_service = RegistrationPDFService(pdf_manager, anvisa_domain)
 
     main = Main(
         input_manager = input_manager,

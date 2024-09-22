@@ -25,13 +25,13 @@ class ReportGenerator:
         self.report_data.append(entry)
         self.logger.info(f"Item {self.entry_count}: Entry successfully added to report\n")
     
-    def generate_report(self, filename: str = 'relatorio_registros.xlsx') -> None:
+    def generate_report(self, report_data, filename: str = 'relatorio_registros.xlsx') -> None:
         if not filename.endswith('.xlsx'):
             self.logger.error(f"Invalid file extension: {filename}. Expected a .xlsx file.")
             raise ValueError("Filename must end with .xlsx")
         
         try:
-            report_df = pd.DataFrame(self.report_data)
+            report_df = pd.DataFrame(report_data)
             report_df.to_excel(filename, index=False)
             self.logger.info(f"Report successfully generated: {filename}")
         except Exception as e:
