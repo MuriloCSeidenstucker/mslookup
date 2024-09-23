@@ -1,11 +1,10 @@
-import json
 import logging
 
 from datetime import datetime
 from typing import Any, Dict, List
 
-from src.logger_config import main_logger
 from src.pdf_manager import PDFManager
+from src.json_manager import JsonManager
 from src.products.product import Product
 from src.products.medicine import Medicine
 from src.access_anvisa_domain import AnvisaDomain
@@ -15,6 +14,7 @@ class RegistrationPDFService:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
+        self.json_manager = JsonManager(r'resources\pdf_db.json')
     
     def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
         final_result = []
@@ -79,12 +79,7 @@ class RegistrationPDFService:
         
     def generate_json_file(self, data: Dict[str, Dict[str, List[str]]], filename: str) -> None:
         try:
-            existing_data = {}
-            try:
-                with open(filename, 'r', encoding='utf-8') as file:
-                    existing_data = json.load(file)
-            except FileNotFoundError:
-                pass
+            existing_data = self.json_manager.load_json()
 
             for key, value in data.items():
                 if key not in existing_data:
@@ -111,8 +106,7 @@ class RegistrationPDFService:
                     if new_expiration_date > existing_expiration_date:
                         existing_data[key]['expiration_date'] = value['expiration_date']
 
-            with open(filename, 'w', encoding='utf-8') as file:
-                json.dump(existing_data, file, ensure_ascii=False, indent=4)
+            self.json_manager.write_json(existing_data)
             self.logger.info(f'JSON file successfully generated: "{filename}"')
         except (IOError, TypeError) as e:
             self.logger.error(f"Failed to generate JSON file '{filename}': {e}")

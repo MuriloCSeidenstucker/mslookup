@@ -1,12 +1,12 @@
 from typing import Any, Dict, Union
 
 from src.utils import Utils
-from src.json_manager import load_json
+from src.json_manager import JsonManager
 
 class BrandProcessor:
     def __init__(self) -> None:
-        self.labs_path = r'resources\laboratories.json'
-        self.labs_json = load_json(self.labs_path)
+        self.json_manager = JsonManager(r'resources\laboratories.json')
+        self.labs_json = self.json_manager.load_json()
         self.abbreviation_map = self.create_abbreviation_map()
         
     def create_abbreviation_map(self) -> Dict[str, Dict[str, Any]]:

@@ -4,12 +4,12 @@ from typing import List, Tuple
 
 from src.utils import Utils
 from src.df_manager import load_data
-from src.json_manager import load_json
+from src.json_manager import JsonManager
 
 class DescriptionProcessor:
     def __init__(self) -> None:
-        self.prepositions_path = r'resources\prepositions.json'
-        self.PREPOSITIONS = load_json(self.prepositions_path)
+        self.json_manager = JsonManager(r'resources\prepositions.json')
+        self.PREPOSITIONS = self.json_manager.load_json()
         
         reference_path = r'data\TA_PRECO_MEDICAMENTO_GOV.xlsx'
         parquet_path = r'data\TA_PRECO_MEDICAMENTO_GOV.parquet'

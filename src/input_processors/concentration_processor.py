@@ -1,11 +1,11 @@
 import re
 
-from src.json_manager import load_json
+from src.json_manager import JsonManager
 
 class ConcentrationProcessor:
     def __init__(self) -> None:
-        self.patterns_path = r'resources\patterns.json'
-        self.patterns = load_json(self.patterns_path)
+        self.json_manager = JsonManager(r'resources\patterns.json')
+        self.patterns = self.json_manager.load_json()
     
     def get_concentration(self, description: str) -> str:
         lower_description = description.lower()

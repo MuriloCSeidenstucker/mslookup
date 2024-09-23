@@ -1,31 +1,23 @@
-import json
 import os
 import re
 import shutil
 import logging
 
 from datetime import datetime
-from typing import Any, Dict, List
-
+from typing import List
 from src.logger_config import main_logger
+
 from src.utils import Utils
+from src.json_manager import JsonManager
 
 class PDFManager:
     def __init__(self):
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
         self.STANDARD_NAME = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
-        self.db = self.load_json(r'resources\pdf_db.json')
         
-    def load_json(self, json_file: str) -> Dict[str, Any]:
-        try:
-            with open(json_file, 'r', encoding='utf-8') as file:
-                data = json.load(file)
-            self.logger.info(f"JSON file '{json_file}' loaded successfully\n")
-            return data
-        except (IOError, json.JSONDecodeError) as e:
-            self.logger.error(f"Error reading or parsing JSON file {json_file}: {e}\n")
-            raise
+        self.json_manager = JsonManager(r'resources\pdf_db.json')
+        self.db = self.json_manager.load_json()
     
     def get_pdf_in_db(self, target_reg: str, concentration: str, data_updated: bool) -> bool:
         if not isinstance(target_reg, str):
@@ -33,7 +25,7 @@ class PDFManager:
             return False
         
         if data_updated:
-            self.db = self.load_json(r'resources\pdf_db.json')
+            self.db = self.json_manager.load_json()
 
         path = 'registers_pdf'
 
