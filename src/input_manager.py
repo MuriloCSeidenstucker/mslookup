@@ -5,37 +5,37 @@ class InputManager:
         item_col = self.get_item_column_name()
         desc_col = self.get_description_column_name()
         brand_col = self.get_brand_column_name()
-        
+
         entry = {
             'file_path': file_path,
             'products_type': products_type,
             'item_col': item_col,
             'desc_col': desc_col,
-            'brand_col': brand_col
+            'brand_col': brand_col,
         }
-        
+
         return entry
-    
+
     def get_file_path(self):
         # Apenas para testes:
-        quick = r"data\testing\test_quick_4.xlsm"
-        intermediate = r"data\testing\test_intermediate_14.xlsm"
-        full = r"data\testing\test_full_126.xlsm"
+        quick = r'data\testing\test_quick_4.xlsm'
+        intermediate = r'data\testing\test_intermediate_14.xlsm'
+        full = r'data\testing\test_full_126.xlsm'
         path = quick
         return path
-    
+
     def get_products_type(self):
         products_type = 'medicine'
         return products_type
-    
+
     def get_item_column_name(self):
         name = 'ITEM'
         return name
-    
+
     def get_description_column_name(self):
         name = 'DESCRIÇÃO'
         return name
-    
+
     def get_brand_column_name(self):
         name = 'MARCA'
         return name
