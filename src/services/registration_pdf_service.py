@@ -14,7 +14,7 @@ class RegistrationPDFService:
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
-        self.json_manager = JsonManager(r'resources\pdf_db.json')
+        self.json_manager = JsonManager(r'data\resources\pdf_db.json')
     
     def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
         final_result = []
@@ -70,7 +70,7 @@ class RegistrationPDFService:
                         final_result[product_index]['PDF'] = 'OK' if has_pdf else 'Pendente'
                 
             if data_modified:
-                self.generate_json_file(reg_data, r'resources\pdf_db.json')
+                self.generate_json_file(reg_data, r'data\resources\pdf_db.json')
                 data_updated = True
             else:
                 data_updated = False

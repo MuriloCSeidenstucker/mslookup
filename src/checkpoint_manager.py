@@ -5,7 +5,7 @@ import hashlib
 from typing import Any, Callable, Tuple, Optional
 
 class CheckpointManager:
-    def __init__(self, checkpoint_dir: str = 'checkpoints/', hash_func: Optional[Callable[[Any], str]] = None):
+    def __init__(self, checkpoint_dir: str = 'tmp/', hash_func: Optional[Callable[[Any], str]] = None):
         self.checkpoint_dir = checkpoint_dir
         self.hash_func = hash_func or self.default_hash_func
         self.checkpoints_to_delete = []

@@ -8,11 +8,11 @@ from src.json_manager import JsonManager
 
 class DescriptionProcessor:
     def __init__(self) -> None:
-        self.json_manager = JsonManager(r'resources\prepositions.json')
+        self.json_manager = JsonManager(r'data\resources\prepositions.json')
         self.PREPOSITIONS = self.json_manager.load_json()
         
-        reference_path = r'data\TA_PRECO_MEDICAMENTO_GOV.xlsx'
-        parquet_path = r'data\TA_PRECO_MEDICAMENTO_GOV.parquet'
+        reference_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.xlsx'
+        parquet_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.parquet'
         skiprows = 52
         selected_columns = ['SUBSTÂNCIA', 'CNPJ', 'LABORATÓRIO', 'EAN 1', 'PRODUTO', 'APRESENTAÇÃO']
         self.reference_df = load_data(reference_path, parquet_path, skiprows, selected_columns)

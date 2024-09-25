@@ -5,7 +5,7 @@ from src.json_manager import JsonManager
 
 class BrandProcessor:
     def __init__(self) -> None:
-        self.json_manager = JsonManager(r'resources\laboratories.json')
+        self.json_manager = JsonManager(r'data\resources\laboratories.json')
         self.labs_json = self.json_manager.load_json()
         self.abbreviation_map = self.create_abbreviation_map()
         

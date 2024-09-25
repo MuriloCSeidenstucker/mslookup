@@ -16,7 +16,7 @@ class PDFManager:
         self.STANDARD_NAME = 'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         self.logger = logging.getLogger(f'main_logger.{self.__class__.__name__}')
         
-        self.json_manager = JsonManager(r'resources\pdf_db.json')
+        self.json_manager = JsonManager(r'data\resources\pdf_db.json')
         self.db = self.json_manager.load_json()
     
     def get_pdf_in_db(self, target_reg: str, concentration: str, data_updated: bool) -> bool:
@@ -27,7 +27,7 @@ class PDFManager:
         if data_updated:
             self.db = self.json_manager.load_json()
 
-        path = 'registers_pdf'
+        path = r'data\registers_pdf'
 
         if target_reg not in self.db:
             self.logger.info(f'Registration {target_reg} not found in database')
@@ -102,7 +102,7 @@ class PDFManager:
             return
         
         exp_date_formatted = expiration_date.replace('/', '-') if expiration_date != '-1' else 'no-date'
-        target_path = 'registers_pdf'
+        target_path = r'data\registers_pdf'
         searched_file_name = self.STANDARD_NAME
 
         if os.path.exists(self.DOWNLOAD_PATH):
