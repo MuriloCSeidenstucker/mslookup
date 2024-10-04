@@ -5,8 +5,8 @@ import shutil
 from datetime import datetime
 from typing import List
 
-from src.json_manager import JsonManager
-from src.utils import Utils
+from mslookup.json_manager import JsonManager
+from mslookup.utils import Utils
 
 
 class PDFManager:

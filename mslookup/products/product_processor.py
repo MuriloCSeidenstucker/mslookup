@@ -1,10 +1,10 @@
 from typing import Dict, Union
 
-from src.input_processors.brand_processor import BrandProcessor
-from src.input_processors.concentration_processor import ConcentrationProcessor
-from src.input_processors.description_processor import DescriptionProcessor
-from src.products.medicine import Medicine
-from src.products.product import Product
+from mslookup.input_processors.brand_processor import BrandProcessor
+from mslookup.input_processors.concentration_processor import ConcentrationProcessor
+from mslookup.input_processors.description_processor import DescriptionProcessor
+from mslookup.products.medicine import Medicine
+from mslookup.products.product import Product
 
 
 class ProductProcessor:

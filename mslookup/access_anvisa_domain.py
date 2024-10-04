@@ -12,8 +12,8 @@ from selenium.webdriver.support.expected_conditions import \
     presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
 
-from src.pdf_manager import PDFManager
-from src.utils import Utils
+from mslookup.pdf_manager import PDFManager
+from mslookup.utils import Utils
 
 
 class AnvisaDomain:

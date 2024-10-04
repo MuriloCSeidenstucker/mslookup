@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from src.products.product_processor import ProductProcessor
+from mslookup.products.product_processor import ProductProcessor
 
 
 class InputProcessor:

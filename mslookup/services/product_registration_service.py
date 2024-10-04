@@ -1,7 +1,7 @@
 from typing import List
 
-from src.products.product import Product
-from src.registration_processors.registration_processor import \
+from mslookup.products.product import Product
+from mslookup.registration_processors.registration_processor import \
     RegistrationProcessor
 
 

@@ -1,6 +1,6 @@
 import re
 
-from src.json_manager import JsonManager
+from mslookup.json_manager import JsonManager
 
 
 class ConcentrationProcessor:

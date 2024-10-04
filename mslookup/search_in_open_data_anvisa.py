@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Any, Dict, List, Union
 
-from src.df_manager import load_data
-from src.utils import Utils
+from mslookup.df_manager import load_data
+from mslookup.utils import Utils
 
 
 class OpenDataAnvisa:

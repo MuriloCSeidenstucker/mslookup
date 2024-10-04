@@ -1,11 +1,11 @@
-from src.checkpoint_manager import CheckpointManager
-from src.config import load_config
-from src.input_manager import InputManager
-from src.report_generator import ReportGenerator
-from src.services.input_processor_service import InputProcessorService
-from src.services.product_registration_service import \
+from mslookup.checkpoint_manager import CheckpointManager
+from mslookup.config import load_config
+from mslookup.input_manager import InputManager
+from mslookup.report_generator import ReportGenerator
+from mslookup.services.input_processor_service import InputProcessorService
+from mslookup.services.product_registration_service import \
     ProductRegistrationService
-from src.services.registration_pdf_service import RegistrationPDFService
+from mslookup.services.registration_pdf_service import RegistrationPDFService
 
 
 class Main:

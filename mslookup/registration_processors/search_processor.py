@@ -1,10 +1,10 @@
 import logging
 from typing import Dict, List, Union
 
-from src.products.medicine import Medicine
-from src.products.product import Product
-from src.search_in_open_data_anvisa import OpenDataAnvisa
-from src.search_in_smerp import SearchInSmerp
+from mslookup.products.medicine import Medicine
+from mslookup.products.product import Product
+from mslookup.search_in_open_data_anvisa import OpenDataAnvisa
+from mslookup.search_in_smerp import SearchInSmerp
 
 
 class SearchProcessor:

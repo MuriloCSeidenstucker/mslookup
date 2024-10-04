@@ -1,8 +1,8 @@
 import logging
 from typing import List
 
-from src.products.product import Product
-from src.registration_processors.search_processor import SearchProcessor
+from mslookup.products.product import Product
+from mslookup.registration_processors.search_processor import SearchProcessor
 
 
 class RegistrationProcessor:

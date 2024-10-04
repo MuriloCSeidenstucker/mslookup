@@ -1,4 +1,4 @@
-from src.products.product import Product
+from mslookup.products.product import Product
 
 
 class Medicine(Product):
