@@ -1,4 +1,4 @@
-from mslookup.input_manager import InputManager
+from mslookup.app.input_manager import InputManager
 
 def test_input_manager_get_raw_input():
     input_manager = InputManager()

@@ -2,9 +2,9 @@ from typing import List, Tuple
 
 import pandas as pd
 
-from mslookup.df_manager import load_data
-from mslookup.json_manager import JsonManager
-from mslookup.utils import Utils
+from mslookup.app.df_manager import load_data
+from mslookup.app.json_manager import JsonManager
+from mslookup.app.utils import Utils
 
 
 class DescriptionProcessor:

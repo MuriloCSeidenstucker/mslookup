@@ -1,7 +1,7 @@
 from typing import Any, Dict, Union
 
-from mslookup.json_manager import JsonManager
-from mslookup.utils import Utils
+from mslookup.app.json_manager import JsonManager
+from mslookup.app.utils import Utils
 
 
 class BrandProcessor:

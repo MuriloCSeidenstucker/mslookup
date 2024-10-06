@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from mslookup.input_processors.input_processor import InputProcessor
+from mslookup.app.input_processors.input_processor import InputProcessor
 
 
 class InputProcessorService:

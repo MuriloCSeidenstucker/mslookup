@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mslookup"
+name = "mslookup.app"
 version = "0.1.0"
 description = ""
 authors = ["Murilo Seidenstucker <murilocampos.004@gmail.com>"]

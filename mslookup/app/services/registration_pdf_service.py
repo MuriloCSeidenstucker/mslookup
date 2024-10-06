@@ -2,11 +2,11 @@ import logging
 from datetime import datetime
 from typing import Any, Dict, List
 
-from mslookup.access_anvisa_domain import AnvisaDomain
-from mslookup.json_manager import JsonManager
-from mslookup.pdf_manager import PDFManager
-from mslookup.products.medicine import Medicine
-from mslookup.products.product import Product
+from mslookup.app.access_anvisa_domain import AnvisaDomain
+from mslookup.app.json_manager import JsonManager
+from mslookup.app.pdf_manager import PDFManager
+from mslookup.app.products.medicine import Medicine
+from mslookup.app.products.product import Product
 
 
 class RegistrationPDFService:

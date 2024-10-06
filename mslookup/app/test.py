@@ -1,8 +1,8 @@
-from mslookup.config import load_config
-from mslookup.services.input_processor_service import InputProcessorService
-from mslookup.services.product_registration_service import \
+from mslookup.app.config import load_config
+from mslookup.app.services.input_processor_service import InputProcessorService
+from mslookup.app.services.product_registration_service import \
     ProductRegistrationService
-from mslookup.services.registration_pdf_service import RegistrationPDFService
+from mslookup.app.services.registration_pdf_service import RegistrationPDFService
 
 
 class Test:

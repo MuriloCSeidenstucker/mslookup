@@ -1,5 +1,5 @@
-from mslookup.access_anvisa_domain import AnvisaDomain
-from mslookup.pdf_manager import PDFManager
+from mslookup.app.access_anvisa_domain import AnvisaDomain
+from mslookup.app.pdf_manager import PDFManager
 
 
 def load_config():
