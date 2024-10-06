@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.4" author="PygubuDesigner 0.39.3">
+  <project>
+    <settings>
+      <setting id="name">general_name</setting>
+      <setting id="description">general_desc</setting>
+      <setting id="module_name">module_test</setting>
+      <setting id="template">codescript</setting>
+      <setting id="main_widget">frame1</setting>
+      <setting id="main_classname">class_test</setting>
+      <setting id="main_menu" />
+      <setting id="output_dir" />
+      <setting id="output_dir2" />
+      <setting id="import_tkvariables">True</setting>
+      <setting id="use_ttk_styledefinition_file">False</setting>
+      <setting id="use_i18n">False</setting>
+      <setting id="all_ids_attributes">False</setting>
+      <setting id="generate_code_onsave">False</setting>
+      <setting id="use_window_centering_code">False</setting>
+      <setting id="ttk_style_definition_file" />
+    </settings>
+    <customwidgets />
+  </project>
+  <object class="ttk.Frame" id="frame1">
+    <property name="height">280</property>
+    <property name="width">240</property>
+    <layout manager="pack">
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe1">
+        <property name="borderwidth">5</property>
+        <property name="height">50</property>
+        <property name="text" translatable="yes">labelframe1</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="ipadx">10</property>
+          <property name="padx">10</property>
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="label1">
+            <property name="text" translatable="yes">file_path:</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="entry4">
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe7">
+        <property name="borderwidth">5</property>
+        <property name="height">50</property>
+        <property name="text" translatable="yes">labelframe2</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="ipadx">10</property>
+          <property name="padx">10</property>
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="label2">
+            <property name="text" translatable="yes">item_col:</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="entry5">
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe8">
+        <property name="borderwidth">5</property>
+        <property name="height">50</property>
+        <property name="text" translatable="yes">labelframe3</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="ipadx">10</property>
+          <property name="padx">10</property>
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="label3">
+            <property name="cursor">arrow</property>
+            <property name="justify">left</property>
+            <property name="state">normal</property>
+            <property name="text" translatable="yes">desc_col:</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="entry6">
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe9">
+        <property name="borderwidth">5</property>
+        <property name="height">50</property>
+        <property name="text" translatable="yes">labelframe4</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="ipadx">10</property>
+          <property name="padx">10</property>
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="label4">
+            <property name="justify">left</property>
+            <property name="state">normal</property>
+            <property name="text" translatable="yes">brand_col:</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="entry7">
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe10">
+        <property name="borderwidth">5</property>
+        <property name="height">50</property>
+        <property name="text" translatable="yes">labelframe5</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="ipadx">10</property>
+          <property name="padx">10</property>
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Button" id="button1">
+            <property name="text" translatable="yes">button1</property>
+            <layout manager="pack">
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

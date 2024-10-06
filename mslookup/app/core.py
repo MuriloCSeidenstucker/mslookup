@@ -25,9 +25,9 @@ class Core:
         )
         self.all_stages_completed = False
 
-    def execute(self):
+    def execute(self, raw_input):
         try:
-            raw_input = self.input_manager.get_raw_input()
+            # raw_input = self.input_manager.get_raw_input()
             processed_input = self.input_processor_service.get_processed_input(
                 raw_input
             )

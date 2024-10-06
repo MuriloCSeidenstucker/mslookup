@@ -1,17 +1,21 @@
 [tool.poetry]
-name = "mslookup.app"
+name = "mslookup"
 version = "0.1.0"
 description = ""
 authors = ["Murilo Seidenstucker <murilocampos.004@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "<3.14,>=3.9"
 selenium = "^4.25.0"
 unidecode = "^1.3.8"
 pandas = "^2.2.3"
 openpyxl = "^3.1.5"
 pyarrow = "^17.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pygubu-designer = "^0.39.3"
+pyinstaller = "^6.10.0"
 
 [build-system]
 requires = ["poetry-core"]
