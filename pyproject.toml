@@ -17,6 +17,9 @@ pyarrow = "^17.0.0"
 pygubu-designer = "^0.39.3"
 pyinstaller = "^6.10.0"
 
+[tool.poetry.scripts]
+mslookup_start = "mslookup.main:start"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

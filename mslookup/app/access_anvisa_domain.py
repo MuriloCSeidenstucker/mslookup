@@ -189,7 +189,7 @@ class AnvisaDomain:
         try:
             register_found = driver.find_element(
                 By.XPATH,
-                '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[3]/td[2]',
+                '/html/body/div[3]/div[1]/form/div[1]/div[2]/table/tbody/tr[2]/td[1]',
             ).text
             if register_found == register:
                 return True

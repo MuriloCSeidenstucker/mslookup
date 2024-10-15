@@ -46,3 +46,9 @@ class Core:
         finally:
             if self.all_stages_completed:
                 self.checkpoint_manager.delete_checkpoints()
+                
+# if __name__ == '__main__':
+#     core = Core()
+#     inp = InputManager()
+#     raw_input = inp.get_raw_input()
+#     core.execute(raw_input)
