@@ -1,5 +1,7 @@
 import json
 import logging
+from pathlib import Path
+import sys
 from typing import Any, Dict
 
 
@@ -8,7 +10,13 @@ class JsonManager:
         self.logger = logging.getLogger(
             f'main_logger.{self.__class__.__name__}'
         )
-        self.file_path = file_path
+        
+        self.file_path = self.base_path(file_path)
+        
+    def base_path(self, file_path: str):
+        if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+            return Path(f'{sys._MEIPASS}/{file_path}')
+        return Path(file_path)
 
     def load_json(self) -> Dict[str, Any]:
         try:

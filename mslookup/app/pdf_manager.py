@@ -1,8 +1,10 @@
 import logging
 import os
+from pathlib import Path
 import re
 import shutil
 from datetime import datetime
+import sys
 from typing import List
 
 from mslookup.app.json_manager import JsonManager
@@ -21,6 +23,12 @@ class PDFManager:
 
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
         self.db = self.json_manager.load_json()
+        self.register_path = self.base_path(r'data\registers_pdf')
+        
+    def base_path(self, file_path: str):
+        if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+            return Path(f'{sys._MEIPASS}/{file_path}')
+        return Path(file_path)
 
     def get_pdf_in_db(
         self, target_reg: str, concentration: str, data_updated: bool
@@ -33,8 +41,6 @@ class PDFManager:
 
         if data_updated:
             self.db = self.json_manager.load_json()
-
-        path = r'data\registers_pdf'
 
         if target_reg not in self.db:
             self.logger.info(
@@ -64,13 +70,13 @@ class PDFManager:
             return False
 
         try:
-            files = os.listdir(path)
+            files = os.listdir(self.register_path)
         except OSError as e:
-            self.logger.error(f'Error listing directory {path}: {e}')
+            self.logger.error(f'Error listing directory {self.register_path}: {e}')
             return False
 
         for file in files:
-            file_path = os.path.join(path, file)
+            file_path = os.path.join(self.register_path, file)
 
             if os.path.isfile(file_path):
                 pattern = rf'{target_reg}_\d{{2}}-\d{{2}}-\d{{4}}'
@@ -131,7 +137,6 @@ class PDFManager:
             if expiration_date != '-1'
             else 'no-date'
         )
-        target_path = r'data\registers_pdf'
         searched_file_name = self.STANDARD_NAME
 
         if os.path.exists(self.DOWNLOAD_PATH):
@@ -149,7 +154,7 @@ class PDFManager:
 
                 if os.path.isfile(file_path) and file == searched_file_name:
                     new_file_name = f'{register}_{exp_date_formatted}.pdf'
-                    destination_path = os.path.join(target_path, new_file_name)
+                    destination_path = os.path.join(self.register_path, new_file_name)
 
                     try:
                         shutil.copy2(file_path, destination_path)
