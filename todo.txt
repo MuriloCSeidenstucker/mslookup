@@ -1,27 +1,10 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
-[  ] Refatorar projeto.
-    [Ok] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
-    o próximo módulo possa usar.
-    [Ok] Refatorar o módulo que lida com o processamento do input inicial.
-    [Ok] Criar uma abstração para ser possível a estensão no futuro para produtos além de medicamentos.
-        Criado a classe abstrata Product e a classe Medicine que herda de Product. Os códigos foram adaptados para rodar utilizando a classe Medicine,
-        ao invés das coleções que estavam sendo utilizadas, mas ainda não é possivel estendar para uma segunda classe do tipo Product.
-        Se for utilizado uma outra classe derivada de Product que não seja Medicine, irá quebrar.
-        Isso será resolvido no momento da implementação da nova classe.
-    [Ok] Refatorar o módulo que lida com a obtenção dos registros.
-    [  ] Refatorar o módulo que lida com a obtenção dos pdfs e gera o relatório.
-
-[  ] Criar uma interface.
-    [  ] Melhorar a estrutura do projeto atual antes ?
-    [  ] Estudar a melhor maneira de criar uma interface.
-
-[  ] Criar um executável/instalador.
-    [  ] Estudar como fazer isso.
-
-SECUNDÁRIOS:
+[  ] Melhorar a interface.
 [  ] Trazer no relatório final todos os dados importantes para que o usuário possa verificar se o registro está correto,
     evitando assim a necessidade do usuário ter que abrir os pdfs.
+
+SECUNDÁRIOS:
 [  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
 [  ] Melhorar sistema de checkpoint.
 [  ] Adicionar uma maneira de atualizar automaticamente as planilhas da Anvisa.
@@ -41,6 +24,22 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
+[Ok] Criar um executável/instalador.
+    [Ok] Estudar como fazer isso.
+[Ok] Criar uma interface.
+    [Ok] Melhorar a estrutura do projeto atual antes ?
+    [Ok] Estudar a melhor maneira de criar uma interface.
+[Ok] Refatorar projeto. --Do melhor jeito que consegui, por enquanto.
+    [Ok] Criar um módulo que recebe o input inicial. Sua responsabilidade será validar o input, processar(se for o caso) e retornar os dados para que
+    o próximo módulo possa usar.
+    [Ok] Refatorar o módulo que lida com o processamento do input inicial.
+    [Ok] Criar uma abstração para ser possível a estensão no futuro para produtos além de medicamentos.
+        Criado a classe abstrata Product e a classe Medicine que herda de Product. Os códigos foram adaptados para rodar utilizando a classe Medicine,
+        ao invés das coleções que estavam sendo utilizadas, mas ainda não é possivel estendar para uma segunda classe do tipo Product.
+        Se for utilizado uma outra classe derivada de Product que não seja Medicine, irá quebrar.
+        Isso será resolvido no momento da implementação da nova classe.
+    [Ok] Refatorar o módulo que lida com a obtenção dos registros.
+    [  ] Refatorar o módulo que lida com a obtenção dos pdfs e gera o relatório.
 [Ok] Melhorar informações do relatório.
 [Ok] Arrumar uma maneira de verificar se a concentração/apresentação está correta.
     [Ok] Elaborar uma maneira de extrair informações sobre a concentração e a apresentação das descrições dos medicamentos.
