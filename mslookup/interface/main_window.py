@@ -42,6 +42,8 @@ class MainWindow:
 
         self.btn_process = ttk.Button(self.main_frame, text="Buscar Registros", command=self.start_processing_thread)
         self.btn_process.grid(column=0, ipadx=20, padx=10, row=5, sticky='nsew')
+        
+        self.btn_select.focus_set()
 
         # Pack Main Frame
         self.main_frame.pack(anchor="center", expand=True, fill="y", ipadx=10, ipady=10, padx=10, pady=10, side="top")
