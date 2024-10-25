@@ -1,8 +1,8 @@
-import tkinter as tk
+from ttkthemes import ThemedTk
 from mslookup.interface.main_window import MainWindow
 
 def start():
-    root = tk.Tk()
+    root = ThemedTk(theme='itft1')
     app = MainWindow(root)
     app.run()
 

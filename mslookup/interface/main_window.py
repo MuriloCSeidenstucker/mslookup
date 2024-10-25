@@ -5,26 +5,27 @@ from mslookup.app.core import Core
 
 class MainWindow:
     def __init__(self, master: Tk) -> None:
+        self.master = master
         self.core = Core()
         self.file_path = ''
         self.entries = {}
         self.processing = False
 
         # Fixar o tamanho da janela
-        master.geometry("300x500")
-        master.resizable(False, False)
-        master.title('MSLookup')
+        self.master.geometry("300x550")
+        self.master.resizable(False, False)
+        self.master.title('MSLookup')
 
         # Criar interface
-        self.create_ui(master)
+        self.create_ui(self.master)
         
         # Associar evento global para pressionar "Enter" ao botão focado
-        master.bind_all('<Return>', self.activate_focused_button)
+        self.master.bind_all('<Return>', self.activate_focused_button)
 
     def create_ui(self, master):
         # Main Frame
         self.main_frame = ttk.Frame(master=master, name='main_frame')
-        self.main_frame.configure(height=500, takefocus=True, width=300)
+        self.main_frame.configure(height=550, takefocus=True, width=300)
 
         # Status label para feedback - largura fixa e quebra de linha
         self.status_label = ttk.Label(self.main_frame, text="", foreground="red", anchor="center", width=250, wraplength=250)
@@ -160,4 +161,4 @@ class MainWindow:
         self.status_label.after(0, lambda: self.status_label.config(text=message, foreground=color))
 
     def run(self):
-        self.main_frame.mainloop()
+        self.master.mainloop()
