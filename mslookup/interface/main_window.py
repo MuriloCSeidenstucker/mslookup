@@ -1,3 +1,4 @@
+import os
 import threading
 from tkinter import Tk, filedialog, ttk
 from mslookup.app.core import Core
@@ -7,22 +8,26 @@ class MainWindow:
         self.core = Core()
         self.file_path = ''
         self.entries = {}
+        self.processing = False
 
         # Fixar o tamanho da janela
-        master.geometry("600x500")
+        master.geometry("300x500")
         master.resizable(False, False)
         master.title('MSLookup')
 
         # Criar interface
         self.create_ui(master)
+        
+        # Associar evento global para pressionar "Enter" ao botão focado
+        master.bind_all('<Return>', self.activate_focused_button)
 
     def create_ui(self, master):
         # Main Frame
         self.main_frame = ttk.Frame(master=master, name='main_frame')
-        self.main_frame.configure(height=480, takefocus=True, width=560)
+        self.main_frame.configure(height=500, takefocus=True, width=300)
 
         # Status label para feedback - largura fixa e quebra de linha
-        self.status_label = ttk.Label(self.main_frame, text="", foreground="red", anchor="center", wraplength=500)
+        self.status_label = ttk.Label(self.main_frame, text="", foreground="red", anchor="center", width=250, wraplength=250)
         self.status_label.grid(column=0, row=6, padx=10, pady=10)
 
         # Componentes de entrada e botões
@@ -44,7 +49,7 @@ class MainWindow:
     def create_labelframe(self, parent, text, row):
         labelframe = ttk.Labelframe(parent, text=text)
         parent.grid_columnconfigure(0, weight=1)
-        labelframe.configure(width=200)
+        labelframe.configure(width=300)
         labelframe.grid(column=0, row=row, ipady=10, pady=10, padx=10, sticky='nsew')
         labelframe.grid_columnconfigure(0, weight=1)
         labelframe.grid_rowconfigure(0, weight=1)
@@ -59,18 +64,29 @@ class MainWindow:
 
     def create_combobox_labelframe(self, parent, text, row):
         labelframe = self.create_labelframe(parent, text, row)
-        options = ['Medicamento', 'Suplemento', 'Cosmético', 'Outro']
-        combobox = ttk.Combobox(labelframe, values=options, justify='center')
+        options = ['Medicamento']
+        combobox = ttk.Combobox(labelframe, values=options, justify='center', state='readonly')  # Definindo state='readonly'
         combobox.set(options[0])
         combobox.grid(column=0, row=0, padx=10, pady=5, sticky='ew')
         labelframe.grid_columnconfigure(0, weight=1)
         return combobox
+    
+    def activate_focused_button(self, event):
+        focused_widget = self.main_frame.focus_get()
+        # Verifica se o foco está em um botão e, em caso positivo, ativa o comando do botão
+        if isinstance(focused_widget, ttk.Button):
+            focused_widget.invoke()
+        else:
+            # Só inicia uma nova thread se nenhuma estiver em andamento
+            if not self.processing:
+                self.start_processing_thread()
 
     def select_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Planilhas", "*.xls *.xlsx *.xlsm *.csv")])
         if file_path:
             self.file_path = file_path
-            self.status_label.config(text=f"Arquivo Selecionado: {file_path}", foreground="green")
+            file_name = os.path.basename(file_path)  # Extrai apenas o nome do arquivo
+            self.status_label.config(text=f"Arquivo Selecionado: {file_name}", foreground="green")
         else:
             self.status_label.config(text="Nenhum arquivo selecionado.", foreground="red")
 
@@ -107,10 +123,23 @@ class MainWindow:
 
     def start_processing_thread(self):
         if self.validate_entries():
-            self.btn_process.config(text="Processando...", state='disabled')
-            self.btn_select.config(state='disabled')
-            # Inicia a execução do backend em uma nova thread
+            self.processing = True # Atualiza para indicar que o processamento está em andamento
+            self.disable_interface()  # Desativar todos os elementos da interface
             threading.Thread(target=self.get_data).start()
+
+    def disable_interface(self):
+        # Desativar botões e campos
+        self.btn_process.config(state='disabled')
+        self.btn_select.config(state='disabled')
+        for entry in self.entries.values():
+            entry.config(state='disabled')  # Desativar entradas
+
+    def enable_interface(self):
+        # Reativar botões e campos
+        self.btn_process.config(state='normal')
+        self.btn_select.config(state='normal')
+        for entry in self.entries.values():
+            entry.config(state='normal')  # Reativar entradas
 
     def get_data(self):
         entry_data = self.collect_entry_data()
@@ -121,8 +150,8 @@ class MainWindow:
         except Exception as e:
             self.update_status(f"Erro ao buscar registros: {e}", "red")
         finally:
-            self.btn_process.config(text="Buscar Registros", state='normal')
-            self.btn_select.config(state='normal')
+            self.processing = False  # Atualiza para indicar que o processamento terminou
+            self.enable_interface()  # Reativar todos os elementos da interface
 
     def update_status(self, message, color):
         # Atualiza a status_label na thread principal usando o método `after`
