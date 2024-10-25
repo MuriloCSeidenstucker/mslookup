@@ -1,11 +1,12 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
-[  ] Melhorar a interface.
+[  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
+    Ao ser testado em outra maquina, o app não funcionou. Provavelmente tem algo a ver com o ChromeDriver.
+    [  ] Melhorar sistema de logging.
 [  ] Trazer no relatório final todos os dados importantes para que o usuário possa verificar se o registro está correto,
     evitando assim a necessidade do usuário ter que abrir os pdfs.
 
 SECUNDÁRIOS:
-[  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
 [  ] Melhorar sistema de checkpoint.
 [  ] Adicionar uma maneira de atualizar automaticamente as planilhas da Anvisa.
     [  ] A planilha 'TA_PRECO_MEDICAMENTO_GOV' pode variar o número de linhas, o que alteraria o skiprows. Pensar em como lidar com isso.
@@ -24,6 +25,7 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
+[Ok] Melhorar a interface.
 [Ok] Criar um executável/instalador.
     [Ok] Estudar como fazer isso.
 [Ok] Criar uma interface.
