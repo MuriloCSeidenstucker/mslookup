@@ -1,23 +1,22 @@
 import logging
 from typing import List
 
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.products.product import Product
 from mslookup.app.registration_processors.search_processor import SearchProcessor
 
 
 class RegistrationProcessor:
     def __init__(self, checkpoint_manager):
-        self.logger = logging.getLogger(
-            f'main_logger.{self.__class__.__name__}'
-        )
+        configure_logging()
+        self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Initializing...')
+        
         self.search_processor = SearchProcessor()
-
         self.checkpoint_manager = checkpoint_manager
         self.checkpoint_interval = 10
 
-    def process_registrations(
-        self, processed_input: List[Product]
-    ) -> List[Product]:
+    def process_registrations(self, processed_input: List[Product]) -> List[Product]:
         product_registrations = []
 
         current_identifier = self.checkpoint_manager.generate_identifier(
@@ -48,6 +47,6 @@ class RegistrationProcessor:
         self.checkpoint_manager.save_checkpoint(
             product_registrations, 'candidate_service', current_identifier
         )
-
-        self.logger.info('Candidate data generation complete\n\n')
+        
+        logging.info(f'{self.name}: Finalizing...')
         return product_registrations

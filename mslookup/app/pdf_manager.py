@@ -8,19 +8,19 @@ import sys
 from typing import List
 
 from mslookup.app.json_manager import JsonManager
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.utils import Utils
 
 
 class PDFManager:
     def __init__(self):
+        configure_logging()
+        self.name = self.__class__.__name__
+        
         self.DOWNLOAD_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
         self.STANDARD_NAME = (
             'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         )
-        self.logger = logging.getLogger(
-            f'main_logger.{self.__class__.__name__}'
-        )
-
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
         self.db = self.json_manager.load_json()
         self.register_path = self.base_path(r'data\registers_pdf')
@@ -34,7 +34,7 @@ class PDFManager:
         self, target_reg: str, concentration: str, data_updated: bool
     ) -> bool:
         if not isinstance(target_reg, str):
-            self.logger.error(
+            logging.error(
                 f'Invalid input type for target_reg: {type(target_reg)}'
             )
             return False
@@ -43,9 +43,6 @@ class PDFManager:
             self.db = self.json_manager.load_json()
 
         if target_reg not in self.db:
-            self.logger.info(
-                f'Registration {target_reg} not found in database'
-            )
             return False
 
         expiration_date = self.db[target_reg]['expiration_date']
@@ -59,11 +56,11 @@ class PDFManager:
             else:
                 raise ValueError('Invalid expiration date format')
         except ValueError as e:
-            self.logger.error(f'Error parsing date {expiration_date}: {e}')
+            logging.error(f'Error parsing date {expiration_date}: {e}')
             return False
 
         if exp_date < datetime.now():
-            self.logger.warning(f'Registration {target_reg} is expired')
+            logging.warning(f'Registration {target_reg} is expired')
             return False
 
         if not self.verify_concentration(concentration, presentations):
@@ -72,7 +69,7 @@ class PDFManager:
         try:
             files = os.listdir(self.register_path)
         except OSError as e:
-            self.logger.error(f'Error listing directory {self.register_path}: {e}')
+            logging.error(f'Error listing directory {self.register_path}: {e}')
             return False
 
         for file in files:
@@ -89,17 +86,11 @@ class PDFManager:
                     try:
                         shutil.copy2(file_path, destination_path)
                     except Exception as e:
-                        self.logger.error(
+                        logging.error(
                             f'Error copying file {file_path} to {destination_path}: {e}'
                         )
                         return False
-
-                    self.logger.info(
-                        f'Registration: {target_reg} found in database as {file}'
-                    )
                     return True
-
-        self.logger.info(f'Registration {target_reg} not found in directory')
         return False
 
     def verify_concentration(
@@ -115,10 +106,10 @@ class PDFManager:
             if match:
                 return True
             else:
-                self.logger.warning('Concentration found does not match')
+                logging.warning('Concentration found does not match')
                 return False
         except Exception as e:
-            self.logger.error(f'Error verifying concentration: {e}')
+            logging.critical(f'Error verifying concentration: {e}')
             return False
 
     def copy_and_rename_file(
@@ -127,7 +118,7 @@ class PDFManager:
         if not isinstance(register, str) or not isinstance(
             expiration_date, str
         ):
-            self.logger.error(
+            logging.error(
                 f'Invalid input types for register:{type(register)} or expiration_date:{type(expiration_date)}'
             )
             return
@@ -143,7 +134,7 @@ class PDFManager:
             try:
                 files = os.listdir(self.DOWNLOAD_PATH)
             except Exception as e:
-                self.logger.error(
+                logging.error(
                     f'Error listing directory {self.DOWNLOAD_PATH}: {e}'
                 )
                 return
@@ -159,27 +150,24 @@ class PDFManager:
                     try:
                         shutil.copy2(file_path, destination_path)
                     except Exception as e:
-                        self.logger.error(
+                        logging.error(
                             f'Error copying file {file_path} to {destination_path}: {e}'
                         )
                         return
 
-                    self.logger.info(
-                        f'File successfully copied and renamed to database: {new_file_name}'
-                    )
                     file_found = True
                     break
 
             if not file_found:
-                self.logger.warning(
+                logging.warning(
                     f'{self.copy_and_rename_file.__name__}: No PDF file with the standard name found in {self.DOWNLOAD_PATH}'
                 )
         else:
-            self.logger.error('The specified source directory does not exist.')
+            logging.error('The specified source directory does not exist.')
 
     def rename_downloaded_pdf(self, new_name: str) -> bool:
         if not isinstance(new_name, str):
-            self.logger.error(
+            logging.error(
                 f'Invalid input type for new_name: {type(new_name)}'
             )
             return False
@@ -187,7 +175,7 @@ class PDFManager:
         try:
             files = os.listdir(self.DOWNLOAD_PATH)
         except Exception as e:
-            self.logger.error(
+            logging.error(
                 f'Error listing directory {self.DOWNLOAD_PATH}: {e}'
             )
             return False
@@ -219,15 +207,13 @@ class PDFManager:
             try:
                 os.rename(old_path, new_path)
             except Exception as e:
-                self.logger.error(
+                logging.error(
                     f'Error renaming file {old_path} to {new_path}: {e}'
                 )
                 return False
-
-            self.logger.info(f'File successfully renamed to {new_path}')
             return True
         else:
-            self.logger.warning(
+            logging.warning(
                 f'{self.rename_downloaded_pdf.__name__}: No PDF file with the standard name found in {self.DOWNLOAD_PATH}'
             )
             return False
@@ -243,10 +229,10 @@ class PDFManager:
                 if self.STANDARD_NAME in files:
                     return True
 
-            self.logger.info(
+            logging.error(
                 f'Failed to print the file as PDF. Not found in "{root}"'
             )
             return False
         except Exception as e:
-            self.logger.error(f'An error occurred: {e}')
+            logging.critical(f'An error occurred: {e}')
             return False

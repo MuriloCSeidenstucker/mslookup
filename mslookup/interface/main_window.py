@@ -1,10 +1,16 @@
+import logging
 import os
 import threading
 from tkinter import Tk, filedialog, ttk
 from mslookup.app.core import Core
+from mslookup.app.logger_config import configure_logging
 
 class MainWindow:
     def __init__(self, master: Tk) -> None:
+        configure_logging()
+        self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Application starting...')
+        
         self.master = master
         self.core = Core()
         self.file_path = ''
@@ -162,3 +168,4 @@ class MainWindow:
 
     def run(self):
         self.master.mainloop()
+        logging.info(f'{self.name}: Application shutting down...\n')

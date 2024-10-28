@@ -1,14 +1,18 @@
+import logging
 from typing import Dict, Union
 
 from mslookup.app.input_processors.brand_processor import BrandProcessor
 from mslookup.app.input_processors.concentration_processor import ConcentrationProcessor
 from mslookup.app.input_processors.description_processor import DescriptionProcessor
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.products.medicine import Medicine
 from mslookup.app.products.product import Product
 
 
 class ProductProcessor:
     def __init__(self) -> None:
+        configure_logging()
+        self.name = self.__class__.__name__
         self.brand_processor = BrandProcessor()
         self.description_processor = DescriptionProcessor()
         self.concentration_processor = ConcentrationProcessor()

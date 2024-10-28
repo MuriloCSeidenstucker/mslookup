@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 
 from mslookup.app.access_anvisa_domain import AnvisaDomain
 from mslookup.app.json_manager import JsonManager
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.pdf_manager import PDFManager
 from mslookup.app.products.medicine import Medicine
 from mslookup.app.products.product import Product
@@ -11,9 +12,10 @@ from mslookup.app.products.product import Product
 
 class RegistrationPDFService:
     def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain):
-        self.logger = logging.getLogger(
-            f'main_logger.{self.__class__.__name__}'
-        )
+        configure_logging()
+        self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Initializing...')
+        
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
@@ -102,6 +104,7 @@ class RegistrationPDFService:
             else:
                 data_updated = False
 
+        logging.info(f'{self.name}: Finalizing...')
         return final_result
 
     def generate_json_file(
@@ -153,9 +156,8 @@ class RegistrationPDFService:
                         ]
 
             self.json_manager.write_json(existing_data)
-            self.logger.info(f'JSON file successfully generated: "{filename}"')
         except (IOError, TypeError) as e:
-            self.logger.error(
+            logging.error(
                 f"Failed to generate JSON file '{filename}': {e}"
             )
             raise

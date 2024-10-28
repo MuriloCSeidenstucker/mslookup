@@ -1,12 +1,17 @@
 from datetime import datetime
+import logging
 from typing import Any, Dict, List, Union
 
 from mslookup.app.df_manager import load_data
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.utils import Utils
 
 
 class OpenDataAnvisa:
     def __init__(self):
+        configure_logging()
+        self.name = self.__class__.__name__
+        
         file_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.xlsx'
         parquet_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.parquet'
         self.df = load_data(file_path, parquet_path)
@@ -44,7 +49,7 @@ class OpenDataAnvisa:
                     'substances': substances,
                 }
             else:
-                print(
+                logging.info(
                     f'Registro {register} já existe no laboratório {laboratory}'
                 )
 
@@ -77,9 +82,7 @@ class OpenDataAnvisa:
                     'A chave "Linked" em laboratory, se presente, deve ser uma lista.'
                 )
 
-    def get_laboratory_candidates(
-        self, laboratory: Union[str, Dict]
-    ) -> List[str]:
+    def get_laboratory_candidates(self, laboratory: Union[str, Dict]) -> List[str]:
         if isinstance(laboratory, str):
             return [laboratory]
 
@@ -95,6 +98,7 @@ class OpenDataAnvisa:
     def get_register(
         self, description: str, laboratory: Union[str, Dict]
     ) -> List[Dict[str, Union[str, int]]]:
+        
         self.validate_arguments(description, laboratory)
         description_normalized = Utils.remove_accents_and_spaces(description)
         laboratory_candidates = self.get_laboratory_candidates(laboratory)

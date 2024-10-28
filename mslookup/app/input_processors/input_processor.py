@@ -1,12 +1,17 @@
+import logging
 from typing import Any, Dict, List
 
 import pandas as pd
 
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.products.product_processor import ProductProcessor
 
 
 class InputProcessor:
     def __init__(self, checkpoint_manager):
+        configure_logging()
+        self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Initializing...')
         self.product_processor = ProductProcessor()
 
         self.checkpoint_interval = 10
@@ -72,4 +77,5 @@ class InputProcessor:
             data, 'input_processor', current_identifier
         )
 
+        logging.info(f'{self.name}: Finalizing...')
         return data

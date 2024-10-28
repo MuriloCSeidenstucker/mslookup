@@ -1,14 +1,18 @@
+import logging
 from typing import List, Tuple
 
 import pandas as pd
 
 from mslookup.app.df_manager import load_data
 from mslookup.app.json_manager import JsonManager
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.utils import Utils
 
 
 class DescriptionProcessor:
     def __init__(self) -> None:
+        configure_logging()
+        self.name = self.__class__.__name__
         self.json_manager = JsonManager(r'data\resources\prepositions.json')
         self.PREPOSITIONS = self.json_manager.load_json()
 
