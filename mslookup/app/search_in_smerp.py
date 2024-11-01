@@ -7,11 +7,10 @@ from urllib.parse import urlparse
 from unidecode import unidecode
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.expected_conditions import (
-    presence_of_element_located, visibility_of_element_located)
-from selenium.webdriver.support.wait import WebDriverWait
 
 from mslookup.app.element_interactor import ElementInteractor
 from mslookup.app.logger_config import configure_logging
@@ -21,7 +20,11 @@ class SearchInSmerp:
     def __init__(self):
         configure_logging()
         self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
         self.element_interactor = None
+        
+        # Faz Download do Chromedriver se necessário
+        service = Service(ChromeDriverManager().install())
 
     def configure_chrome_options(
         self, detach: bool = False
@@ -174,6 +177,7 @@ class SearchInSmerp:
     def get_data_from_smerp(
         self, description: str, brand: Union[Dict, str]
     ) -> List[Dict[str, str]]:
+        logging.info(f'{self.name}: Starting execution.')
         
         reg_candidates = []
         b = brand if isinstance(brand, str) else brand['Name']
@@ -244,4 +248,6 @@ class SearchInSmerp:
                 'expiration_date': expiration_date,
             }
         )
+        
+        logging.info(f'{self.name}: Execution completed.')
         return reg_candidates

@@ -10,7 +10,7 @@ class ReportGenerator:
     def __init__(self):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         
         self.report_data: List[Dict[str, Any]] = []
         self.entry_count = 0
@@ -37,6 +37,7 @@ class ReportGenerator:
         report_data: List[Dict[str, Any]],
         filename: str = 'relatorio_registros.xlsx',
     ) -> None:
+        logging.info(f'{self.name}: Starting execution.')
         if not filename.endswith('.xlsx'):
             logging.error(
                 f'Invalid file extension: {filename}. Expected a .xlsx file.'
@@ -47,7 +48,7 @@ class ReportGenerator:
             report_df = pd.DataFrame(report_data)
             report_df.to_excel(filename, index=False)
             logging.info(f'{self.name}: Report successfully generated: {filename}')
-            logging.info(f'{self.name}: Finalizing...')
+            logging.info(f'{self.name}: Execution completed.')
         except Exception as e:
             logging.error(f'Failed to generate report: {e}')
-            raise
+            raise ValueError(f'Failed to generate report: {e}')

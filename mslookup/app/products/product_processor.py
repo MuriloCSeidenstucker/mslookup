@@ -13,6 +13,7 @@ class ProductProcessor:
     def __init__(self) -> None:
         configure_logging()
         self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
         self.brand_processor = BrandProcessor()
         self.description_processor = DescriptionProcessor()
         self.concentration_processor = ConcentrationProcessor()
@@ -23,10 +24,9 @@ class ProductProcessor:
         processed_product = None
 
         if product_type == 'medicine':
-            processed_product = self.process_medicine(
-                item_number, description, brand
-            )
+            processed_product = self.process_medicine(item_number, description, brand)
         else:
+            logging.error(f'{self.name}: Unknow product type: {product_type}')
             raise ValueError(f'Unknow product type: {product_type}')
 
         return processed_product
@@ -35,12 +35,8 @@ class ProductProcessor:
         self, item_number: str, description: str, brand: str
     ) -> Medicine:
         processed_brand = self.brand_processor.get_brand(brand)
-        concentration = self.concentration_processor.get_concentration(
-            description
-        )
-        extracted_substances = self.description_processor.try_get_substances(
-            description
-        )
+        concentration = self.concentration_processor.get_concentration(description)
+        extracted_substances = self.description_processor.try_get_substances(description)
 
         processed_medicine = Medicine(
             item_number=item_number,

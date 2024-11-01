@@ -11,7 +11,7 @@ class InputProcessor:
     def __init__(self, checkpoint_manager):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         self.product_processor = ProductProcessor()
 
         self.checkpoint_interval = 10
@@ -40,6 +40,7 @@ class InputProcessor:
         return filtered_input
 
     def process_input(self, raw_input: Dict[str, str]) -> List[Dict[str, Any]]:
+        logging.info(f'{self.name}: Starting execution.')
         filtered_input = self.read_raw_input(raw_input)
         products_type = raw_input['products_type']
 
@@ -77,5 +78,5 @@ class InputProcessor:
             data, 'input_processor', current_identifier
         )
 
-        logging.info(f'{self.name}: Finalizing...')
+        logging.info(f'{self.name}: Execution completed.')
         return data

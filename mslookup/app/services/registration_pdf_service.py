@@ -14,15 +14,14 @@ class RegistrationPDFService:
     def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
 
-    def generate_registration_pdfs(
-        self, product_registrations: List[Product]
-    ) -> List[Dict[str, Any]]:
+    def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
+        logging.info(f'{self.name}: Starting execution.')
         final_result = []
         reg_data = {}
         data_updated = False
@@ -104,7 +103,7 @@ class RegistrationPDFService:
             else:
                 data_updated = False
 
-        logging.info(f'{self.name}: Finalizing...')
+        logging.info(f'{self.name}: Execution completed.')
         return final_result
 
     def generate_json_file(
@@ -158,6 +157,6 @@ class RegistrationPDFService:
             self.json_manager.write_json(existing_data)
         except (IOError, TypeError) as e:
             logging.error(
-                f"Failed to generate JSON file '{filename}': {e}"
+                f'{self.name}: Failed to generate JSON file "{filename}": {e}'
             )
             raise

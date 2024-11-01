@@ -9,7 +9,7 @@ class MainWindow:
     def __init__(self, master: Tk) -> None:
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Application starting...')
+        logging.info(f'{self.name}: Instantiated.')
         
         self.master = master
         self.core = Core()
@@ -21,6 +21,9 @@ class MainWindow:
         self.master.geometry("300x550")
         self.master.resizable(False, False)
         self.master.title('MSLookup')
+        
+        style = ttk.Style()
+        style.configure("Center.TButton", anchor="center")
 
         # Criar interface
         self.create_ui(self.master)
@@ -39,7 +42,7 @@ class MainWindow:
 
         # Componentes de entrada e botões
         self.lblf_sheet = self.create_labelframe(self.main_frame, 'Planilha:', 0)
-        self.btn_select = ttk.Button(self.lblf_sheet, text="Selecionar Planilha", command=self.select_file)
+        self.btn_select = ttk.Button(self.lblf_sheet, text="Selecionar Planilha", style="Center.TButton", command=self.select_file)
         self.btn_select.grid(column=0, ipadx=20, padx=10, row=0, sticky='ew')
 
         self.entries['prod_type'] = self.create_combobox_labelframe(self.main_frame, 'Tipo de Produto:', 1)
@@ -47,7 +50,7 @@ class MainWindow:
         self.entries['desc_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Descrição:', 3)
         self.entries['brand_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Marca:', 4)
 
-        self.btn_process = ttk.Button(self.main_frame, text="Buscar Registros", command=self.start_processing_thread)
+        self.btn_process = ttk.Button(self.main_frame, text="Buscar Registros", style="Center.TButton", command=self.start_processing_thread)
         self.btn_process.grid(column=0, ipadx=20, padx=10, row=5, sticky='nsew')
         
         self.btn_select.focus_set()
@@ -96,12 +99,15 @@ class MainWindow:
             self.file_path = file_path
             file_name = os.path.basename(file_path)  # Extrai apenas o nome do arquivo
             self.status_label.config(text=f"Arquivo Selecionado: {file_name}", foreground="green")
+            logging.info(f'{self.name}: File selected -> {file_name}')
         else:
             self.status_label.config(text="Nenhum arquivo selecionado.", foreground="red")
+            logging.warning(f'{self.name}: File selection canceled.')
 
     def validate_entries(self):
         if not self.file_path:
             self.status_label.config(text="Por favor, selecione um arquivo primeiro.", foreground="red")
+            logging.warning(f'{self.name}: Validation failed -> no file selected.')
             return False
         
         # Mensagens descritivas para cada campo obrigatório
@@ -115,40 +121,39 @@ class MainWindow:
         for key, message in required_fields.items():
             if not self.entries[key].get():
                 self.status_label.config(text=message, foreground="red")
+                logging.warning(f'{self.name}: Validation failed -> {message}')
                 return False
 
         self.status_label.config(text="Processando...", foreground="blue")
+        logging.info(f'{self.name}: Validation successful.')
         return True
 
     def collect_entry_data(self):
         products_type = 'medicine' if self.entries['prod_type'].get() == 'Medicamento' else ''
-        return {
+        entry_data = {
             'file_path': self.file_path,
             'products_type': products_type,
             'item_col': self.entries['item_col'].get(),
             'desc_col': self.entries['desc_col'].get(),
             'brand_col': self.entries['brand_col'].get()
         }
+        
+        logging.debug(f'{self.name}: Collected entry data -> {entry_data}')
+        return entry_data
 
     def start_processing_thread(self):
         if self.validate_entries():
             self.processing = True # Atualiza para indicar que o processamento está em andamento
-            self.disable_interface()  # Desativar todos os elementos da interface
+            self.set_interface('disabled')  # Desativar todos os elementos da interface
+            logging.info(f'{self.name}: Starting processing thread.')
             threading.Thread(target=self.get_data).start()
-
-    def disable_interface(self):
-        # Desativar botões e campos
-        self.btn_process.config(state='disabled')
-        self.btn_select.config(state='disabled')
+            
+    def set_interface(self, state: str) -> None:
+        self.btn_process.config(state=state)
+        self.btn_select.config(state=state)
         for entry in self.entries.values():
-            entry.config(state='disabled')  # Desativar entradas
-
-    def enable_interface(self):
-        # Reativar botões e campos
-        self.btn_process.config(state='normal')
-        self.btn_select.config(state='normal')
-        for entry in self.entries.values():
-            entry.config(state='normal')  # Reativar entradas
+            entry.config(state=state)
+        logging.debug(f'{self.name}: Interface set to {state}.')
 
     def get_data(self):
         entry_data = self.collect_entry_data()
@@ -156,16 +161,20 @@ class MainWindow:
         try:
             self.core.execute(entry_data)  # Chamada ao backend
             self.update_status("Busca concluída com sucesso!", "green")
+            logging.info(f'{self.name}: Data processing completed successfully.')
         except Exception as e:
             self.update_status(f"Erro ao buscar registros: {e}", "red")
+            logging.error(f'{self.name}: Error during data processing', exc_info=True)
         finally:
             self.processing = False  # Atualiza para indicar que o processamento terminou
-            self.enable_interface()  # Reativar todos os elementos da interface
+            self.set_interface('normal')  # Reativar todos os elementos da interface
+            logging.info(f'{self.name}: Data processing finished.')
 
     def update_status(self, message, color):
         # Atualiza a status_label na thread principal usando o método `after`
         self.status_label.after(0, lambda: self.status_label.config(text=message, foreground=color))
+        logging.debug(f'{self.name}: Status updated - {message}')
 
     def run(self):
         self.master.mainloop()
-        logging.info(f'{self.name}: Application shutting down...\n')
+        logging.info(f'{self.name}: Closing interface.')

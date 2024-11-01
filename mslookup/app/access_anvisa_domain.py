@@ -12,15 +12,17 @@ from selenium.webdriver.support.expected_conditions import \
     presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
 
+from mslookup.app.logger_config import configure_logging
 from mslookup.app.pdf_manager import PDFManager
 from mslookup.app.utils import Utils
 
 
 class AnvisaDomain:
     def __init__(self, pdf_manager: PDFManager) -> None:
-        self.logger = logging.getLogger(
-            f'main_logger.{self.__class__.__name__}'
-        )
+        configure_logging()
+        self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
+        
         self.pdf_manager = pdf_manager
 
     def configure_chrome_options(
@@ -110,8 +112,8 @@ class AnvisaDomain:
             self.print_page(driver)
 
             if not self.pdf_manager.pdf_was_printed():
-                self.logger.warning(
-                    'The printed pdf was not found in the download folder'
+                logging.warning(
+                    f'{self.name}: The printed pdf was not found in the download folder'
                 )
                 return False
 
@@ -120,10 +122,9 @@ class AnvisaDomain:
                 'presentations': presentations,
             }
 
-            self.logger.info(f'Registration: {register} printed successfully')
             return True
         except TimeoutException:
-            self.logger.error(f'Error trying to print: {register}')
+            logging.error(f'{self.name}: Error trying to print: {register}')
             return False
 
     def wait_for_registration_presence(
@@ -133,7 +134,7 @@ class AnvisaDomain:
             wait.until(self.registration_to_be_present)
             return True
         except TimeoutException:
-            self.logger.error(f'Registration not found on the page: {url}')
+            logging.error(f'{self.name}: Registration not found on the page: {url}')
             return False
 
     def click_registration_button(self, driver: webdriver, url: str) -> bool:
@@ -144,8 +145,8 @@ class AnvisaDomain:
             reg_btn.click()
             return True
         except Exception:
-            self.logger.error(
-                f'Error when clicking the registration button on the page: {url}'
+            logging.error(
+                f'{self.name}: Error when clicking the registration button on the page: {url}'
             )
             return False
 
@@ -154,7 +155,7 @@ class AnvisaDomain:
             wait.until(self.process_number_to_be_present)
             return True
         except TimeoutException:
-            self.logger.error('The page did not fully load')
+            logging.error(f'{self.name}: The page did not fully load')
             return False
 
     def verify_concentration(
@@ -179,10 +180,10 @@ class AnvisaDomain:
             if match:
                 return True, presentations_texts
             else:
-                self.logger.warning('Concentration found does not match')
+                logging.warning(f'{self.name}: Concentration found does not match')
                 return False, presentations_texts
         except Exception as e:
-            self.logger.error(f'Error verifying concentration: {e}')
+            logging.error(f'{self.name}: Error verifying concentration: {e}')
             return False, presentations_texts
 
     def verify_registration(self, driver: webdriver, register: str) -> bool:
@@ -194,12 +195,12 @@ class AnvisaDomain:
             if register_found == register:
                 return True
             else:
-                self.logger.warning(
-                    'The registration found on the Anvisa page does not match'
+                logging.warning(
+                    f'{self.name}: The registration found on the Anvisa page does not match'
                 )
                 return False
         except Exception as e:
-            self.logger.error(f'Error verifying registration: {e}')
+            logging.error(f'{self.name}: Error verifying registration: {e}')
             return False
 
     def print_page(self, driver: webdriver):
@@ -213,6 +214,7 @@ class AnvisaDomain:
         exp_date: str,
         reg_data: Dict[str, Dict[str, Union[str, List[str]]]],
     ) -> bool:
+        logging.info(f'{self.name}: Starting execution.')
 
         anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro='
 
@@ -230,11 +232,13 @@ class AnvisaDomain:
             reg_data,
         )
         if not success:
-            self.logger.error(
-                f'Failed to obtain the registration {register} as a PDF'
+            logging.error(
+                f'{self.name}: Failed to obtain the registration {register} as a PDF'
             )
             driver.quit()
+            logging.info(f'{self.name}: Execution completed.')
             return False
 
         driver.quit()
+        logging.info(f'{self.name}: Execution completed.')
         return True

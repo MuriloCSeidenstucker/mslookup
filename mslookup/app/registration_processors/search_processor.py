@@ -12,6 +12,7 @@ class SearchProcessor:
     def __init__(self) -> None:
         configure_logging()
         self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
         
         self.anvisa_search = OpenDataAnvisa()
         self.smerp_search = SearchInSmerp()

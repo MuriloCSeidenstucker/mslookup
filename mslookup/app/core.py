@@ -14,7 +14,7 @@ class Core:
     def __init__(self):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         
         pdf_manager, anvisa_domain = load_config()
         # self.input_manager = InputManager()
@@ -30,6 +30,7 @@ class Core:
         self.all_stages_completed = False
 
     def execute(self, raw_input):
+        logging.info(f'{self.name}: Starting execution.')
         try:
             # raw_input = self.input_manager.get_raw_input()
             processed_input = self.input_processor_service.get_processed_input(
@@ -49,18 +50,18 @@ class Core:
                     product_registrations
                 )
             )
-            logging.info(f'{self.name}: Finished generating PDFs.')
+            logging.info(f'{self.name}: PDF registrations generated.')
             
             self.report_generator.generate_report(final_result)
-            logging.info(f'{self.name}: Report generated.')
+            logging.info(f'{self.name}: Report generated successfully.')
             
             self.all_stages_completed = True
         except Exception as e:
-            logging.exception("An error occurred during execution.")
+            logging.exception(f'{self.name}: An error occurred during execution.')
         finally:
             if self.all_stages_completed:
                 self.checkpoint_manager.delete_checkpoints()
-            logging.info(f'{self.name}: Finalizing...')
+            logging.info(f'{self.name}: Execution completed.')
                 
 # if __name__ == '__main__':
 #     core = Core()

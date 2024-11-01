@@ -10,13 +10,14 @@ class RegistrationProcessor:
     def __init__(self, checkpoint_manager):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         
         self.search_processor = SearchProcessor()
         self.checkpoint_manager = checkpoint_manager
         self.checkpoint_interval = 10
 
     def process_registrations(self, processed_input: List[Product]) -> List[Product]:
+        logging.info(f'{self.name}: Starting execution.')
         product_registrations = []
 
         current_identifier = self.checkpoint_manager.generate_identifier(
@@ -48,5 +49,5 @@ class RegistrationProcessor:
             product_registrations, 'candidate_service', current_identifier
         )
         
-        logging.info(f'{self.name}: Finalizing...')
+        logging.info(f'{self.name}: Execution completed.')
         return product_registrations

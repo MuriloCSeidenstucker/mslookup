@@ -11,6 +11,7 @@ class OpenDataAnvisa:
     def __init__(self):
         configure_logging()
         self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
         
         file_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.xlsx'
         parquet_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.parquet'
@@ -48,10 +49,6 @@ class OpenDataAnvisa:
                     'cnpj': lab_cnpj,
                     'substances': substances,
                 }
-            else:
-                logging.info(
-                    f'Registro {register} já existe no laboratório {laboratory}'
-                )
 
         return laboratories
 
@@ -59,12 +56,12 @@ class OpenDataAnvisa:
         self, description: str, laboratory: Union[str, Dict]
     ) -> None:
         if not isinstance(description, str) or not description.strip():
-            raise ValueError('description deve ser uma string não vazia.')
+            logging.error(f'{self.name}: description must be a non-empty string.')
+            raise ValueError('description must be a non-empty string.')
 
         if not isinstance(laboratory, (str, dict)):
-            raise ValueError(
-                'laboratory deve ser uma string ou um dicionário.'
-            )
+            logging.error(f'{self.name}: laboratory must be a string or a dictionary.')
+            raise ValueError('laboratory must be a string or a dictionary.')
 
         if isinstance(laboratory, dict):
             if (
@@ -72,15 +69,17 @@ class OpenDataAnvisa:
                 or not isinstance(laboratory['Name'], str)
                 or not laboratory['Name'].strip()
             ):
+                logging.error(
+                    f'{self.name}: The laboratory dictionary must contain the key "Name" with a non-empty string value.'
+                )
                 raise ValueError(
-                    'O dicionário laboratory deve conter a chave "Name" com um valor string não vazio.'
+                    'The laboratory dictionary must contain the key "Name" with a non-empty string value.'
                 )
             if 'Linked' in laboratory and not isinstance(
                 laboratory['Linked'], list
             ):
-                raise ValueError(
-                    'A chave "Linked" em laboratory, se presente, deve ser uma lista.'
-                )
+                logging.error(f'{self.name}: The "Linked" key in laboratory, if present, must be a list.')
+                raise ValueError('The "Linked" key in laboratory, if present, must be a list.')
 
     def get_laboratory_candidates(self, laboratory: Union[str, Dict]) -> List[str]:
         if isinstance(laboratory, str):
@@ -93,7 +92,8 @@ class OpenDataAnvisa:
                 candidates.extend(linked)
             return [candidate for candidate in candidates if candidate]
 
-        raise ValueError('laboratory deve ser uma string ou um dicionário.')
+        logging.error(f'{self.name}: laboratory must be a string or a dictionary.')
+        raise ValueError('laboratory must be a string or a dictionary.')
 
     def get_register(
         self, description: str, laboratory: Union[str, Dict]

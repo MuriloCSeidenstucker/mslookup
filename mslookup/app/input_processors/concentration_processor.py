@@ -9,6 +9,7 @@ class ConcentrationProcessor:
     def __init__(self) -> None:
         configure_logging()
         self.name = self.__class__.__name__
+        logging.info(f'{self.name}: Instantiated.')
         self.json_manager = JsonManager(r'data\resources\patterns.json')
         self.patterns = self.json_manager.load_json()
 

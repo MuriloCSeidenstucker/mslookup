@@ -11,17 +11,16 @@ class ProductRegistrationService:
     def __init__(self, checkpoint_manager):
         configure_logging()
         self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Initializing...')
+        logging.info(f'{self.name}: Instantiated.')
         
         self.registration_processor = RegistrationProcessor(checkpoint_manager)
 
-    def get_product_registrations(
-        self, processed_input: List[Product]
-    ) -> List[Product]:
+    def get_product_registrations(self, processed_input: List[Product]) -> List[Product]:
+        logging.info(f'{self.name}: Starting execution.')
         product_registrations = []
         product_registrations = (
             self.registration_processor.process_registrations(processed_input)
         )
         
-        logging.info(f'{self.name}: Finalizing...')
+        logging.info(f'{self.name}: Execution completed.')
         return product_registrations
