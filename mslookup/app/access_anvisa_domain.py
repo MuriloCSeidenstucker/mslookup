@@ -86,28 +86,29 @@ class AnvisaDomain:
         exp_date: str,
         reg_data: Dict[str, Dict[str, Union[str, List[str]]]],
     ) -> bool:
-
+        
+        presentation = None
         url = rf'{anvisa_medicamento_url}{register}'
         driver.get(url)
 
         try:
             if not self.wait_for_registration_presence(wait, url):
-                return False
+                return False, presentation
 
             if not self.click_registration_button(driver, url):
-                return False
+                return False, presentation
 
             if not self.wait_for_page_load(wait):
-                return False
+                return False, presentation
 
             concentration_matches, presentations = self.verify_concentration(
                 driver, concentration
             )
             if not concentration_matches:
-                return False
+                return False, presentation
 
             if not self.verify_registration(driver, register):
-                return False
+                return False, presentation
 
             self.print_page(driver)
 
@@ -115,17 +116,19 @@ class AnvisaDomain:
                 logging.warning(
                     f'{self.name}: The printed pdf was not found in the download folder'
                 )
-                return False
+                return False, presentation
 
             reg_data[str(register)] = {
                 'expiration_date': exp_date,
                 'presentations': presentations,
             }
+            
+            presentation = self.foo(concentration, presentations)
 
-            return True
+            return True, presentation
         except TimeoutException:
             logging.error(f'{self.name}: Error trying to print: {register}')
-            return False
+            return False, presentation
 
     def wait_for_registration_presence(
         self, wait: WebDriverWait, url: str
@@ -206,6 +209,18 @@ class AnvisaDomain:
     def print_page(self, driver: webdriver):
         driver.execute_script('window.print();')
         sleep(0.5)
+        
+    def foo(self, concentration: str, presentations: List[str]) -> str:
+        try:
+            for presentation in presentations:
+                if Utils.remove_accents_and_spaces(concentration) in Utils.remove_accents_and_spaces(presentation):
+                    return presentation
+
+            logging.warning(f'{self.name}: Concentration found does not match')
+            return None
+        except Exception as e:
+            logging.critical(f'{self.name}: Error verifying concentration: {e}')
+            return None
 
     def get_register_as_pdf(
         self,
@@ -222,7 +237,8 @@ class AnvisaDomain:
         driver = webdriver.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
 
-        success = self.try_print_anvisa_register(
+        presentation = None
+        success, presentation = self.try_print_anvisa_register(
             driver,
             wait,
             anvisa_medicamentos_url,
@@ -237,8 +253,8 @@ class AnvisaDomain:
             )
             driver.quit()
             logging.info(f'{self.name}: Execution completed.')
-            return False
+            return False, presentation
 
         driver.quit()
         logging.info(f'{self.name}: Execution completed.')
-        return True
+        return True, presentation

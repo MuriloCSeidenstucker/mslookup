@@ -5,7 +5,7 @@ import re
 import shutil
 from datetime import datetime
 import sys
-from typing import List
+from typing import List, Optional, Tuple, Union
 
 from mslookup.app.json_manager import JsonManager
 from mslookup.app.logger_config import configure_logging
@@ -34,17 +34,18 @@ class PDFManager:
     def get_pdf_in_db(
         self, target_reg: str, concentration: str, data_updated: bool
     ) -> bool:
+        presentation = None
         if not isinstance(target_reg, str):
             logging.error(
                 f'{self.name}: Invalid input type for target_reg: {type(target_reg)}'
             )
-            return False
+            return False, presentation
 
         if data_updated:
             self.db = self.json_manager.load_json()
 
         if target_reg not in self.db:
-            return False
+            return False, presentation
 
         expiration_date = self.db[target_reg]['expiration_date']
         presentations = self.db[target_reg]['presentations']
@@ -55,23 +56,25 @@ class PDFManager:
             elif isinstance(expiration_date, int):
                 exp_date = datetime(1970, 1, 1)
             else:
+                logging.error(f'{self.name}: Invalid expiration date format.')
                 raise ValueError('Invalid expiration date format')
         except ValueError as e:
             logging.error(f'{self.name}: Error parsing date {expiration_date}: {e}')
-            return False
+            return False, presentation
 
         if exp_date < datetime.now():
             logging.warning(f'{self.name}: Registration {target_reg} is expired')
-            return False
+            return False, presentation
 
-        if not self.verify_concentration(concentration, presentations):
-            return False
+        concentrationFound, presentation = self.verify_concentration(concentration, presentations)
+        if not concentrationFound:
+            return False, presentation
 
         try:
             files = os.listdir(self.register_path)
         except OSError as e:
             logging.error(f'{self.name}: Error listing directory {self.register_path}: {e}')
-            return False
+            return False, presentation
 
         for file in files:
             file_path = os.path.join(self.register_path, file)
@@ -90,28 +93,23 @@ class PDFManager:
                         logging.error(
                             f'{self.name}: Error copying file {file_path} to {destination_path}: {e}'
                         )
-                        return False
-                    return True
-        return False
+                        return False, presentation
+                    return True, presentation
+        return False, presentation
 
     def verify_concentration(
         self, concentration: str, presentations: List[str]
-    ) -> bool:
+    )-> Union[bool, Tuple[bool, Optional[str]]]:
         try:
-            match = any(
-                Utils.remove_accents_and_spaces(concentration)
-                in Utils.remove_accents_and_spaces(presentation)
-                for presentation in presentations
-            )
+            for presentation in presentations:
+                if Utils.remove_accents_and_spaces(concentration) in Utils.remove_accents_and_spaces(presentation):
+                    return True, presentation
 
-            if match:
-                return True
-            else:
-                logging.warning(f'{self.name}: Concentration found does not match')
-                return False
+            logging.warning(f'{self.name}: Concentration found does not match')
+            return False, None
         except Exception as e:
             logging.critical(f'{self.name}: Error verifying concentration: {e}')
-            return False
+            return False, None
 
     def copy_and_rename_file(
         self, register: str, expiration_date: str

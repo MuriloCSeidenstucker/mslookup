@@ -23,6 +23,7 @@ class RegistrationPDFService:
     def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
         logging.info(f'{self.name}: Starting execution.')
         final_result = []
+        presentation = None
         reg_data = {}
         data_updated = False
 
@@ -31,11 +32,11 @@ class RegistrationPDFService:
                 {
                     'Item': product.item_number,
                     'Descrição': product.description,
-                    'Concentração_Encontrada': product.concentration,
                     'Marca': product.brand
                     if isinstance(product.brand, str)
                     else product.brand['Name'],
                     'Registro': '',
+                    'Apresentação': '',
                     'PDF': '',
                 }
             )
@@ -44,18 +45,19 @@ class RegistrationPDFService:
 
             if not product.registers:
                 final_result[product_index]['Registro'] = 'Não encontrado'
+                final_result[product_index]['Apresentação'] = 'Não encontrado'
                 final_result[product_index]['PDF'] = 'Pendente'
                 continue
 
             if isinstance(product, Medicine):
                 for reg_index, reg in enumerate(product.registers):
-                    has_pdf_in_db = self.pdf_manager.get_pdf_in_db(
+                    has_pdf_in_db, presentation = self.pdf_manager.get_pdf_in_db(
                         reg['register'], product.concentration, data_updated
                     )
 
                     registration_obtained = False
                     if not has_pdf_in_db:
-                        registration_obtained = (
+                        registration_obtained, presentation = (
                             self.anvisa_domain.get_register_as_pdf(
                                 reg['register'],
                                 product.concentration,
@@ -81,6 +83,11 @@ class RegistrationPDFService:
                             if reg['register'] != -1
                             else 'Não encontrado'
                         )
+                        final_result[product_index]['Apresentação'] = (
+                            presentation
+                            if presentation != None
+                            else 'Não encontrado'
+                        )
                         final_result[product_index]['PDF'] = (
                             'OK' if has_pdf else 'Pendente'
                         )
@@ -90,6 +97,11 @@ class RegistrationPDFService:
                         final_result[product_index]['Registro'] = (
                             f'Último registro encontrado: {reg['register']}'
                             if reg['register'] != -1 else 'Não encontrado'
+                        )
+                        final_result[product_index]['Apresentação'] = (
+                            presentation
+                            if presentation != None
+                            else 'Não encontrado'
                         )
                         final_result[product_index]['PDF'] = (
                             'OK' if has_pdf else 'Pendente'
