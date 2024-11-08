@@ -4,12 +4,13 @@ from pathlib import Path
 import sys
 from typing import Any, Dict
 
+from mslookup.app.logger_config import configure_logging
+
 
 class JsonManager:
     def __init__(self, file_path: str):
-        self.logger = logging.getLogger(
-            f'main_logger.{self.__class__.__name__}'
-        )
+        configure_logging()
+        self.name = self.__class__.__name__
         
         self.file_path = self.base_path(file_path)
         
@@ -24,19 +25,19 @@ class JsonManager:
                 data = json.load(json_file)
             return data
         except FileNotFoundError:
-            self.logger.error(f'{self.file_path} not found.')
+            logging.warning(f'{self.name}: {self.file_path} not found.')
             return {}
         except json.JSONDecodeError as e:
-            self.logger.error(f'Error decoding JSON file: {e}')
+            logging.error(f'{self.name}: Error decoding JSON file: {e}')
             return {}
 
     def write_json(self, data: Dict[str, Any]) -> None:
         try:
             with open(self.file_path, 'w', encoding='utf-8') as json_file:
                 json.dump(data, json_file, ensure_ascii=False, indent=4)
-            self.logger.info(f'Data successfully written to {self.file_path}.')
+            logging.info(f'{self.name}: Data successfully written to {self.file_path}.')
         except Exception as e:
-            self.logger.error(f'Error writing JSON file: {e}')
+            logging.error(f'{self.name}: Error writing JSON file: {e}')
 
     def update_json(self, updates: Dict[str, Any]) -> None:
         data = self.load_json()
@@ -52,6 +53,6 @@ class JsonManager:
         if key in data:
             del data[key]
             self.write_json(data)
-            self.logger.info(f"Key '{key}' successfully removed.")
+            logging.info(f'{self.name}: Key "{key}" successfully removed.')
         else:
-            self.logger.warning(f"Key '{key}' not found in JSON.")
+            logging.warning(f'{self.name}: Key "{key}" not found in JSON.')

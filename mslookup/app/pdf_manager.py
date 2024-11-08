@@ -146,6 +146,7 @@ class PDFManager:
                     new_file_name = f'{register}_{exp_date_formatted}.pdf'
                     destination_path = os.path.join(self.register_path, new_file_name)
 
+                    os.makedirs(self.register_path, exist_ok=True)
                     try:
                         shutil.copy2(file_path, destination_path)
                     except Exception as e:
@@ -162,7 +163,7 @@ class PDFManager:
                     f'{self.name}: No PDF file with the standard name found in {self.DOWNLOAD_PATH}'
                 )
         else:
-            logging.error('The specified source directory does not exist.')
+            logging.error(f'{self.name}: The specified source directory does not exist.')
 
     def rename_downloaded_pdf(self, new_name: str) -> bool:
         if not isinstance(new_name, str):

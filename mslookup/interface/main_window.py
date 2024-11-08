@@ -133,9 +133,9 @@ class MainWindow:
         entry_data = {
             'file_path': self.file_path,
             'products_type': products_type,
-            'item_col': self.entries['item_col'].get(),
-            'desc_col': self.entries['desc_col'].get(),
-            'brand_col': self.entries['brand_col'].get()
+            'item_col': self.entries['item_col'].get().strip(),
+            'desc_col': self.entries['desc_col'].get().strip(),
+            'brand_col': self.entries['brand_col'].get().strip()
         }
         
         logging.debug(f'{self.name}: Collected entry data -> {entry_data}')

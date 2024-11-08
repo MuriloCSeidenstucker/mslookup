@@ -123,7 +123,7 @@ class AnvisaDomain:
                 'presentations': presentations,
             }
             
-            presentation = self.foo(concentration, presentations)
+            presentation = self.get_presentation(concentration, presentations)
 
             return True, presentation
         except TimeoutException:
@@ -164,20 +164,27 @@ class AnvisaDomain:
     def verify_concentration(
         self, driver: webdriver, concentration: str
     ) -> Tuple[bool, List[str]]:
+        presentations_texts = []
+        ignore_keywords = ["cancelada", "caduca", "inativa"]
         try:
             presentations_elements = driver.find_elements(
                 By.CSS_SELECTOR, '.col-xs-4.ng-binding'
             )
+            
+            filtered_presentations = [
+                presentation for presentation in presentations_elements
+                if not any(keyword in presentation.text.lower() for keyword in ignore_keywords)
+            ]
+            
             match = any(
                 Utils.remove_accents_and_spaces(concentration)
                 in Utils.remove_accents_and_spaces(presentation.text)
-                for presentation in presentations_elements
+                for presentation in filtered_presentations
             )
 
             presentations_texts = [
                 presentation.text
-                for presentation in presentations_elements
-                if isinstance(presentation, WebElement)
+                for presentation in filtered_presentations
             ]
 
             if match:
@@ -210,7 +217,7 @@ class AnvisaDomain:
         driver.execute_script('window.print();')
         sleep(0.5)
         
-    def foo(self, concentration: str, presentations: List[str]) -> str:
+    def get_presentation(self, concentration: str, presentations: List[str]) -> str:
         try:
             for presentation in presentations:
                 if Utils.remove_accents_and_spaces(concentration) in Utils.remove_accents_and_spaces(presentation):

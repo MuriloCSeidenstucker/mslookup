@@ -25,7 +25,7 @@ class InputProcessor:
         item_col = raw_input['item_col']
         desc_col = raw_input['desc_col']
         brand_col = raw_input['brand_col']
-
+        
         df = pd.read_excel(file_path)
         for index, row in df.iterrows():
             if pd.notna(row[brand_col]):
