@@ -115,9 +115,26 @@ class MainWindow:
         file_path = filedialog.askopenfilename(filetypes=[("Planilhas", "*.xls *.xlsx *.xlsm *.csv")])
         if file_path:
             self.file_path = file_path
-            file_name = os.path.basename(file_path)  # Extrai apenas o nome do arquivo
+            file_name = os.path.basename(file_path)
             self.status_label.config(text=f"Arquivo Selecionado: {file_name}", foreground="green")
             logging.info(f'{self.name}: File selected -> {file_name}')
+
+            # Limpar os campos de entrada
+            self.entries['item_col'].delete(0, 'end')
+            self.entries['desc_col'].delete(0, 'end')
+            self.entries['brand_col'].delete(0, 'end')
+
+            # Chama o Core para detectar as colunas automaticamente
+            detected_columns = self.core.detect_columns(file_path)
+            if detected_columns:
+                # Preenche os campos com os valores detectados
+                self.entries['item_col'].insert(0, detected_columns['item_col'] or "")
+                self.entries['desc_col'].insert(0, detected_columns['desc_col'] or "")
+                self.entries['brand_col'].insert(0, detected_columns['brand_col'] or "")
+                logging.info(f'{self.name}: Columns auto-detected and filled.')
+            else:
+                self.status_label.config(text="Falha na detecção automática. Preencha manualmente.", foreground="orange")
+                logging.warning(f'{self.name}: Failed to auto-detect columns.')
         else:
             self.status_label.config(text="Nenhum arquivo selecionado.", foreground="red")
             logging.warning(f'{self.name}: File selection canceled.')

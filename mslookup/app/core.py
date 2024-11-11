@@ -1,4 +1,6 @@
 import logging
+
+import pandas as pd
 from mslookup.app.checkpoint_manager import CheckpointManager
 from mslookup.app.config import load_config
 from mslookup.app.input_manager import InputManager
@@ -8,6 +10,7 @@ from mslookup.app.services.input_processor_service import InputProcessorService
 from mslookup.app.services.product_registration_service import \
     ProductRegistrationService
 from mslookup.app.services.registration_pdf_service import RegistrationPDFService
+from mslookup.app.utils import Utils
 
 
 class Core:
@@ -27,6 +30,39 @@ class Core:
             pdf_manager, anvisa_domain
         )
         self.all_stages_completed = False
+        
+        # Método para detectar colunas automaticamente
+    def detect_columns(self, file_path):
+        try:
+            # Carrega o arquivo
+            df = pd.read_excel(file_path) if file_path.endswith(('.xls', '.xlsx', '.xlsm')) else pd.read_csv(file_path)
+
+            # Listas de opções de nomes para cada coluna
+            item_options = ['item', 'itens', 'lote']
+            desc_options = ['descricao', 'especificacao']
+            brand_options = ['marca', 'laboratorio']
+
+            # Função para encontrar a coluna exata com base nas opções
+            def find_column(options):
+                for col in df.columns:
+                    filtered_col = Utils.remove_accents_and_spaces(str(col))
+                    if filtered_col in options:
+                        return col
+                return None
+
+            # Detecta as colunas usando as listas de opções
+            item_col = find_column(item_options)
+            desc_col = find_column(desc_options)
+            brand_col = find_column(brand_options)
+
+            return {
+                'item_col': item_col,
+                'desc_col': desc_col,
+                'brand_col': brand_col
+            }
+        except Exception as e:
+            logging.error(f'Core: Error detecting columns - {e}')
+            return None
 
     def execute(self, raw_input, progress_callback):
         logging.info(f'{self.name}: Starting execution.')
