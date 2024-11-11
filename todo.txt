@@ -1,5 +1,9 @@
 OBJETIVOS A SE FAZER
 PRINCIPAL:
+O diretório onde ficam salvos os PDFS(data\registers_pdf) devem corresponder com as informações
+do json(data\resources\pdf_db.json), ou seja, se um registro estiver anotado no json, o seu PDF deve existir no diretório,
+caso contrário irá ocorrer um erro de lógica. Ainda não existe nenhuma verificação para evitar que isso aconteça.
+
 [  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
     Ao ser testado em outra maquina, o app não funcionou. Provavelmente tem algo a ver com o ChromeDriver.
     [  ] Melhorar sistema de logging.

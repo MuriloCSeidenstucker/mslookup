@@ -18,12 +18,20 @@ class MainWindow:
         self.processing = False
 
         # Fixar o tamanho da janela
-        self.master.geometry("300x550")
+        self.master.geometry("300x600")
         self.master.resizable(False, False)
         self.master.title('MSLookup')
         
         style = ttk.Style()
         style.configure("Center.TButton", anchor="center")
+        
+        # Estilo personalizado para a barra de progresso
+        style.configure(
+            "TProgressbar",
+            thickness=25,  # Aumentar a espessura
+            troughcolor="#D3D3D3",  # Cor de fundo da barra
+            background="#4CAF50"  # Cor da parte preenchida da barra
+        )
 
         # Criar interface
         self.create_ui(self.master)
@@ -34,7 +42,7 @@ class MainWindow:
     def create_ui(self, master):
         # Main Frame
         self.main_frame = ttk.Frame(master=master, name='main_frame')
-        self.main_frame.configure(height=550, takefocus=True, width=300)
+        self.main_frame.configure(height=600, takefocus=True, width=300)
 
         # Status label para feedback - largura fixa e quebra de linha
         self.status_label = ttk.Label(self.main_frame, text="", foreground="red", anchor="center", width=250, wraplength=250)
@@ -54,6 +62,16 @@ class MainWindow:
         self.btn_process.grid(column=0, ipadx=20, padx=10, row=5, sticky='nsew')
         
         self.btn_select.focus_set()
+        
+        # Barra de progresso
+        self.progress_bar = ttk.Progressbar(
+            self.main_frame,
+            mode="determinate",
+            length=250,
+            maximum=100,
+            style="TProgressbar"
+        )
+        self.progress_bar.grid(column=0, row=7, padx=10, pady=10)
 
         # Pack Main Frame
         self.main_frame.pack(anchor="center", expand=True, fill="y", ipadx=10, ipady=10, padx=10, pady=10, side="top")
@@ -145,6 +163,7 @@ class MainWindow:
         if self.validate_entries():
             self.processing = True # Atualiza para indicar que o processamento está em andamento
             self.set_interface('disabled')  # Desativar todos os elementos da interface
+            self.progress_bar['value'] = 0  # Reset progress bar to 0%
             logging.info(f'{self.name}: Starting processing thread.')
             threading.Thread(target=self.get_data).start()
             
@@ -159,8 +178,9 @@ class MainWindow:
         entry_data = self.collect_entry_data()
         
         try:
-            self.core.execute(entry_data)  # Chamada ao backend
-            self.update_status("Busca concluída com sucesso!", "green")
+            # Chamada ao backend
+            self.core.execute(entry_data, self.update_progress)  # Passa update_progress como callback
+            self.update_status("Busca concluída com sucesso!\nOs PDFs encontrados foram salvos na pasta DOWNLOADS", "green")
             logging.info(f'{self.name}: Data processing completed successfully.')
         except Exception as e:
             self.update_status(f"Erro ao buscar registros: {e}", "red")
@@ -169,6 +189,19 @@ class MainWindow:
             self.processing = False  # Atualiza para indicar que o processamento terminou
             self.set_interface('normal')  # Reativar todos os elementos da interface
             logging.info(f'{self.name}: Data processing finished.')
+            
+    def update_progress(self, percent_complete):
+        # Atualiza a barra de progresso e status_label
+        self.progress_bar['value'] = percent_complete
+        if percent_complete < 20:
+            self.status_label.config(text=f"Processando dados da planilha... {int(percent_complete)}%")
+        elif percent_complete >= 20 and percent_complete < 60:
+            self.status_label.config(text=f"Buscando registros... {int(percent_complete)}%")
+        elif percent_complete >= 60 and percent_complete < 95:
+            self.status_label.config(text=f"Tentando obter PDFs... {int(percent_complete)}%")
+        else:
+            self.status_label.config(text=f"Gerando {int(percent_complete)}%")
+        self.main_frame.update_idletasks()
 
     def update_status(self, message, color):
         # Atualiza a status_label na thread principal usando o método `after`

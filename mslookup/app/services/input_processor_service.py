@@ -12,9 +12,9 @@ class InputProcessorService:
         logging.info(f'{self.name}: Instantiated.')
         self.input_processor = InputProcessor(checkpoint_manager)
 
-    def get_processed_input(self, raw_input: Dict[str, str]) -> List[Dict[str, Any]]:
+    def get_processed_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Dict[str, Any]]:
         logging.info(f'{self.name}: Starting execution.')
         processed_input = []
-        processed_input = self.input_processor.process_input(raw_input)
+        processed_input = self.input_processor.process_input(raw_input, progress_callback)
         logging.info(f'{self.name}: Execution completed.')
         return processed_input

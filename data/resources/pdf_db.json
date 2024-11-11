@@ -1288,20 +1288,20 @@
     "154230330": {
         "expiration_date": -1,
         "presentations": [
+            "2 MG COM CT BL AL PLAS OPC X 30 Ativo",
+            "2,5 MG/ML SOL OR CX 50 FR GOT PLAS OPC X 20 ML Ativo",
             "2 MG COM CX BL AL PLAS OPC X 480 Ativo",
-            "0,5MG COM CT BL AL PLAS OPC X 20 Ativo",
-            "0,5MG COM CX BL AL PLAS OPC X 480 Ativo",
-            "2,5 MG/ML SOL OR CX 50 FR GOT PLAS AMB X 20 ML Ativo",
-            "2 MG COM CT BL AL PLAS OPC X 10 Ativo",
-            "2,5 MG/ML SOL OR CT FR GOT PLAS OPC X 20 ML Ativo",
-            "2 MG COM CT BL AL PLAS OPC X 20 Ativo",
-            "0,5MG COM CT BL AL PLAS OPC X 60 Ativo",
             "2 MG COM CT BL AL PLAS OPC X 60 Ativo",
             "0,5MG COM CT BL AL PLAS OPC X 10 Ativo",
-            "2,5 MG/ML SOL OR CX 50 FR GOT PLAS OPC X 20 ML Ativo",
-            "0,5MG COM CT BL AL PLAS OPC X 30 Ativo",
+            "2 MG COM CT BL AL PLAS OPC X 20 Ativo",
+            "0,5MG COM CX BL AL PLAS OPC X 480 Ativo",
+            "2 MG COM CT BL AL PLAS OPC X 10 Ativo",
             "2,5 MG/ML SOL OR CT FR GOT PLAS AMB X 20 ML Ativo",
-            "2 MG COM CT BL AL PLAS OPC X 30 Ativo"
+            "0,5MG COM CT BL AL PLAS OPC X 60 Ativo",
+            "0,5MG COM CT BL AL PLAS OPC X 20 Ativo",
+            "2,5 MG/ML SOL OR CX 50 FR GOT PLAS AMB X 20 ML Ativo",
+            "0,5MG COM CT BL AL PLAS OPC X 30 Ativo",
+            "2,5 MG/ML SOL OR CT FR GOT PLAS OPC X 20 ML Ativo"
         ]
     },
     "154230002": {
@@ -2133,6 +2133,526 @@
             "3 MG COM REV CT BL AL PLAS TRANS X 30 Ativo",
             "3 MG COM REV CT BL AL PLAS TRANS X 30 Ativo",
             "3 MG COM REV CT BL AL PLAS TRANS X 60 Ativo"
+        ]
+    },
+    "103700691": {
+        "expiration_date": "01/08/2026",
+        "presentations": [
+            "25 MG COM REV BL AL PLAS INC X 200 (EMB. HOSP.) Ativo",
+            "25 MG COM REV CT BL AL PLAS INC X 20 Ativo",
+            "25 MG COM REV BL AL PLAS INC X 100 (EMB. HOSP.) Ativo",
+            "25 MG COM REV BL AL PLAS INC X 500 (EMB. HOSP.) Ativo",
+            "20 MG/G CREM DERM CT BG AL X 15 G Ativo",
+            "20 MG/G CREM DERM CT BG AL X 30 G Ativo",
+            "20 MG/G CREM DERM CT BG AL X 60 G Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL X 15 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL X 30 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL X 60 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL X 15 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL X 30 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL X 60 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CT BG AL REV EPOXI-FENOLICO OURO X 15 G Ativo",
+            "20 MG/G CREM DERM CT BG AL REV EPOXI-FENOLICO OURO X 30 G Ativo",
+            "20 MG/G CREM DERM CT BG AL REV EPOXI-FENOLICO OURO X 60 G Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL REV EPOXI-FENOLICO OURO X 15 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL REV EPOXI-FENOLICO OURO X 30 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 100 BG AL REV EPOXI-FENOLICO OURO X 60 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL REV EPOXI-FENOLICO OURO X 15 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL REV EPOXI-FENOLICO OURO X 30 G (EMB HOSP) Ativo",
+            "20 MG/G CREM DERM CX 300 BG AL REV EPOXI-FENOLICO OURO X 60 G (EMB HOSP) Ativo"
+        ]
+    },
+    "104400157": {
+        "expiration_date": "01/12/2028",
+        "presentations": [
+            "70 MG COM CT BL AL PLAS TRANS X 200 Ativo",
+            "70 MG COM CT BL AL PLAS OPC X 200 Ativo",
+            "70 MG COM CT BL AL PLAS TRANS X 4 Ativo",
+            "70 MG COM CT BL AL PLAS OPC X 4 Ativo",
+            "70 MG COM CT BL AL PLAS TRANS X 12 Ativo"
+        ]
+    },
+    "167730535": {
+        "expiration_date": "01/04/2027",
+        "presentations": [
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 20 Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 60 Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 30 Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 12 Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 42 (EMB FRAC) Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 10 Ativo",
+            "875 MG + 125 MG COM REV CT BL AL/ AL X 14 Ativo"
+        ]
+    },
+    "103920150": {
+        "expiration_date": "01/10/2027",
+        "presentations": [
+            "5 MG COM CT BL AL PLAS AMB X 500 Ativo",
+            "5 MG COM CT BL AL PLAS AMB X 20 Ativo",
+            "5 MG COM CT BL AL PLAS AMB X 30 Ativo",
+            "10 MG COM CT BL AL PLAS AMB X 30 Ativo",
+            "10 MG COM CT BL AL PLAS AMB X 500 Ativo",
+            "10 MG COM CT BL AL PLAS AMB X 20 Ativo"
+        ]
+    },
+    "154230166": {
+        "expiration_date": "01/11/2025",
+        "presentations": [
+            "500 MG COM REV CT BL AL PVC TRANS X 50 Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 3 Ativo",
+            "500 MG COM REV CT BL AL PVC TRANS X 2 Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 2  Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 150 Ativo",
+            "500 MG COM REV CT BL AL PVC TRANS X 100 Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 50 Ativo",
+            "500 MG COM REV CT BL AL PVC TRANS X 150 Ativo",
+            "500 MG COM REV CT BL AL PVC TRANS X 300 Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 100 Ativo",
+            "500 MG COM REV CT BL AL PVC TRANS X 3 Ativo",
+            "500 MG COM REV CT BL AL PVDC TRANS X 300 Ativo"
+        ]
+    },
+    "105710125": {
+        "expiration_date": "01/04/2026",
+        "presentations": [
+            "40 MG/ML SUS OR CT FR PLAS AMB X 100 ML + COP MED  Ativo",
+            "40 MG/ML SUS OR CT 50 FR PLAS AMB X 100 ML + 50 COP MED  Ativo",
+            "40 MG/ML SUS OR CT 100 FR PLAS AMB X 100 ML + 100 COP MED  Ativo"
+        ]
+    },
+    "154230001": {
+        "expiration_date": "01/01/2028",
+        "presentations": [
+            "50 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "25 MG COM CT BL AL PLAS PVC TRANS X 15 Ativo",
+            "25 MG COM CX BL AL PLAS PVC TRANS X 750 Ativo",
+            "50 MG COM CT BL AL PLAS PVC TRANS X 15 Ativo",
+            "25 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "50 MG COM CT BL AL PLAS PVC TRANS X 750 Ativo"
+        ]
+    },
+    "118190058": {
+        "expiration_date": "01/03/2026",
+        "presentations": [
+            "500 MG CAP DURA CX BL AL PLAS TRANS X 200 Ativo",
+            "500 MG CAP DURA CT BL AL PLAS TRANS X 10 Ativo",
+            "500 MG CAP DURA CX BL AL PLAS TRANS X 500 Ativo",
+            "500 MG CAP DURA CT BL AL PLAS TRANS X 8 Ativo"
+        ]
+    },
+    "167730067": {
+        "expiration_date": "01/02/2029",
+        "presentations": [
+            "500 MG COM REV CT BL AL PLAS OPC X 50 Ativo",
+            "500 MG COM REV CT BL AL PLAS OPC X 6  Ativo",
+            "500 MG COM REV CT BL AL PLAS OPC X 10 Ativo",
+            "500 MG COM REV CT BL AL PLAS OPC X 14 Ativo"
+        ]
+    },
+    "105040033": {
+        "expiration_date": "01/07/2029",
+        "presentations": [
+            "40 MG COM CX BL AL PLAS PVC TRANS X 6000 Ativo",
+            "40 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "40 MG COM CT BL AL PLAS PVC TRANS X 40  Ativo"
+        ]
+    },
+    "135690199": {
+        "expiration_date": "01/06/2029",
+        "presentations": [
+            "80 MG COM REV CT BL AL PLAS PVDC OPC X 30 Ativo",
+            "80 MG COM REV CT BL AL PLAS PVDC OPC X 450 Ativo",
+            "80 MG COM REV CT BL AL PLAS PVDC OPC X 45 Ativo",
+            "80 MG COM REV CT BL AL PLAS PVDC OPC X 60 Ativo"
+        ]
+    },
+    "154230038": {
+        "expiration_date": "01/12/2028",
+        "presentations": [
+            "0,4MG/ML + 0,05MG/ML XPE CT FR VD AMB X 100 ML + COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT 60 FR VD AMB X 100 ML + 60 COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT FR VD AMB X 120 ML + COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT 60 FR VD AMB X 120 ML + 60 COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT FR PEAD X 100 ML + COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT 60 FR PEAD X 100 ML + 60 COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT 60 FR PEAD X 120 ML + 60 COP Ativo",
+            "0,4MG/ML + 0,05MG/ML XPE CT FR PEAD X 120 ML + COP Ativo"
+        ]
+    },
+    "103920227": {
+        "expiration_date": "01/06/2033",
+        "presentations": [
+            "20 MG COM CT ENV AL X 30 Ativo",
+            "5 MG COM CT ENV AL X 500 EMB HOSP Ativo",
+            "20 MG COM CT ENV AL X 500 EMB HOSP Ativo",
+            "10 MG COM CT ENV AL X 500 EMB HOSP Ativo",
+            "5 MG COM CT ENV AL X 30 Ativo",
+            "10 MG COM CT ENV AL X 30 Ativo"
+        ]
+    },
+    "105710158": {
+        "expiration_date": "01/04/2030",
+        "presentations": [
+            "10 MG COM CT STR X 1000 Ativo",
+            "5 MG COM CT STR X 1000 Ativo",
+            "10 MG COM CT STR X 10  Ativo",
+            "20 MG COM CT STR X 30 Ativo",
+            "5 MG COM CT STR X 500 Ativo",
+            "10 MG COM CT STR X 500 Ativo",
+            "5 MG COM CT STR X 10  Ativo",
+            "20 MG COM CT STR X 10 Ativo",
+            "20 MG COM CT STR X 1000 Ativo",
+            "5 MG COM CT STR X 30 Ativo",
+            "20 MG COM CT STR X 500 Ativo",
+            "10 MG COM CT STR X 30 Ativo"
+        ]
+    },
+    "109740254": {
+        "expiration_date": "01/02/2028",
+        "presentations": [
+            "1 MG/G CREM VAG CT BG AL X 50 G + 5 APLIC Ativo"
+        ]
+    },
+    "103920190": {
+        "expiration_date": "01/02/2029",
+        "presentations": [
+            "150 MG CAP DURA CT BL AL PLAS TRANS X 1  Ativo",
+            "150 MG CAP DURA CT BL AL PLAS TRANS X 500 Ativo",
+            "150 MG CAP DURA CT BL AL PLAS TRANS X 2 Ativo"
+        ]
+    },
+    "154230311": {
+        "expiration_date": "01/09/2030",
+        "presentations": [
+            "50 MG/ML SUS GOT OR CX 100 FR GOT PLAS PE OPC X 30 ML Ativo",
+            "100 MG/ML SUS GOT OR CX 50 FR GOT PLAS PE OPC X 20 ML Ativo",
+            "100 MG/ML SUS GOT OR CX 60 FR GOT PLAS PE OPC X 20 ML Ativo",
+            "100 MG/ML SUS GOT OR CX 100 FR GOT PLAS PE OPC X 20 ML Ativo",
+            "100 MG/ML SUS GOT OR CT FR GOT PLAS PE OPC X 20 ML Ativo",
+            "50 MG/ML SUS GOT OR CT FR GOT PLAS PE OPC X 30 ML Ativo",
+            "50 MG/ML SUS GOT OR CX 60 FR GOT PLAS PE OPC X 30 ML Ativo",
+            "50 MG/ML SUS GOT OR CX 50 FR GOT PLAS PE OPC X 30 ML Ativo"
+        ]
+    },
+    "103920222": {
+        "expiration_date": -1,
+        "presentations": [
+            "600 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "300 MG COM CT BL AL PLAS PVC TRANS X 200 Ativo",
+            "300 MG COM CT BL AL PLAS PVC TRANS X 500 Ativo",
+            "600 MG COM CT BL AL PLAS PVC TRANS X 200 Ativo",
+            "300 MG COM CT BL AL PLAS PVC TRANS X 20 Ativo",
+            "300 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "600 MG COM CT BL AL PLAS PVC TRANS X 500 Ativo",
+            "600 MG COM CT BL AL PLAS PVC TRANS X 20 Ativo"
+        ]
+    },
+    "109740265": {
+        "expiration_date": "01/08/2028",
+        "presentations": [
+            "20 MG COM CT BL AL PLAS TRANS X 90 Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 120 Ativo",
+            "10 MG/ML SOL INJ CT 50 AMP VD AMB X 01 ML Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 60 Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 30 Ativo"
+        ]
+    },
+    "102351205": {
+        "expiration_date": "01/04/2027",
+        "presentations": [
+            "100 MG CAP DURA CT BL AL PLAS PVC TRANS X 4 Ativo",
+            "100 MG CAP DURA CT BL AL PLAS PVC TRANS X 450 Ativo",
+            "100 MG CAP DURA CT BL AL PLAS PVC TRANS X 10 Ativo",
+            "100 MG CAP DURA CT BL AL PLAS PVC TRANS X 500 Ativo",
+            "100 MG CAP DURA CT BL AL PLAS PVC TRANS X 15 Ativo"
+        ]
+    },
+    "100890202": {
+        "expiration_date": "01/03/2026",
+        "presentations": [
+            "25 MCG COM CT BL AL AL X 60 Ativo",
+            "75 MCG COM CT BL AL AL X 60 Ativo",
+            "75 MCG COM CT BL AL AL X 100 Ativo",
+            "150 MCG COM CT BL AL AL X 60 Ativo",
+            "50 MCG COM CT BL AL AL X 50 Ativo",
+            "175 MCG COM CT BL AL AL X 30  Ativo",
+            "25 MCG COM CT BL AL AL X 30 Ativo",
+            "88 MCG COM CT BL AL AL X 10  Ativo",
+            "125 MCG COM CT BL AL AL X 50 Ativo",
+            "200 MCG COM CT BL AL AL X 30  Ativo",
+            "175 MCG COM CT BL AL AL X 50 Ativo",
+            "200 MCG COM CT BL AL AL X 100 Ativo",
+            "125 MCG COM CT BL AL AL X 30   Ativo",
+            "75 MCG COM CT BL AL AL X 10 Ativo",
+            "75 MCG COM CT BL AL AL X 30   Ativo",
+            "75 MCG COM CT BL AL AL X 50  Ativo",
+            "100 MCG COM CT BL AL AL X 50 Ativo",
+            "25 MCG COM CT BL AL AL X 50   Ativo",
+            "200 MCG COM CT BL AL AL X 50 Ativo",
+            "112 MCG COM CT BL AL AL X 60 Ativo",
+            "112 MCG COM CT BL AL AL X 10  Ativo",
+            "125 MCG COM CT BL AL AL X 60 Ativo",
+            "200 MCG COM CT BL AL AL X 60 Ativo",
+            "100 MCG COM CT BL AL AL X 30   Ativo",
+            "175 MCG COM CT BL AL AL X 60 Ativo",
+            "25 MCG COM CT BL AL AL X 10 Ativo",
+            "125 MCG COM CT BL AL AL X 10 Ativo",
+            "88 MCG COM CT BL AL AL X 30 Ativo",
+            "100 MCG COM CT BL AL AL X 10 Ativo",
+            "50 MCG COM CT BL AL AL X 30  Ativo",
+            "125 MCG COM CT BL AL AL X 100 Ativo",
+            "200 MCG COM CT BL AL AL X 10 Ativo",
+            "150 MCG COM CT BL AL AL X 10 Ativo",
+            "175 MCG COM CT BL AL AL X 100  Ativo",
+            "100 MCG COM CT BL AL AL X 60 Ativo",
+            "88 MCG COM CT BL AL AL X 50 Ativo",
+            "100 MCG COM CT BL AL AL X 100 Ativo",
+            "112 MCG COM CT BL AL AL X 100 Ativo",
+            "150 MCG COM CT BL AL AL X 100 Ativo",
+            "50 MCG COM CT BL AL AL X 10 Ativo",
+            "25 MCG COM CT BL AL AL X 100 Ativo",
+            "88 MCG COM CT BL AL AL X 100 Ativo",
+            "88 MCG COM CT BL AL AL X 60 Ativo",
+            "112 MCG COM CT BL AL AL X 50 Ativo",
+            "175 MCG COM CT BL AL AL X 10 Ativo",
+            "50 MCG COM CT BL AL AL X 60 Ativo",
+            "150 MCG COM CT BL AL AL X 50 Ativo",
+            "112 MCG COM CT BL AL AL X 30 Ativo",
+            "50 MCG COM CT BL AL AL X 100   Ativo",
+            "150 MCG COM CT BL AL AL X 30   Ativo"
+        ]
+    },
+    "154230339": {
+        "expiration_date": -1,
+        "presentations": [
+            "10 MG COM CT BL AL PLAS PVC TRANS X 24 Ativo",
+            "10 MG COM CT BL AL PLAS PVC TRANS X 12 Ativo",
+            "10 MG COM CT BL AL PLAS PVC TRANS X 6 Ativo",
+            "10 MG COM CX BL AL PLAS PVC TRANS X 450 Ativo",
+            "10 MG COM CX BL AL PLAS PVC TRANS X 500 Ativo",
+            "10 MG COM CX BL AL PLAS PVC TRANS X 240 Ativo",
+            "10 MG COM CT BL AL PLAS PVC TRANS X 10 Ativo"
+        ]
+    },
+    "141070627": {
+        "expiration_date": "01/12/2029",
+        "presentations": [
+            "50 MG COM REV CT BL AL PLAS PVC/PE/PVDC TRANS X 90 Ativo",
+            "50 MG COM REV CT BL AL PLAS PVC/PE/PVDC TRANS X 300 Ativo",
+            "50 MG COM REV CT BL AL PLAS PVC/PE/PVDC TRANS X 30 Ativo",
+            "50 MG COM REV CT BL AL PLAS PVC/PE/PVDC TRANS X 500 Ativo",
+            "50 MG COM REV CT BL AL PLAS PVC/PE/PVDC TRANS X 60 Ativo"
+        ]
+    },
+    "102350774": {
+        "expiration_date": "01/08/2025",
+        "presentations": [
+            "5 MG/ML SOL OFT CT FR GOT PLAS TRANS X 5 ML Ativo"
+        ]
+    },
+    "154230270": {
+        "expiration_date": "01/03/2028",
+        "presentations": [
+            "1000 MG COM CT BL AL PLAS PVC TRANS X 500 Ativo",
+            "850 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "1000 MG COM CT BL AL PLAS PVC TRANS X 1000 Ativo",
+            "1000 MG COM CT BL AL PLAS PVC TRANS X 30 Ativo",
+            "1000 MG COM CT BL AL PLAS PVC TRANS X 90 Ativo",
+            "850 MG COM CX BL AL PLAS PVC TRANS X 500 Ativo",
+            "1000 MG COM CT BL AL PLAS PVC TRANS X 60 Ativo",
+            "850 MG COM CT BL AL PLAS PVC TRANS X 60 Ativo",
+            "850 MG COM CX BL AL PLAS PVC TRANS X 1000 Ativo",
+            "850 MG COM CT BL AL PLAS PVC TRANS X 90 Ativo"
+        ]
+    },
+    "103920215": {
+        "expiration_date": -1,
+        "presentations": [
+            "850 MG COM CT BL AL PLAS TRANS X 30  Ativo",
+            "850 MG COM CT BL AL PLAS TRANS X 60 Ativo",
+            "850 MG COM CT BL AL PLAS TRAS X 500 Ativo",
+            "500 MG COM CT BL AL PLAS TRANS X 500 Ativo",
+            "500 MG COM CT BL AL PLAS TRANS X 30 Ativo"
+        ]
+    },
+    "105710165": {
+        "expiration_date": "01/02/2031",
+        "presentations": [
+            "4,0 MG/ML SOL OR CT FR PLAS OPC GOT X 10 ML Ativo",
+            "10 MG COM CT BL AL PLAS TRANS X 1000 Ativo",
+            "10 MG COM CT BL AL PLAS TRANS X 500 Ativo",
+            "10 MG COM CT BL AL PLAS TRANS X 20 Ativo",
+            "4,0 MG/ML SOL OR CT 50 FR PLAS OPC GOT X 10 ML Ativo",
+            "4,0 MG/ML SOL OR CT 25 FR PLAS OPC GOT X 10 ML Ativo",
+            "10 MG COM CT BL AL PLAS TRANS X 2000 Ativo"
+        ]
+    },
+    "109740350": {
+        "expiration_date": "01/04/2032",
+        "presentations": [
+            "25 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 120 Ativo",
+            "100 MG COM REV LIB PROL CT BL AL PLAS TRANS X 30 Ativo",
+            "100 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 20 Ativo",
+            "50 MG COM REV LIB PROL CT BL AL PLAS TRANS X 30 Ativo",
+            "50 MG COM REV LIB PROL CT BL AL PLAS TRANS X 60 Ativo",
+            "100 MG COM REV LIB PROL CT BL AL PLAS TRANS X 20 Ativo",
+            "50 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 20 Ativo",
+            "25 MG COM REV LIB PROL CT BL AL PLAS TRANS X 20 Ativo",
+            "50 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 100 Ativo",
+            "25 MG COM REV LIB PROL CT BL AL PLAS TRANS X 30 Ativo",
+            "100 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 60 Ativo",
+            "50 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 30 Ativo",
+            "50 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 60 Ativo",
+            "25 MG COM REV LIB PROL CT BL AL PLAS TRANS X 60 Ativo",
+            "100 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 120 Ativo",
+            "25 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 60 Ativo",
+            "25 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 20 Ativo",
+            "100 MG COM REV LIB PROL CT BL AL PLAS TRANS X 60 Ativo",
+            "100 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 30 Ativo",
+            "25 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 100 Ativo",
+            "50 MG COM REV LIB PROL CT BL AL PLAS TRANS X 20 Ativo",
+            "100 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 100 Ativo",
+            "50 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 120 Ativo",
+            "25 MG COM REV LIB PROL CT FR PLAS PEAD OPC X 30 Ativo"
+        ]
+    },
+    "155840308": {
+        "expiration_date": "01/11/2028",
+        "presentations": [
+            "250 MG COM CX BL AL PLAS PVC TRANS X 200 Ativo",
+            "250 MG COM CT BL AL PLAS PVC TRANS X 20   Ativo"
+        ]
+    },
+    "103700443": {
+        "expiration_date": "01/06/2028",
+        "presentations": [
+            "100 MG CAP GEL DURA CT BL AL PLAS INC X 28 Ativo"
+        ]
+    },
+    "105830839": {
+        "expiration_date": "01/12/2026",
+        "presentations": [
+            "20 MG COM CT BL AL PLAS OPC X 10 Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 20 Ativo",
+            "5 MG COM CT BL AL PLAS TRANS X 500 Ativo",
+            "5 MG COM CT BL AL PLAS TRANS X 90 (EMB FRAC) Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 10 Ativo",
+            "20 MG COM CT BL AL PLAS OPC X 60 (EMB FRAC) Ativo",
+            "5 MG COM CT BL AL PLAS TRANS X 20 Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 60 (EMB FRAC) Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 30 (EMB FRAC) Ativo",
+            "20 MG COM CT BL AL PLAS OPC X 500 Ativo",
+            "20 MG COM CT BL AL PLAS TRANS X 500  Ativo",
+            "5 MG COM CT BL AL PLAS TRANS X 60 (EMB FRAC) Ativo",
+            "20 MG COM CT BL AL PLAS OPC X 30 (EMB FRAC) Ativo"
+        ]
+    },
+    "103870044": {
+        "expiration_date": "01/10/2026",
+        "presentations": [
+            "25 MG/ML SOL INJ CX 100 AMP VD INC X 2 ML (EMB HOSP) Ativo"
+        ]
+    },
+    "167730465": {
+        "expiration_date": "01/11/2026",
+        "presentations": [
+            "20 MG COM REV CT BL AL PLAS OPC X 10 Ativo",
+            "40 MG COM REV CT BL AL PLAS OPC X 30 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 10 Ativo",
+            "80 MG COM REV CT BL AL PLAS OPC X 60 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 30 Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 500 Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 450 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 450 Ativo",
+            "40 MG COM REV CT BL AL PLAS OPC X 60 Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 40 Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 30 Ativo",
+            "40 MG COM REV CT BL AL PLAS OPC X 10 Ativo",
+            "80 MG COM REV CT BL AL PLAS OPC X 40 Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 20 Ativo",
+            "80 MG COM REV CT BL AL PLAS OPC X 10 Ativo",
+            "80 MG COM REV CT BL AL PLAS OPC X 20 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 500 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 90 (EMB FRAC) Ativo",
+            "40 MG COM REV CT BL AL PLAS OPC X 20 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 60 (EMB FRAC) Ativo",
+            "20 MG COM REV CT BL AL PLAS OPC X 60 Ativo",
+            "40 MG COM REV CT BL AL PLAS OPC X 40 Ativo",
+            "80 MG COM REV CT BL AL PLAS OPC X 30 Ativo",
+            "10 MG COM REV CT BL AL PLAS OPC X 20 Ativo"
+        ]
+    },
+    "100681124": {
+        "expiration_date": "01/04/2026",
+        "presentations": [
+            "40 MG COM REV CT BL AL PLAS TRANS X 900 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 300 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 150 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 60 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 30 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 300 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 60 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 20 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 150 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 600 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 10 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 900 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 600 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 60 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 900 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 150 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 20 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 10 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 30 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 10 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 600 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 300 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 10 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 60 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 60 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 300 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 20 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 600 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 30 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 600 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 20 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 900 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 300 Ativo",
+            "20 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 30 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 600 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 30 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 10 Ativo",
+            "20 MG COM REV CT BL AL PLAS TRANS X 150 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 900 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 20 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 150 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 900 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 30 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 20 Ativo",
+            "10 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 150 Ativo",
+            "40 MG COM REV CT BL AL PLAS PVC/PVDC TRANS X 60 Ativo",
+            "10 MG COM REV CT BL AL PLAS TRANS X 300 Ativo",
+            "40 MG COM REV CT BL AL PLAS TRANS X 10 Ativo"
+        ]
+    },
+    "167730253": {
+        "expiration_date": "01/08/2025",
+        "presentations": [
+            "800 MG + 160 MG COM CT BL AL PLAS PVDC TRANS X 10 Ativo",
+            "40 MG/ML + 8 MG/ML SUS OR CT FR PLAS AMB X 100 ML Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS PVDC TRANS X 20 Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS PVDC TRANS X 48 Ativo",
+            "40 MG/ML + 8 MG/ML SUS OR CT FR PLAS AMB X 100 ML + COP  Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS PVDC TRANS X 50 Ativo"
+        ]
+    },
+    "103920169": {
+        "expiration_date": "01/11/2026",
+        "presentations": [
+            "400 MG + 80 MG COM CT BL AL PLAS TRANS X 10 Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS TRANS X 20 Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS TRANS X 30 Ativo",
+            "400 MG + 80 MG COM CT BL AL PLAS TRANS X 500 Ativo"
         ]
     }
 }

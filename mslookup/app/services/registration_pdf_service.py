@@ -20,13 +20,15 @@ class RegistrationPDFService:
         self.anvisa_domain = anvisa_domain
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
 
-    def generate_registration_pdfs(self, product_registrations: List[Product]) -> List[Dict[str, Any]]:
+    def generate_registration_pdfs(self, product_registrations: List[Product], progress_callback=None) -> List[Dict[str, Any]]:
         logging.info(f'{self.name}: Starting execution.')
         final_result = []
         presentation = None
         reg_data = {}
         data_updated = False
-
+        
+        total_products = len(product_registrations)
+        progress_step = 35 / total_products if total_products > 0 else 0
         for product_index, product in enumerate(product_registrations):
             final_result.append(
                 {
@@ -114,8 +116,14 @@ class RegistrationPDFService:
                 data_updated = True
             else:
                 data_updated = False
+                
+            # Atualizando o progresso, começando de 60% e indo até 95%
+            if progress_callback:
+                progress_callback(60 + (product_index + 1) * progress_step)
 
         logging.info(f'{self.name}: Execution completed.')
+        if progress_callback:
+            progress_callback(95)
         return final_result
 
     def generate_json_file(

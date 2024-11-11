@@ -39,13 +39,13 @@ class InputProcessor:
 
         return filtered_input
 
-    def process_input(self, raw_input: Dict[str, str]) -> List[Dict[str, Any]]:
+    def process_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Dict[str, Any]]:
         logging.info(f'{self.name}: Starting execution.')
         filtered_input = self.read_raw_input(raw_input)
         products_type = raw_input['products_type']
 
         data = []
-
+        total_rows = len(filtered_input)  # Total de linhas a processar
         current_identifier = self.checkpoint_manager.generate_identifier(
             filtered_input
         )
@@ -58,6 +58,8 @@ class InputProcessor:
         else:
             start_index = 0
 
+        # Progresso baseado no número total de linhas (será 20% da barra total)
+        progress_step = 20 / total_rows if total_rows > 0 else 0
         for index, row in enumerate(filtered_input[start_index:]):
 
             processed_product = self.product_processor.get_processed_product(
@@ -68,6 +70,10 @@ class InputProcessor:
             )
 
             data.append(processed_product)
+            
+            # Atualiza o progresso a cada linha processada
+            if progress_callback:
+                progress_callback(min(20, (start_index + index + 1) * progress_step))  # Limita a 20%
 
             if len(data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(
@@ -79,4 +85,7 @@ class InputProcessor:
         )
 
         logging.info(f'{self.name}: Execution completed.')
+        # Garante que o progresso vai até 20% após concluir
+        if progress_callback:
+            progress_callback(20)
         return data

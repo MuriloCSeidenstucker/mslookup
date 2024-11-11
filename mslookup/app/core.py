@@ -17,7 +17,6 @@ class Core:
         logging.info(f'{self.name}: Instantiated.')
         
         pdf_manager, anvisa_domain = load_config()
-        # self.input_manager = InputManager()
         self.report_generator = ReportGenerator()
         self.checkpoint_manager = CheckpointManager()
         self.input_processor_service = InputProcessorService(self.checkpoint_manager)
@@ -29,30 +28,33 @@ class Core:
         )
         self.all_stages_completed = False
 
-    def execute(self, raw_input):
+    def execute(self, raw_input, progress_callback):
         logging.info(f'{self.name}: Starting execution.')
         try:
-            # raw_input = self.input_manager.get_raw_input()
             processed_input = self.input_processor_service.get_processed_input(
-                raw_input
+                raw_input,
+                progress_callback=lambda progress: progress_callback(progress)
             )
             logging.info(f'{self.name}: Processed data input.')
             
             product_registrations = (
                 self.product_registration_service.get_product_registrations(
-                    processed_input
+                    processed_input,
+                    progress_callback=lambda progress: progress_callback(progress)
                 )
             )
             logging.info(f'{self.name}: Registrations of collected products.')
             
             final_result = (
                 self.registration_pdf_service.generate_registration_pdfs(
-                    product_registrations
+                    product_registrations,
+                    progress_callback=lambda progress: progress_callback(progress)
                 )
             )
             logging.info(f'{self.name}: PDF registrations generated.')
             
             self.report_generator.generate_report(final_result)
+            progress_callback(100)  # Atualiza para 100%
             logging.info(f'{self.name}: Report generated successfully.')
             
             self.all_stages_completed = True

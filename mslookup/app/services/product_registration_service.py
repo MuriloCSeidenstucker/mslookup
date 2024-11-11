@@ -15,11 +15,11 @@ class ProductRegistrationService:
         
         self.registration_processor = RegistrationProcessor(checkpoint_manager)
 
-    def get_product_registrations(self, processed_input: List[Product]) -> List[Product]:
+    def get_product_registrations(self, processed_input: List[Product], progress_callback=None) -> List[Product]:
         logging.info(f'{self.name}: Starting execution.')
         product_registrations = []
         product_registrations = (
-            self.registration_processor.process_registrations(processed_input)
+            self.registration_processor.process_registrations(processed_input, progress_callback)
         )
         
         logging.info(f'{self.name}: Execution completed.')
