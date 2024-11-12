@@ -29,6 +29,8 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
 OBJETIVOS CONCLUÍDOS:
+[Ok] Agora é possível pesquisar pelo medicamento individualmente, no lugar do nome das colunas, é só preencher um número qualquer de item,
+    descrição do medicamento COM A CONCENTRAÇÃO, se não colocar concentração não funcionará, e o laboratório.
 [Ok] Melhorar a interface.
 [Ok] Criar um executável/instalador.
     [Ok] Estudar como fazer isso.
