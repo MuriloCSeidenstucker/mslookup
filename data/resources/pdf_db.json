@@ -2654,5 +2654,18 @@
             "400 MG + 80 MG COM CT BL AL PLAS TRANS X 30 Ativo",
             "400 MG + 80 MG COM CT BL AL PLAS TRANS X 500 Ativo"
         ]
+    },
+    "143810181": {
+        "expiration_date": "01/04/2026",
+        "presentations": [
+            "50 MG/G CREM DERM CT BG X 10 G Ativo",
+            "50 MG/G CREM DERM CT BG AL X 5G Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 10  Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 25 Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 30 Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 60 Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 200 Ativo",
+            "200 MG COM CT BL AL PLAS TRANS X 500 Ativo"
+        ]
     }
 }

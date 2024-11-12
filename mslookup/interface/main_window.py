@@ -140,10 +140,10 @@ class MainWindow:
             logging.warning(f'{self.name}: File selection canceled.')
 
     def validate_entries(self):
-        if not self.file_path:
-            self.status_label.config(text="Por favor, selecione um arquivo primeiro.", foreground="red")
-            logging.warning(f'{self.name}: Validation failed -> no file selected.')
-            return False
+        # if not self.file_path:
+        #     self.status_label.config(text="Por favor, selecione um arquivo primeiro.", foreground="red")
+        #     logging.warning(f'{self.name}: Validation failed -> no file selected.')
+        #     return False
         
         # Mensagens descritivas para cada campo obrigatório
         required_fields = {

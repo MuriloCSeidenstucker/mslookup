@@ -26,16 +26,25 @@ class InputProcessor:
         desc_col = raw_input['desc_col']
         brand_col = raw_input['brand_col']
         
-        df = pd.read_excel(file_path)
-        for index, row in df.iterrows():
-            if pd.notna(row[brand_col]):
-                filtered_input.append(
-                    {
-                        'item': row[item_col],
-                        'description': row[desc_col],
-                        'brand': row[brand_col],
-                    }
-                )
+        if file_path:
+            df = pd.read_excel(file_path)
+            for index, row in df.iterrows():
+                if pd.notna(row[brand_col]):
+                    filtered_input.append(
+                        {
+                            'item': row[item_col],
+                            'description': row[desc_col],
+                            'brand': row[brand_col],
+                        }
+                    )
+        else:
+            filtered_input.append(
+                {
+                    'item': item_col,
+                    'description': desc_col,
+                    'brand': brand_col,
+                }
+            )
 
         return filtered_input
 
