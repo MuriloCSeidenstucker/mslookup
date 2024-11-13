@@ -55,6 +55,16 @@ Ou, se configurado, utilize o script:
 
 5. O relatório será salvo na pasta raiz do projeto, e os PDFs serão salvos na pasta Downloads do computador.
 
+## Dica: Realizando uma Busca Individual
+Caso o usuário queira testar o app sem utilizar uma planilha, também é possível realizar a busca de um único medicamento. Para isso:
+
+- Não selecione nenhuma planilha.
+- No campo Nome da Coluna Item, insira qualquer numeração para representar o número do item.
+- No campo Nome da Coluna Descrição, insira preferencialmente o nome das substâncias e concentração do medicamento. Também é possível colocar o nome do medicamento, mas é obrigatório incluir a concentração para que o app possa localizar o registro corretamente.
+- No campo Nome da Coluna Marca, coloque a marca ou laboratório do medicamento.
+
+Essa opção permite testar o funcionamento da busca sem a necessidade de preparar uma planilha.
+
 ## Contato
 
 Fico à disposição para dúvidas, sugestões e colaborações. Entre em contato pelos seguintes canais:
