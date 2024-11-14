@@ -137,15 +137,11 @@ class MainWindow:
                 self.status_label.config(text="Falha na detecção automática. Preencha manualmente.", foreground="orange")
                 logging.warning(f'{self.name}: Failed to auto-detect columns.')
         else:
+            self.file_path = ''
             self.status_label.config(text="Nenhum arquivo selecionado.", foreground="red")
             logging.warning(f'{self.name}: File selection canceled.')
 
     def validate_entries(self):
-        # if not self.file_path:
-        #     self.status_label.config(text="Por favor, selecione um arquivo primeiro.", foreground="red")
-        #     logging.warning(f'{self.name}: Validation failed -> no file selected.')
-        #     return False
-        
         # Mensagens descritivas para cada campo obrigatório
         required_fields = {
             'prod_type': "O tipo de produto não pode estar vazio.",
