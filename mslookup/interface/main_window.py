@@ -3,6 +3,7 @@ import os
 import threading
 from tkinter import Tk, filedialog, ttk
 from mslookup.app.core import Core
+from mslookup.app.exceptions import MissingColumnsError
 from mslookup.app.logger_config import configure_logging
 
 class MainWindow:
@@ -199,9 +200,11 @@ class MainWindow:
             self.core.execute(entry_data, self.update_progress)  # Passa update_progress como callback
             self.update_status("Busca concluída com sucesso!\nOs PDFs encontrados foram salvos na pasta DOWNLOADS", "green")
             logging.info(f'{self.name}: Data processing completed successfully.')
+        except MissingColumnsError as e:
+            self.update_status(e.args[0], "red")
         except Exception as e:
-            self.update_status(f"Erro ao buscar registros: {e}", "red")
-            logging.error(f'{self.name}: Error during data processing', exc_info=True)
+            logging.exception(f'{self.name}: Unexpected error {e=}, {type(e)=}')
+            self.update_status(f'Ocorreu um erro inesperado, tente novamente ou contate o suporte', "red")
         finally:
             self.processing = False  # Atualiza para indicar que o processamento terminou
             self.set_interface('normal')  # Reativar todos os elementos da interface

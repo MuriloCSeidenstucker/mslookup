@@ -12,7 +12,7 @@ def start():
         app = MainWindow(root)
         app.run()
     except Exception as e:
-        logging.error("An error occurred while running the application", exc_info=True)
+        logging.exception("An error occurred while running the application")
     finally:
         logging.info("Shutting down the application.\n")
 

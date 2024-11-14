@@ -3,6 +3,7 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
+from mslookup.app.exceptions import MissingColumnsError
 from mslookup.app.logger_config import configure_logging
 from mslookup.app.products.product_processor import ProductProcessor
 
@@ -28,6 +29,13 @@ class InputProcessor:
         
         if file_path:
             df = pd.read_excel(file_path)
+            
+            required_columns = [item_col, desc_col, brand_col]
+            missing_columns = [col for col in required_columns if col not in df.columns]
+            
+            if missing_columns:
+                raise MissingColumnsError(missing_columns)
+            
             for index, row in df.iterrows():
                 if pd.notna(row[brand_col]):
                     filtered_input.append(
@@ -50,7 +58,11 @@ class InputProcessor:
 
     def process_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Dict[str, Any]]:
         logging.info(f'{self.name}: Starting execution.')
-        filtered_input = self.read_raw_input(raw_input)
+        try:
+            filtered_input = self.read_raw_input(raw_input)
+        except ValueError as inst:
+            raise
+            
         products_type = raw_input['products_type']
 
         data = []

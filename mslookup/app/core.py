@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 from mslookup.app.checkpoint_manager import CheckpointManager
 from mslookup.app.config import load_config
+from mslookup.app.exceptions import MissingColumnsError
 from mslookup.app.input_manager import InputManager
 from mslookup.app.logger_config import configure_logging
 from mslookup.app.report_generator import ReportGenerator
@@ -94,8 +95,11 @@ class Core:
             logging.info(f'{self.name}: Report generated successfully.')
             
             self.all_stages_completed = True
+        except MissingColumnsError:
+            raise
         except Exception as e:
-            logging.exception(f'{self.name}: An error occurred during execution.')
+            logging.critical(f'{self.name}: Unexpected error {e=}, {type(e)=}')
+            raise
         finally:
             if self.all_stages_completed:
                 self.checkpoint_manager.delete_checkpoints()
