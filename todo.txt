@@ -4,6 +4,48 @@ O diretório onde ficam salvos os PDFS(data\registers_pdf) devem corresponder co
 do json(data\resources\pdf_db.json), ou seja, se um registro estiver anotado no json, o seu PDF deve existir no diretório,
 caso contrário irá ocorrer um erro de lógica. Ainda não existe nenhuma verificação para evitar que isso aconteça.
 
+####################################################################
+                    NOVA REFATORAÇÃO DO PROJETO
+####################################################################
+
+Organização Geral:
+[  ] Revisar estrutura do projeto.
+    [  ] Identificar arquivos e pastas mal organizados.
+    [  ] Reestruturar para refletir a funcionalidade ou domínio do projeto.
+
+Melhorar Nomeação de Elementos:
+[  ] Remover comentários desnecessários.
+    [  ] Identificar e excluir comentários que explicam o óbvio ou podem ser substituídos por código claro.
+[  ] Renomear variáveis, funções e classes.
+    [  ] Escolher nomes que reflitam claramente suas intenções.
+    [  ] Usar convenções de nomenclatura consistentes.
+[  ] Revisar constantes e parâmetros.
+    [  ] Substituir valores mágicos por constantes com nomes descritivos.
+    [  ] Adicionar argumentos de função nomeados quando aplicável.
+
+Reescrever Código para Maior Clareza:
+[  ] Simplificar funções complexas.
+    [  ] Dividir funções extensas em subfunções menores e mais específicas.
+    [  ] Garantir que cada função faça apenas uma coisa (Princípio SRP).
+[  ] Substituir lógica complicada por alternativas claras.
+    [  ] Reestruturar condições aninhadas para serem mais legíveis.
+    [  ] Usar polimorfismo, estratégias ou tabelas de decisão, se aplicável.
+[  ] Eliminar duplicação de código.
+    [  ] Identificar blocos repetidos.
+    [  ] Criar funções reutilizáveis ou classes para encapsular esses padrões.
+
+Documentação Mínima Essencial:
+[  ] Revisar o README.
+    [  ] Adicionar contexto sobre a arquitetura ou decisões de design do projeto.
+
+Revisão e Feedback:
+[  ] Fazer revisão por pares (code review)
+    [  ] Pedir feedback de colegas para avaliar clareza e consistência.
+[  ] Refinar baseado no feedback
+    [  ] Ajustar partes do código que ainda gerem dúvidas ou ambiguidades.
+
+####################################################################
+
 [  ] Evitar ao máximo fazer buscas com o navegador e caso seja necessário, abrir o ChromeDriver apenas uma vez.
     O que mais custa tempo são as buscas realizadas pelo navegador, eu preciso otimizar ao máximo o app para que ele consiga obter o máximo de registros
     com as planilhas da Anvisa.
@@ -24,9 +66,6 @@ SECUNDÁRIOS:
     [  ] A planilha 'TA_PRECO_MEDICAMENTO_GOV' pode variar o número de linhas, o que alteraria o skiprows. Pensar em como lidar com isso.
 [  ] Criar uma maneira de verificar se encontrou corretamente a página da Anvisa, caso contrário, acusar que talvez o site da Anvisa esteja
 fora do ar.
-[  ] Elaborar um documento descrevendo o que cada função faz, para melhor entendimento. Comecei usando docstring, mas deve ter uma maneira
-melhor de fazer isso.
-    [Ok] Adicionado docstring em todas classes e seus métodos.
 [  ] Padronizar nomes e adicionar validação dos argumentos.
 [  ] Otimizar o filtro da descrição, tanto no momento de obter a melhor descrição, quanto no momento de buscar o registro na planilha da anvisa.
 [  ] Pensar em um lugar melhor para armazenar os registros obtidos.
