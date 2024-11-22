@@ -4,11 +4,19 @@ O diretório onde ficam salvos os PDFS(data\registers_pdf) devem corresponder co
 do json(data\resources\pdf_db.json), ou seja, se um registro estiver anotado no json, o seu PDF deve existir no diretório,
 caso contrário irá ocorrer um erro de lógica. Ainda não existe nenhuma verificação para evitar que isso aconteça.
 
+[  ] Evitar ao máximo fazer buscas com o navegador e caso seja necessário, abrir o ChromeDriver apenas uma vez.
+    O que mais custa tempo são as buscas realizadas pelo navegador, eu preciso otimizar ao máximo o app para que ele consiga obter o máximo de registros
+    com as planilhas da Anvisa.
+    [  ] Preciso ter salvo informações do máximo de registros possíveis, assim o app sempre irá consultar essas informações para saber se é ou não o registro
+        que ele está buscando, sem a necessidade de abrir um navegador para realizar uma pesquisa externa.
+    [  ] Na etapa 2, ao buscar por registros, o ChromeDriver deverá ser aberto apenas uma vez. Para isso, vou ter que salvar em uma lista os itens que não
+        foi encontrado registro nas buscas pela planilha e ao fim, fazer a busca utilizando o ChromeDriver.
+    [  ] Na etapa 3, ao tentar obter os PDFs, deverá ser salvo em uma lista os registros que não estiverem no banco de dados, e ao fim, abrir apenas uma 
+        vez o ChromeDriver e obter os novos PDFs.
+
 [  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
     Ao ser testado em outra maquina, o app não funcionou. Provavelmente tem algo a ver com o ChromeDriver.
     [  ] Melhorar sistema de logging.
-[  ] Trazer no relatório final todos os dados importantes para que o usuário possa verificar se o registro está correto,
-    evitando assim a necessidade do usuário ter que abrir os pdfs.
 
 SECUNDÁRIOS:
 [  ] Melhorar sistema de checkpoint.
@@ -28,7 +36,15 @@ o programa não lida muito bem, ele continua agindo normalmente e tenta obter o 
     Percebi que mesmo quando a API falha em extrair as substâncias da descrição, ela ainda tenta utilizar o método get_register de OpenDataAnvisa,
     mas isso é inútil, pois não tem como obter o registro se não tiver as substâncias corretamente extraidas.
 
+FEEDBACKS:
+[Ok] .vscode não deveria estar no repositório git.
+[  ] Remover comentários desnecessários, deixar nome das funções/variáveis mais descritivos.
+[  ] Verificar a possibilidade de utilizar banco de dados ao invés de xlsx e parquet(referente aos dados da Anvisa).
+[  ] Adicionar compatibilidade com Linux.
+
 OBJETIVOS CONCLUÍDOS:
+[Ok] Trazer no relatório final todos os dados importantes para que o usuário possa verificar se o registro está correto,
+    evitando assim a necessidade do usuário ter que abrir os pdfs.
 [Ok] Agora é possível pesquisar pelo medicamento individualmente, no lugar do nome das colunas, é só preencher um número qualquer de item,
     descrição do medicamento COM A CONCENTRAÇÃO, se não colocar concentração não funcionará, e o laboratório.
 [Ok] Melhorar a interface.
