@@ -1,20 +1,19 @@
-import logging
 from ttkthemes import ThemedTk
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.interface.main_window import MainWindow
 
-configure_logging()
+logger = get_logger(__name__)
 
 def start():
-    logging.info("Starting the application.")
+    logger.info("Starting the application.")
     try:
         root = ThemedTk(theme='itft1')
         app = MainWindow(root)
         app.run()
     except Exception as e:
-        logging.exception("An error occurred while running the application")
+        logger.exception("An error occurred while running the application")
     finally:
-        logging.info("Shutting down the application.\n")
+        logger.info("Shutting down the application.\n")
 
 if __name__ == "__main__":
     start()

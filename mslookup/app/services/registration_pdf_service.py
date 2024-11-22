@@ -1,10 +1,10 @@
-import logging
+
 from datetime import datetime
 from typing import Any, Dict, List
 
 from mslookup.app.access_anvisa_domain import AnvisaDomain
 from mslookup.app.json_manager import JsonManager
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.pdf_manager import PDFManager
 from mslookup.app.products.medicine import Medicine
 from mslookup.app.products.product import Product
@@ -12,16 +12,16 @@ from mslookup.app.products.product import Product
 
 class RegistrationPDFService:
     def __init__(self, pdf_manager: PDFManager, anvisa_domain: AnvisaDomain):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         
         self.pdf_manager = pdf_manager
         self.anvisa_domain = anvisa_domain
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
 
     def generate_registration_pdfs(self, product_registrations: List[Product], progress_callback=None) -> List[Dict[str, Any]]:
-        logging.info(f'{self.name}: Starting execution.')
+        self.logger.info('Starting execution.')
         final_result = []
         presentation = None
         reg_data = {}
@@ -121,7 +121,7 @@ class RegistrationPDFService:
             if progress_callback:
                 progress_callback(60 + (product_index + 1) * progress_step)
 
-        logging.info(f'{self.name}: Execution completed.')
+        self.logger.info('Execution completed.')
         if progress_callback:
             progress_callback(95)
         return final_result
@@ -176,7 +176,7 @@ class RegistrationPDFService:
 
             self.json_manager.write_json(existing_data)
         except (IOError, TypeError) as e:
-            logging.error(
-                f'{self.name}: Failed to generate JSON file "{filename}": {e}'
+            self.logger.error(
+                f'Failed to generate JSON file "{filename}": {e}'
             )
             raise

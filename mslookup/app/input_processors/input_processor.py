@@ -1,18 +1,18 @@
-import logging
+
 from typing import Any, Dict, List
 
 import pandas as pd
 
 from mslookup.app.exceptions import MissingColumnsError
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.products.product_processor import ProductProcessor
 
 
 class InputProcessor:
     def __init__(self, checkpoint_manager):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         self.product_processor = ProductProcessor()
 
         self.checkpoint_interval = 10
@@ -57,7 +57,7 @@ class InputProcessor:
         return filtered_input
 
     def process_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Dict[str, Any]]:
-        logging.info(f'{self.name}: Starting execution.')
+        self.logger.info('Starting execution.')
         try:
             filtered_input = self.read_raw_input(raw_input)
         except ValueError as inst:
@@ -105,7 +105,7 @@ class InputProcessor:
             data, 'input_processor', current_identifier
         )
 
-        logging.info(f'{self.name}: Execution completed.')
+        self.logger.info('Execution completed.')
         # Garante que o progresso vai até 20% após concluir
         if progress_callback:
             progress_callback(20)

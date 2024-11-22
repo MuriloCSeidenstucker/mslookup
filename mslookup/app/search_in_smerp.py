@@ -1,4 +1,3 @@
-import logging
 import re
 from datetime import datetime
 from time import sleep
@@ -13,14 +12,13 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 
 from mslookup.app.element_interactor import ElementInteractor
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 
 
 class SearchInSmerp:
     def __init__(self):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        self.logger.info('Instantiated.')
         self.element_interactor = None
         
         # Faz Download do Chromedriver se necessário
@@ -98,7 +96,7 @@ class SearchInSmerp:
                     driver.back()
                     continue
             except Exception:
-                logging.critical(f'Date appears as:{ref_date_str}. Incorrect format')
+                self.logger.critical(f'Date appears as:{ref_date_str}. Incorrect format')
 
             smerp_brand = dataset.find_element(
                 By.XPATH,
@@ -151,7 +149,7 @@ class SearchInSmerp:
         return expiration_date
     
     def start_driver(self, chrome_options):
-        logging.info(f"{self.name}: Starting browser")
+        self.logger.info("Starting browser")
         driver = None
         try:
             driver = webdriver.Chrome(chrome_options)
@@ -165,19 +163,19 @@ class SearchInSmerp:
                     "Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", str(e)
                 ).group(1)
 
-                logging.critical(
+                self.logger.critical(
                     f"Browser is in version {client_browser_version}. ChromeDriver only "
                     f"supports the version {chromedriver_version_supports}. Please update your browser."
                 )
             else:
-                logging.critical("Error when instantiating browser.")
+                self.logger.critical("Error when instantiating browser.")
 
         return driver
 
     def get_data_from_smerp(
         self, description: str, brand: Union[Dict, str]
     ) -> List[Dict[str, str]]:
-        logging.info(f'{self.name}: Starting execution.')
+        self.logger.info('Starting execution.')
         
         reg_candidates = []
         b = brand if isinstance(brand, str) else brand['Name']
@@ -188,13 +186,13 @@ class SearchInSmerp:
         try:
             self.perform_google_search(driver, description, b)
         except TimeoutException as e:
-            logging.error(
+            self.logger.error(
                 'Timeout while performing Google search: %s', e.msg
             )
             driver.quit()
             return reg_candidates
         except Exception as e:
-            logging.error(
+            self.logger.error(
                 'Unexpected error while performing Google search: %s', e.msg
             )
             driver.quit()
@@ -207,13 +205,13 @@ class SearchInSmerp:
                 driver, b, smerp_urls
             )
         except TimeoutException as e:
-            logging.error(
+            self.logger.error(
                 'Timeout while finding matching SMERP entry: %s', e.msg
             )
             driver.quit()
             return reg_candidates
         except Exception as e:
-            logging.error(
+            self.logger.error(
                 'Error while finding matching SMERP entry: %s', e.msg
             )
             driver.quit()
@@ -221,7 +219,7 @@ class SearchInSmerp:
 
         if not matchesURL:
             driver.quit()
-            logging.warning('No matching URL found in SMERP.')
+            self.logger.warning('No matching URL found in SMERP.')
             return reg_candidates
 
         try:
@@ -229,12 +227,12 @@ class SearchInSmerp:
             register = self.extract_register()
             expiration_date = self.extract_expiration_date()
         except TimeoutException as e:
-            logging.error(
+            self.logger.error(
                 'Timeout while extracting data from SMERP: %s', e.msg
             )
             return reg_candidates
         except Exception as e:
-            logging.error(
+            self.logger.error(
                 'Error while extracting data from SMERP: %s', e.msg
             )
             return reg_candidates
@@ -249,5 +247,5 @@ class SearchInSmerp:
             }
         )
         
-        logging.info(f'{self.name}: Execution completed.')
+        self.logger.info('Execution completed.')
         return reg_candidates

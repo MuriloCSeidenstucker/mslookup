@@ -1,23 +1,23 @@
-import logging
+
 from typing import List
 
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.products.product import Product
 from mslookup.app.registration_processors.search_processor import SearchProcessor
 
 
 class RegistrationProcessor:
     def __init__(self, checkpoint_manager):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         
         self.search_processor = SearchProcessor()
         self.checkpoint_manager = checkpoint_manager
         self.checkpoint_interval = 10
 
     def process_registrations(self, processed_input: List[Product], progress_callback=None) -> List[Product]:
-        logging.info(f'{self.name}: Starting execution.')
+        self.logger.info('Starting execution.')
         product_registrations = []
 
         current_identifier = self.checkpoint_manager.generate_identifier(
@@ -55,7 +55,7 @@ class RegistrationProcessor:
             product_registrations, 'candidate_service', current_identifier
         )
         
-        logging.info(f'{self.name}: Execution completed.')
+        self.logger.info('Execution completed.')
         # Garante que o progresso vá até 60% após completar
         if progress_callback:
             progress_callback(60)

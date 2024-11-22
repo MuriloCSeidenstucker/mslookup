@@ -1,17 +1,15 @@
 from datetime import datetime
-import logging
 from typing import Any, Dict, List, Union
 
 from mslookup.app.df_manager import load_data
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.utils import Utils
 
 
 class OpenDataAnvisa:
     def __init__(self):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        self.logger.info('Instantiated.')
         
         file_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.xlsx'
         parquet_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.parquet'
@@ -56,11 +54,11 @@ class OpenDataAnvisa:
         self, description: str, laboratory: Union[str, Dict]
     ) -> None:
         if not isinstance(description, str) or not description.strip():
-            logging.error(f'{self.name}: description must be a non-empty string.')
+            self.logger.error('description must be a non-empty string.')
             raise ValueError('description must be a non-empty string.')
 
         if not isinstance(laboratory, (str, dict)):
-            logging.error(f'{self.name}: laboratory must be a string or a dictionary.')
+            self.logger.error('laboratory must be a string or a dictionary.')
             raise ValueError('laboratory must be a string or a dictionary.')
 
         if isinstance(laboratory, dict):
@@ -69,8 +67,8 @@ class OpenDataAnvisa:
                 or not isinstance(laboratory['Name'], str)
                 or not laboratory['Name'].strip()
             ):
-                logging.error(
-                    f'{self.name}: The laboratory dictionary must contain the key "Name" with a non-empty string value.'
+                self.logger.error(
+                    'The laboratory dictionary must contain the key "Name" with a non-empty string value.'
                 )
                 raise ValueError(
                     'The laboratory dictionary must contain the key "Name" with a non-empty string value.'
@@ -78,7 +76,7 @@ class OpenDataAnvisa:
             if 'Linked' in laboratory and not isinstance(
                 laboratory['Linked'], list
             ):
-                logging.error(f'{self.name}: The "Linked" key in laboratory, if present, must be a list.')
+                self.logger.error('The "Linked" key in laboratory, if present, must be a list.')
                 raise ValueError('The "Linked" key in laboratory, if present, must be a list.')
 
     def get_laboratory_candidates(self, laboratory: Union[str, Dict]) -> List[str]:
@@ -92,7 +90,7 @@ class OpenDataAnvisa:
                 candidates.extend(linked)
             return [candidate for candidate in candidates if candidate]
 
-        logging.error(f'{self.name}: laboratory must be a string or a dictionary.')
+        self.logger.error('laboratory must be a string or a dictionary.')
         raise ValueError('laboratory must be a string or a dictionary.')
 
     def get_register(

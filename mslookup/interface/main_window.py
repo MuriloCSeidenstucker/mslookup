@@ -1,16 +1,15 @@
-import logging
 import os
 import threading
 from tkinter import Tk, filedialog, ttk
+
 from mslookup.app.core import Core
 from mslookup.app.exceptions import MissingColumnsError
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 
 class MainWindow:
     def __init__(self, master: Tk) -> None:
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        self.logger.info('Instantiated.')
         
         self.master = master
         self.core = Core()
@@ -118,7 +117,7 @@ class MainWindow:
             self.file_path = file_path
             file_name = os.path.basename(file_path)
             self.status_label.config(text=f"Arquivo Selecionado: {file_name}", foreground="green")
-            logging.info(f'{self.name}: File selected -> {file_name}')
+            self.logger.info(f'File selected -> {file_name}')
 
             # Limpar os campos de entrada
             self.entries['item_col'].delete(0, 'end')
@@ -132,14 +131,14 @@ class MainWindow:
                 self.entries['item_col'].insert(0, detected_columns['item_col'] or "")
                 self.entries['desc_col'].insert(0, detected_columns['desc_col'] or "")
                 self.entries['brand_col'].insert(0, detected_columns['brand_col'] or "")
-                logging.info(f'{self.name}: Columns auto-detected and filled.')
+                self.logger.info('Columns auto-detected and filled.')
             else:
                 self.status_label.config(text="Falha na detecção automática. Preencha manualmente.", foreground="orange")
-                logging.warning(f'{self.name}: Failed to auto-detect columns.')
+                self.logger.warning('Failed to auto-detect columns.')
         else:
             self.file_path = ''
             self.status_label.config(text="Nenhum arquivo selecionado.", foreground="red")
-            logging.warning(f'{self.name}: File selection canceled.')
+            self.logger.warning('File selection canceled.')
 
     def validate_entries(self):
         # Mensagens descritivas para cada campo obrigatório
@@ -153,11 +152,11 @@ class MainWindow:
         for key, message in required_fields.items():
             if not self.entries[key].get():
                 self.status_label.config(text=message, foreground="red")
-                logging.warning(f'{self.name}: Validation failed -> {message}')
+                self.logger.warning(f'Validation failed -> {message}')
                 return False
 
         self.status_label.config(text="Processando...", foreground="blue")
-        logging.info(f'{self.name}: Validation successful.')
+        self.logger.info('Validation successful.')
         return True
 
     def collect_entry_data(self):
@@ -170,7 +169,7 @@ class MainWindow:
             'brand_col': self.entries['brand_col'].get().strip()
         }
         
-        logging.debug(f'{self.name}: Collected entry data -> {entry_data}')
+        self.logger.debug(f'Collected entry data -> {entry_data}')
         return entry_data
 
     def start_processing_thread(self):
@@ -178,7 +177,7 @@ class MainWindow:
             self.processing = True # Atualiza para indicar que o processamento está em andamento
             self.set_interface('disabled')  # Desativar todos os elementos da interface
             self.progress_bar['value'] = 0  # Reset progress bar to 0%
-            logging.info(f'{self.name}: Starting processing thread.')
+            self.logger.info('Starting processing thread.')
             threading.Thread(target=self.get_data).start()
             
     def set_interface(self, state: str) -> None:
@@ -186,7 +185,7 @@ class MainWindow:
         self.btn_select.config(state=state)
         for entry in self.entries.values():
             entry.config(state=state)
-        logging.debug(f'{self.name}: Interface set to {state}.')
+        self.logger.debug(f'Interface set to {state}.')
 
     def get_data(self):
         entry_data = self.collect_entry_data()
@@ -195,16 +194,16 @@ class MainWindow:
             # Chamada ao backend
             self.core.execute(entry_data, self.update_progress)  # Passa update_progress como callback
             self.update_status("Busca concluída com sucesso!\nOs PDFs encontrados foram salvos na pasta DOWNLOADS", "green")
-            logging.info(f'{self.name}: Data processing completed successfully.')
+            self.logger.info('Data processing completed successfully.')
         except MissingColumnsError as e:
             self.update_status(e.args[0], "red")
         except Exception as e:
-            logging.exception(f'{self.name}: Unexpected error {e=}, {type(e)=}')
-            self.update_status(f'Ocorreu um erro inesperado, tente novamente ou contate o suporte', "red")
+            self.logger.exception(f'Unexpected error {e=}, {type(e)=}')
+            self.update_status('Ocorreu um erro inesperado, tente novamente ou contate o suporte', "red")
         finally:
             self.processing = False  # Atualiza para indicar que o processamento terminou
             self.set_interface('normal')  # Reativar todos os elementos da interface
-            logging.info(f'{self.name}: Data processing finished.')
+            self.logger.info('Data processing finished.')
             
     def update_progress(self, percent_complete):
         # Atualiza a barra de progresso e status_label
@@ -222,8 +221,8 @@ class MainWindow:
     def update_status(self, message, color):
         # Atualiza a status_label na thread principal usando o método `after`
         self.status_label.after(0, lambda: self.status_label.config(text=message, foreground=color))
-        logging.debug(f'{self.name}: Status updated - {message}')
+        self.logger.debug(f'Status updated - {message}')
 
     def run(self):
         self.master.mainloop()
-        logging.info(f'{self.name}: Closing interface.')
+        self.logger.info('Closing interface.')

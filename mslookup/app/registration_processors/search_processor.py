@@ -1,7 +1,7 @@
-import logging
+
 from typing import Dict, List, Union
 
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.products.medicine import Medicine
 from mslookup.app.products.product import Product
 from mslookup.app.search_in_open_data_anvisa import OpenDataAnvisa
@@ -10,9 +10,9 @@ from mslookup.app.search_in_smerp import SearchInSmerp
 
 class SearchProcessor:
     def __init__(self) -> None:
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         
         self.anvisa_search = OpenDataAnvisa()
         self.smerp_search = SearchInSmerp()

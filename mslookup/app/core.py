@@ -1,11 +1,11 @@
-import logging
+
 
 import pandas as pd
 from mslookup.app.checkpoint_manager import CheckpointManager
 from mslookup.app.config import load_config
 from mslookup.app.exceptions import MissingColumnsError
 from mslookup.app.input_manager import InputManager
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.report_generator import ReportGenerator
 from mslookup.app.services.input_processor_service import InputProcessorService
 from mslookup.app.services.product_registration_service import \
@@ -16,9 +16,9 @@ from mslookup.app.utils import Utils
 
 class Core:
     def __init__(self):
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         
         pdf_manager, anvisa_domain = load_config()
         self.report_generator = ReportGenerator()
@@ -62,17 +62,17 @@ class Core:
                 'brand_col': brand_col
             }
         except Exception as e:
-            logging.error(f'Core: Error detecting columns - {e}')
+            self.logger.error(f'Core: Error detecting columns - {e}')
             return None
 
     def execute(self, raw_input, progress_callback):
-        logging.info(f'{self.name}: Starting execution.')
+        self.logger.info('Starting execution.')
         try:
             processed_input = self.input_processor_service.get_processed_input(
                 raw_input,
                 progress_callback=lambda progress: progress_callback(progress)
             )
-            logging.info(f'{self.name}: Processed data input.')
+            self.logger.info('Processed data input.')
             
             product_registrations = (
                 self.product_registration_service.get_product_registrations(
@@ -80,7 +80,7 @@ class Core:
                     progress_callback=lambda progress: progress_callback(progress)
                 )
             )
-            logging.info(f'{self.name}: Registrations of collected products.')
+            self.logger.info('Registrations of collected products.')
             
             final_result = (
                 self.registration_pdf_service.generate_registration_pdfs(
@@ -88,22 +88,22 @@ class Core:
                     progress_callback=lambda progress: progress_callback(progress)
                 )
             )
-            logging.info(f'{self.name}: PDF registrations generated.')
+            self.logger.info('PDF registrations generated.')
             
             self.report_generator.generate_report(final_result)
             progress_callback(100)  # Atualiza para 100%
-            logging.info(f'{self.name}: Report generated successfully.')
+            self.logger.info('Report generated successfully.')
             
             self.all_stages_completed = True
         except MissingColumnsError:
             raise
         except Exception as e:
-            logging.critical(f'{self.name}: Unexpected error {e=}, {type(e)=}')
+            self.logger.critical(f'Unexpected error {e=}, {type(e)=}')
             raise
         finally:
             if self.all_stages_completed:
                 self.checkpoint_manager.delete_checkpoints()
-            logging.info(f'{self.name}: Execution completed.')
+            self.logger.info('Execution completed.')
                 
 # if __name__ == '__main__':
 #     core = Core()

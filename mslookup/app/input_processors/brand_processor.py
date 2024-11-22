@@ -1,16 +1,16 @@
-import logging
+
 from typing import Any, Dict, Union
 
 from mslookup.app.json_manager import JsonManager
-from mslookup.app.logger_config import configure_logging
+from mslookup.app.logger_config import get_logger
 from mslookup.app.utils import Utils
 
 
 class BrandProcessor:
     def __init__(self) -> None:
-        configure_logging()
-        self.name = self.__class__.__name__
-        logging.info(f'{self.name}: Instantiated.')
+        self.logger = get_logger(self.__class__.__name__)
+        
+        self.logger.info('Instantiated.')
         self.json_manager = JsonManager(r'data\resources\laboratories.json')
         self.labs_json = self.json_manager.load_json()
         self.abbreviation_map = self.create_abbreviation_map()

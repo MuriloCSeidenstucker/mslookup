@@ -58,7 +58,7 @@ Revisão e Feedback:
 
 [  ] Otimizar o uso do Selenium. Está muito vulnerável a erros.
     Ao ser testado em outra maquina, o app não funcionou. Provavelmente tem algo a ver com o ChromeDriver.
-    [  ] Melhorar sistema de logging.
+    [  ] Melhorar sistema de self.logger.
 
 SECUNDÁRIOS:
 [  ] Melhorar sistema de checkpoint.

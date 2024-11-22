@@ -3,15 +3,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-import logging
 
-from mslookup.app.logger_config import configure_logging
+
+from mslookup.app.logger_config import get_logger
 
 class ElementInteractor:
     def __init__(self, driver, timeout=10):
         self.driver = driver
         self.timeout = timeout
-        configure_logging()
+        self.logger = get_logger(self.__class__.__name__)
 
     def wait_for_element_to_be_available(self, by, locator):
         try:
@@ -33,7 +33,7 @@ class ElementInteractor:
             return element_clickable  # Retorna o elemento se todas as condições forem atendidas
 
         except TimeoutException:
-            logging.warning(f"Elemento com {locator} não está disponível para interação.")
+            self.logger.warning(f"Elemento com {locator} não está disponível para interação.")
             return None
         
     def wait_for_elements_to_be_available(self, by, locator):
@@ -53,11 +53,11 @@ class ElementInteractor:
         if element:
             element.click()
         else:
-            logging.warning("Não foi possível clicar no elemento.")
+            self.logger.warning("Não foi possível clicar no elemento.")
 
     def send_keys_to_element(self, by, locator, text):
         element = self.wait_for_element_to_be_available(by, locator)
         if element:
             element.send_keys(text)
         else:
-            logging.warning("Não foi possível enviar texto para o elemento.")
+            self.logger.warning("Não foi possível enviar texto para o elemento.")
