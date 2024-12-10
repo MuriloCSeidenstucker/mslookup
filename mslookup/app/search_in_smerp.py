@@ -47,7 +47,7 @@ class SearchInSmerp:
 
         submit_button = self.element_interactor.wait_for_element_to_be_available(
             By.XPATH,
-            '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[4]/center/input[1]',
+            '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[3]/center/input[1]',
         )
         submit_button.click()
 
