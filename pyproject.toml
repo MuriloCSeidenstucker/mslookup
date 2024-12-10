@@ -6,7 +6,7 @@ authors = ["Murilo Seidenstucker <murilocampos.004@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "<3.14,>=3.9"
+python = "<=3.12.7,>=3.9"
 selenium = "^4.25.0"
 unidecode = "^1.3.8"
 pandas = "^2.2.3"
