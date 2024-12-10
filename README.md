@@ -10,7 +10,9 @@ Enquanto trabalhava como responsável por licitações de uma distribuidora de m
 ## Pré-requisitos
 - **Sistema operacional:** Windows (não testado em macOS ou Linux).
 - **Gerenciador de dependências:** [Poetry](https://python-poetry.org/) (para instalação de dependências).
-- **Python**: Versão 3.9 ou superior.
+- **Python**: Versão 3.9 ou superior, mas inferior a 3.13.
+  
+Nota: Este projeto não é compatível com a versão 3.13 do Python. Certifique-se de usar uma versão entre 3.9 e 3.12 para garantir o funcionamento correto.
 
 ## Instalação
 1. Clone o repositório:
