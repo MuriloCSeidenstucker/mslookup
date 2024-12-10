@@ -9,7 +9,7 @@ a = Analysis(
         ('data/resources/laboratories.json', 'data/resources'),
         ('data/resources/patterns.json', 'data/resources'),
         ('data/resources/pdf_db.json', 'data/resources'),
-        ('data/resources/prepositions.json', 'data/resources'),
+        ('data/resources/stop_words.json', 'data/resources'),
         ('data/anvisa/DADOS_ABERTOS_MEDICAMENTOS.xlsx', 'data/anvisa'),
         ('data/anvisa/TA_PRECO_MEDICAMENTO_GOV.xlsx', 'data/anvisa'),
         ('data/registers_pdf', 'data/registers_pdf')

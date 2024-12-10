@@ -1,23 +1,21 @@
-
-from typing import List, Tuple
-
 import pandas as pd
 
-from mslookup.app.df_manager import load_data
-from mslookup.app.json_manager import JsonManager
-from mslookup.app.logger_config import get_logger
-from mslookup.app.utils import Utils
+from typing import Set, Tuple
 
+from mslookup.app.utils import Utils
+from mslookup.app.json_manager import JsonManager
+from mslookup.app.df_manager import load_data
+from mslookup.app.logger_config import get_logger
 
 class DescriptionProcessor:
     def __init__(self) -> None:
         self.logger = get_logger(self.__class__.__name__)
-        
         self.logger.info('Instantiated.')
-        self.json_manager = JsonManager(r'data\resources\prepositions.json')
-        self.PREPOSITIONS = self.json_manager.load_json()
+        
+        self.json_manager = JsonManager(r'data\resources\stop_words.json')
+        self.STOP_WORDS = self.json_manager.load_json()
 
-        reference_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.xlsx'
+        anvisa_spreadsheet_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.xlsx'
         parquet_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.parquet'
         skiprows = 52
         selected_columns = [
@@ -28,19 +26,14 @@ class DescriptionProcessor:
             'PRODUTO',
             'APRESENTAÇÃO',
         ]
-        self.reference_df = load_data(
-            reference_path, parquet_path, skiprows, selected_columns
-        )
-        (
-            self.substances_set,
-            self.shortest_substance,
-        ) = self.process_substances()
+        self.anvisa_df = load_data(anvisa_spreadsheet_path, parquet_path, skiprows, selected_columns)
+        self.substances_set, self.shortest_substance = self.process_substances()
 
-    def process_substances(self) -> Tuple[List[str], int]:
+    def process_substances(self) -> Tuple[Set[str], int]:
         substances_set = set()
         shortest_length = float('inf')
 
-        for row in self.reference_df['SUBSTÂNCIA']:
+        for row in self.anvisa_df['SUBSTÂNCIA']:
             if pd.notna(row):
                 row_str = str(row)
                 if ';' in row_str:
@@ -80,9 +73,7 @@ class DescriptionProcessor:
                 )
 
         if extracted_substances:
-            if extracted_substances.endswith(';'):
-                extracted_substances = extracted_substances[:-1]
-            return extracted_substances
+            return extracted_substances.rstrip(';')
         else:
             # As descrições dos medicamentos podem trazer substâncias fora da ordem esperada, por exemplo: Sódio Cloreto.
             for substance in self.substances_set:
@@ -98,7 +89,7 @@ class DescriptionProcessor:
                 substance_words_clean = [
                     word
                     for word in substance_words_clean
-                    if word not in self.PREPOSITIONS['prepositions']
+                    if word not in self.STOP_WORDS['stop_words']
                 ]
                 for sub in substance_words_clean:
                     if sub in description_normalized:
@@ -108,8 +99,6 @@ class DescriptionProcessor:
                         )
 
             if extracted_substances:
-                if extracted_substances.endswith(';'):
-                    extracted_substances = extracted_substances[:-1]
-                return extracted_substances
+                return extracted_substances.rstrip(';')
             else:
                 return None
