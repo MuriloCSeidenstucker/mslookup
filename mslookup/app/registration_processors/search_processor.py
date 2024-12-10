@@ -1,17 +1,14 @@
-
 from typing import Dict, List, Union
 
-from mslookup.app.logger_config import get_logger
-from mslookup.app.products.medicine import Medicine
 from mslookup.app.products.product import Product
-from mslookup.app.search_in_open_data_anvisa import OpenDataAnvisa
+from mslookup.app.products.medicine import Medicine
 from mslookup.app.search_in_smerp import SearchInSmerp
-
+from mslookup.app.search_in_open_data_anvisa import OpenDataAnvisa
+from mslookup.app.logger_config import get_logger
 
 class SearchProcessor:
     def __init__(self) -> None:
         self.logger = get_logger(self.__class__.__name__)
-        
         self.logger.info('Instantiated.')
         
         self.anvisa_search = OpenDataAnvisa()
@@ -19,7 +16,7 @@ class SearchProcessor:
 
     # Consegue obter registros apenas de medicamentos.
     # Deverá ser estendido no momento da inclusão dos novos tipos de produtos
-    def try_search_registrations(self, product: Product) -> List[Dict[str, Union[str, int]]]:
+    def try_get_registrations(self, product: Product) -> List[Dict[str, Union[str, int]]]:
         registrations = []
         if isinstance(product, Medicine):
             registrations = self.get_medicine_registrations(product)

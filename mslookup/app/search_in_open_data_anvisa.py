@@ -1,10 +1,9 @@
 from datetime import datetime
 from typing import Any, Dict, List, Union
 
+from mslookup.app.utils import Utils
 from mslookup.app.df_manager import load_data
 from mslookup.app.logger_config import get_logger
-from mslookup.app.utils import Utils
-
 
 class OpenDataAnvisa:
     def __init__(self):
@@ -50,9 +49,7 @@ class OpenDataAnvisa:
 
         return laboratories
 
-    def validate_arguments(
-        self, description: str, laboratory: Union[str, Dict]
-    ) -> None:
+    def validate_arguments(self, description: str, laboratory: Union[str, Dict]) -> None:
         if not isinstance(description, str) or not description.strip():
             self.logger.error('description must be a non-empty string.')
             raise ValueError('description must be a non-empty string.')
@@ -106,20 +103,14 @@ class OpenDataAnvisa:
         for laboratory_candidate in laboratory_candidates:
             # FIX: laboratory_candidate pode não ser uma chave.
             if laboratory_candidate in self.laboratory_registers:
-                for register in self.laboratory_registers[
-                    laboratory_candidate
-                ]:
-                    register_data = self.laboratory_registers[
-                        laboratory_candidate
-                    ][register]
+                for register in self.laboratory_registers[laboratory_candidate]:
+                    register_data = self.laboratory_registers[laboratory_candidate][register]
                     selected_subs = description_normalized.split(';')
                     matches_count = len(selected_subs)
                     if len(register_data['substances']) != len(selected_subs):
                         continue
                     for substance in register_data['substances']:
-                        sub_normalized = Utils.remove_accents_and_spaces(
-                            substance
-                        )
+                        sub_normalized = Utils.remove_accents_and_spaces(substance)
                         if sub_normalized in selected_subs:
                             matches_count -= 1
                             if matches_count == 0:

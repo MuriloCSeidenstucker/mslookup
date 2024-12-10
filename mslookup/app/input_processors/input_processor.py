@@ -1,26 +1,24 @@
-
-from typing import Any, Dict, List
-
 import pandas as pd
 
-from mslookup.app.exceptions import MissingColumnsError
-from mslookup.app.logger_config import get_logger
-from mslookup.app.products.product_processor import ProductProcessor
+from typing import Dict, List
 
+from mslookup.app.products.product import Product
+from mslookup.app.exceptions import MissingColumnsError
+from mslookup.app.products.product_processor import ProductProcessor
+from mslookup.app.logger_config import get_logger
 
 class InputProcessor:
     def __init__(self, checkpoint_manager):
         self.logger = get_logger(self.__class__.__name__)
-        
         self.logger.info('Instantiated.')
+        
         self.product_processor = ProductProcessor()
 
         self.checkpoint_interval = 10
         self.checkpoint_manager = checkpoint_manager
 
-    def read_raw_input(
-        self, raw_input: Dict[str, str]
-    ) -> List[Dict[str, str]]:
+    def read_raw_input(self, raw_input: Dict[str, str]) -> List[Dict[str, str]]:
+        self.logger.info('Reading raw input.')
         filtered_input = []
         file_path = raw_input['file_path']
         item_col = raw_input['item_col']
@@ -28,6 +26,7 @@ class InputProcessor:
         brand_col = raw_input['brand_col']
         
         if file_path:
+            self.logger.info(f'Selected spreadsheet: {file_path}.')
             df = pd.read_excel(file_path)
             
             required_columns = [item_col, desc_col, brand_col]
@@ -46,6 +45,7 @@ class InputProcessor:
                         }
                     )
         else:
+            self.logger.info('No spreadsheet selected.')
             filtered_input.append(
                 {
                     'item': item_col,
@@ -54,19 +54,22 @@ class InputProcessor:
                 }
             )
 
+        self.logger.info('Raw input successfully filtered.')
         return filtered_input
 
-    def process_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Dict[str, Any]]:
+    def process_input(self, raw_input: Dict[str, str], progress_callback=None) -> List[Product]:
         self.logger.info('Starting execution.')
         try:
             filtered_input = self.read_raw_input(raw_input)
-        except ValueError as inst:
+        except MissingColumnsError as inst:
+            self.logger.error(f"The following columns are missing from the file: {', '.join(inst.missing_columns)}")
             raise
             
         products_type = raw_input['products_type']
 
         data = []
-        total_rows = len(filtered_input)  # Total de linhas a processar
+        total_rows = len(filtered_input)
+        
         current_identifier = self.checkpoint_manager.generate_identifier(
             filtered_input
         )
@@ -79,7 +82,6 @@ class InputProcessor:
         else:
             start_index = 0
 
-        # Progresso baseado no número total de linhas (será 20% da barra total)
         progress_step = 20 / total_rows if total_rows > 0 else 0
         for index, row in enumerate(filtered_input[start_index:]):
 
@@ -92,9 +94,8 @@ class InputProcessor:
 
             data.append(processed_product)
             
-            # Atualiza o progresso a cada linha processada
             if progress_callback:
-                progress_callback(min(20, (start_index + index + 1) * progress_step))  # Limita a 20%
+                progress_callback(min(20, (start_index + index + 1) * progress_step))
 
             if len(data) % self.checkpoint_interval == 0:
                 self.checkpoint_manager.save_checkpoint(
@@ -105,8 +106,9 @@ class InputProcessor:
             data, 'input_processor', current_identifier
         )
 
-        self.logger.info('Execution completed.')
-        # Garante que o progresso vai até 20% após concluir
+        
         if progress_callback:
             progress_callback(20)
+            
+        self.logger.info('Execution completed.')
         return data

@@ -21,7 +21,7 @@ class RegistrationPDFService:
         self.json_manager = JsonManager(r'data\resources\pdf_db.json')
 
     def generate_registration_pdfs(self, product_registrations: List[Product], progress_callback=None) -> List[Dict[str, Any]]:
-        self.logger.info('Starting execution.')
+        self.logger.info('Starting service execution.')
         final_result = []
         presentation = None
         reg_data = {}
@@ -121,7 +121,7 @@ class RegistrationPDFService:
             if progress_callback:
                 progress_callback(60 + (product_index + 1) * progress_step)
 
-        self.logger.info('Execution completed.')
+        self.logger.info('Service execution completed.')
         if progress_callback:
             progress_callback(95)
         return final_result

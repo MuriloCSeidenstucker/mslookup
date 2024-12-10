@@ -125,7 +125,7 @@ class MainWindow:
             self.entries['brand_col'].delete(0, 'end')
 
             # Chama o Core para detectar as colunas automaticamente
-            detected_columns = self.core.detect_columns(file_path)
+            detected_columns = self.core.try_to_autocomplete_column_names(file_path)
             if detected_columns:
                 # Preenche os campos com os valores detectados
                 self.entries['item_col'].insert(0, detected_columns['item_col'] or "")
