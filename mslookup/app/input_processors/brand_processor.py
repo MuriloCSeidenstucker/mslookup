@@ -1,4 +1,5 @@
 from typing import Any, Dict, Union
+from pathlib import Path
 
 from mslookup.app.utils import Utils
 from mslookup.app.json_manager import JsonManager
@@ -9,7 +10,8 @@ class BrandProcessor:
         self.logger = get_logger(self.__class__.__name__)
         self.logger.info('Instantiated.')
         
-        self.json_manager = JsonManager(r'data\resources\laboratories.json')
+        json_path = Path('data') / 'resources' / 'laboratories.json'
+        self.json_manager = JsonManager(json_path)
         self.labs_json = self.json_manager.load_json()
         self.abbreviation_map = self.create_abbreviation_map()
 

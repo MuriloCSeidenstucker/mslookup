@@ -1,16 +1,14 @@
-
 import os
-from pathlib import Path
 import re
 import shutil
-from datetime import datetime
 import sys
+from pathlib import Path
+from datetime import datetime
 from typing import List, Optional, Tuple, Union
 
 from mslookup.app.json_manager import JsonManager
 from mslookup.app.logger_config import get_logger
 from mslookup.app.utils import Utils
-
 
 class PDFManager:
     def __init__(self):
@@ -22,13 +20,14 @@ class PDFManager:
         self.STANDARD_NAME = (
             'Consultas - Agência Nacional de Vigilância Sanitária.pdf'
         )
-        self.json_manager = JsonManager(r'data\resources\pdf_db.json')
+        
+        self.json_manager = JsonManager(Path('data') / 'resources' / 'pdf_db.json')
         self.db = self.json_manager.load_json()
-        self.register_path = self.base_path(r'data\registers_pdf')
+        self.register_path = self.base_path(Path('data') / 'registers_pdf')
         
     def base_path(self, file_path: str):
         if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-            return Path(f'{sys._MEIPASS}/{file_path}')
+            return Path(sys._MEIPASS) / file_path
         return Path(file_path)
 
     def get_pdf_in_db(

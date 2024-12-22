@@ -1,6 +1,6 @@
-import pandas as pd
-
 from typing import Set, Tuple
+from pathlib import Path
+import pandas as pd
 
 from mslookup.app.utils import Utils
 from mslookup.app.json_manager import JsonManager
@@ -12,11 +12,12 @@ class DescriptionProcessor:
         self.logger = get_logger(self.__class__.__name__)
         self.logger.info('Instantiated.')
         
-        self.json_manager = JsonManager(r'data\resources\stop_words.json')
+        json_path = Path('data') / 'resources' / 'stop_words.json'
+        self.json_manager = JsonManager(json_path)
         self.STOP_WORDS = self.json_manager.load_json()
 
-        anvisa_spreadsheet_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.xlsx'
-        parquet_path = r'data\anvisa\TA_PRECO_MEDICAMENTO_GOV.parquet'
+        anvisa_spreadsheet_path = Path('data') / 'anvisa' / 'TA_PRECO_MEDICAMENTO_GOV.xlsx'
+        parquet_path = Path('data') / 'anvisa' / 'TA_PRECO_MEDICAMENTO_GOV.parquet'
         skiprows = 52
         selected_columns = [
             'SUBSTÂNCIA',

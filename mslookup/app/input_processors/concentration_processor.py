@@ -1,3 +1,4 @@
+from pathlib import Path
 import re
 
 from mslookup.app.json_manager import JsonManager
@@ -8,7 +9,8 @@ class ConcentrationProcessor:
         self.logger = get_logger(self.__class__.__name__)
         self.logger.info('Instantiated.')
         
-        self.json_manager = JsonManager(r'data\resources\patterns.json')
+        json_path = Path('data') / 'resources' / 'patterns.json'
+        self.json_manager = JsonManager(json_path)
         self.patterns = self.json_manager.load_json()
 
     def get_concentration(self, description: str) -> str:

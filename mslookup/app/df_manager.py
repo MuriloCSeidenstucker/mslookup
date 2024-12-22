@@ -1,10 +1,8 @@
-import os
 from pathlib import Path
-import sys
 from typing import List
-
 import pandas as pd
-
+import os
+import sys
 
 def load_data(
     excel_path: str,
@@ -15,7 +13,6 @@ def load_data(
     
     e_path = base_path(excel_path)
     p_path = base_path(parquet_path)
-    
     
     if os.path.exists(p_path):
         excel_mod_time = os.path.getmtime(e_path)
@@ -40,5 +37,5 @@ def load_data(
 
 def base_path(file_path: str):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        return Path(f'{sys._MEIPASS}/{file_path}')
+        return Path(sys._MEIPASS) / file_path
     return Path(file_path)

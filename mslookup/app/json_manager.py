@@ -10,14 +10,22 @@ from mslookup.app.logger_config import get_logger
 class JsonManager:
     def __init__(self, file_path: str):
         self.logger = get_logger(self.__class__.__name__)
-        
-        
         self.file_path = self.base_path(file_path)
         
     def base_path(self, file_path: str):
         if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-            return Path(f'{sys._MEIPASS}/{file_path}')
-        return Path(file_path)
+            return Path(sys._MEIPASS) / file_path
+        
+        def find_project_root(start_path: Path, marker: str = ".git"):
+            for parent in start_path.parents:
+                if (parent / marker).exists():
+                    return parent
+            return None
+        
+        start_path = Path(__file__).resolve()
+        project_root = find_project_root(start_path, marker=".git")
+        
+        return Path(project_root) / file_path
 
     def load_json(self) -> Dict[str, Any]:
         try:

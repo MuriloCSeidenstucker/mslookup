@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, List, Union
 
 from mslookup.app.utils import Utils
@@ -10,8 +11,8 @@ class OpenDataAnvisa:
         self.logger = get_logger(self.__class__.__name__)
         self.logger.info('Instantiated.')
         
-        file_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.xlsx'
-        parquet_path = r'data\anvisa\DADOS_ABERTOS_MEDICAMENTOS.parquet'
+        file_path = Path('data') / 'anvisa' / 'DADOS_ABERTOS_MEDICAMENTOS.xlsx'
+        parquet_path = Path('data') / 'anvisa' / 'DADOS_ABERTOS_MEDICAMENTOS.parquet'
         self.df = load_data(file_path, parquet_path)
         self.df = self.df[self.df['SITUACAO_REGISTRO'] == 'VÁLIDO'].copy()
         self.laboratory_registers = self.create_data_map()
