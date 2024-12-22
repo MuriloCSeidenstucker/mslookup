@@ -13,11 +13,11 @@ pandas = "^2.2.3"
 openpyxl = "^3.1.5"
 pyarrow = "^17.0.0"
 webdriver-manager = "^4.0.2"
+ttkthemes = "^3.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pygubu-designer = "^0.39.3"
 pyinstaller = "^6.10.0"
-ttkthemes = "^3.2.2"
 
 [tool.poetry.scripts]
 mslookup_start = "mslookup.main:start"
