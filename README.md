@@ -8,39 +8,56 @@ Este projeto foi criado inicialmente como um estudo em Python e evoluiu para uma
 Enquanto trabalhava como responsável por licitações de uma distribuidora de medicamentos, enfrentei o desafio de obter e imprimir registros de medicamentos exigidos em muitos editais. O processo tinha várias etapas e era manual, tornando-o repetitivo e demorado. Portanto, desenvolvi uma automação para esta tarefa, envolvendo o uso do Selenium para realizar a pesquisa no navegador e extrair os registros. Ao longo do desenvolvimento, implementei filtros para lidar com descrições de medicamentos variadas e identifiquei laboratórios que eram parceiros para melhorar a precisão da pesquisa.
 
 ## Pré-requisitos
-- **Sistema operacional:** Windows (não testado em macOS ou Linux).
-- **Gerenciador de dependências:** [Poetry](https://python-poetry.org/) (para instalação de dependências).
+- **Sistemas Operacionais Suportados**
+  - **Windows versão 10.0.19045.5247:** Testado e funcionando corretamente.
+  - **Linux (via WSL):** Testado com a distribuição Ubuntu 24.04.1 LTS no WSL 2. Versão do Kernel: 5.15.167.4-1
+  - **macOS:** Não testado.
+- **Gerenciador de dependências:** [Poetry](https://python-poetry.org/) (recomendado para instalação de dependências, mas também é possível usar o comando pip install -r requirements.txt).
 - **Python**: Versão 3.9 ou superior, mas inferior a 3.13.
+- **Google Chrome:** Deve estar instalado no sistema.
+- **Diretório padrão Downloads:** O sistema operacional deve possuir um diretório padrão chamado "Downloads" para funcionamento adequado.
+- **Leitor de PDF:** Será necessário um leitor de PDF para visualizar os registros baixados.
+- **Software para leitura de arquivos XLSX:** Para visualizar o relatório, será necessário um software capaz de ler arquivos XLSX, como o Microsoft Excel ou o LibreOffice Calc.
   
 Nota: Este projeto não é compatível com a versão 3.13 do Python. Certifique-se de usar uma versão entre 3.9 e 3.12 para garantir o funcionamento correto.
 
 ## Instalação
 1. Clone o repositório:
    
-   ```
-   git clone https://github.com/MuriloCSeidenstucker/mslookup.git
-   cd mslookup
-   ```
+```
+git clone https://github.com/MuriloCSeidenstucker/mslookup.git
+cd mslookup
+```
 
-2. Instale as dependências com Poetry:
-   
-   ```
-   poetry install
-   ```
+2. Instale as dependências:
+
+- Se estiver utilizando o Poetry, instale as dependências com o comando:
+```
+poetry install
+```
+
+- Caso não esteja utilizando o Poetry, você pode instalar as dependências a partir do arquivo **requirements.txt** com o comando:
+
+```
+pip install -r requirements.txt
+```
 
 ## Uso
 
 1. Após instalar, inicie o app com o comando:
    
-    ```
-    poetry run python .\mslookup\main.py
-    ```
+```
+poetry run python .\mslookup\main.py
+```
 
 Ou, se configurado, utilize o script:
 
-    mslookup_start
+```
+poetry shell
+mslookup_start
+```
 
-2. Na interface que será aberta, selecione uma planilha Excel contendo **três colunas obrigatórias:**
+2. Na interface que será aberta, selecione um arquivo .xlsx(Microsoft Excel ou o LibreOffice Calc) contendo **três colunas obrigatórias:**
 
 - Números dos itens
 - Descrição dos medicamentos
@@ -55,7 +72,7 @@ Ou, se configurado, utilize o script:
 - **Download dos PDFs:** Tentativa de obtenção e download dos PDFs dos registros.
 - **Geração do Relatório:** Criação de um relatório Excel com os registros encontrados e status de cada PDF.
 
-5. O relatório será salvo na pasta raiz do projeto, e os PDFs serão salvos na pasta Downloads do computador.
+5. O relatório será salvo no diretório raiz do projeto, e os PDFs serão salvos na pasta Downloads do Sistema Operacional.
 
 ## Dica: Realizando uma Busca Individual
 Caso o usuário queira testar o app sem utilizar uma planilha, também é possível realizar a busca de um único medicamento. Para isso:
@@ -66,6 +83,11 @@ Caso o usuário queira testar o app sem utilizar uma planilha, também é possí
 - No campo Nome da Coluna Marca, coloque a marca ou laboratório do medicamento.
 
 Essa opção permite testar o funcionamento da busca sem a necessidade de preparar uma planilha.
+
+## Dica: Utilizando Planilhas de Teste
+Se preferir testar o app com uma planilha já preparada, acesse o diretório: **raizdoprojeto\data\testing**
+
+Nesse caminho, você encontrará alguns modelos de planilhas no formato .xlsx que podem ser utilizados para testar o funcionamento do app.
 
 ## Contato
 
