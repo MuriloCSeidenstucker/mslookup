@@ -14,6 +14,7 @@ from selenium.webdriver.common.by import By
 from mslookup.app.element_interactor import ElementInteractor
 from mslookup.app.logger_config import get_logger
 
+import undetected_chromedriver as uc
 
 class SearchInSmerp:
     def __init__(self):
@@ -24,11 +25,8 @@ class SearchInSmerp:
         # Faz Download do Chromedriver se necessário
         service = Service(ChromeDriverManager().install())
 
-    def configure_chrome_options(
-        self, detach: bool = False
-    ) -> webdriver.ChromeOptions:
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_experimental_option('detach', detach)
+    def configure_chrome_options(self) -> uc.ChromeOptions:
+        chrome_options = uc.ChromeOptions()
         return chrome_options
 
     def perform_google_search(
@@ -152,7 +150,7 @@ class SearchInSmerp:
         self.logger.info("Starting browser")
         driver = None
         try:
-            driver = webdriver.Chrome(chrome_options)
+            driver = uc.Chrome(chrome_options)
             self.element_interactor = ElementInteractor(driver)
         except WebDriverException as e:
             if "This version of ChromeDriver only supports Chrome version" in str(e):

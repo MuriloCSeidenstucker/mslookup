@@ -1,23 +1,4 @@
 {
-    "104910020": {
-        "expiration_date": "01/10/2029",
-        "presentations": [
-            "50 MG/ML SOL INJ IV CX 20 BOLS PLAS SIST FECH X 500 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 10 BOLS PLAS SIST FECH X 1000 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 90 FR PLAS TRANS SIST FECH X 100 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 40 FR PLAS TRANS SIST FECH X 250 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 24 FR PLAS TRANS SIST FECH X 500 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 12 FR PLAS TRANS SIST FECH X 1000 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 40 FR PLAS TRANS SIST FECH X 250 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 24 FR PLAS TRANS SIST FECH X 500 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 12 FR PLAS TRANS SIST FECH X 1000 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 35 BOLS PLAS SIST FECH X 250 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 20 BOLS PLAS SIST FECH X 500 ML Ativo",
-            "100 MG/ML SOL INJ IV CX 10 BOLS PLAS SIST FECH X 1000 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 50 BOLS PLAS SIST FECH X 100 ML Ativo",
-            "50 MG/ML SOL INJ IV CX 35 BOLS PLAS SIST FECH X 250 ML Ativo"
-        ]
-    },
     "104910019": {
         "expiration_date": "01/04/2025",
         "presentations": [
@@ -2666,6 +2647,25 @@
             "200 MG COM CT BL AL PLAS TRANS X 60 Ativo",
             "200 MG COM CT BL AL PLAS TRANS X 200 Ativo",
             "200 MG COM CT BL AL PLAS TRANS X 500 Ativo"
+        ]
+    },
+    "104910020": {
+        "expiration_date": "01/10/2029",
+        "presentations": [
+            "100 MG/ML SOL INJ IV CX 24 FR PLAS TRANS SIST FECH X 500 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 12 FR PLAS TRANS SIST FECH X 1000 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 40 FR PLAS TRANS SIST FECH X 250 ML Ativo",
+            "100 MG/ML SOL INJ IV CX 35 BOLS PLAS SIST FECH X 250 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 90 FR PLAS TRANS SIST FECH X 100 ML Ativo",
+            "100 MG/ML SOL INJ IV CX 40 FR PLAS TRANS SIST FECH X 250 ML Ativo",
+            "100 MG/ML SOL INJ IV CX 10 BOLS PLAS SIST FECH X 1000 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 35 BOLS PLAS SIST FECH X 250 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 24 FR PLAS TRANS SIST FECH X 500 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 20 BOLS PLAS SIST FECH X 500 ML Ativo",
+            "100 MG/ML SOL INJ IV CX 12 FR PLAS TRANS SIST FECH X 1000 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 10 BOLS PLAS SIST FECH X 1000 ML Ativo",
+            "50 MG/ML SOL INJ IV CX 50 BOLS PLAS SIST FECH X 100 ML Ativo",
+            "100 MG/ML SOL INJ IV CX 20 BOLS PLAS SIST FECH X 500 ML Ativo"
         ]
     }
 }

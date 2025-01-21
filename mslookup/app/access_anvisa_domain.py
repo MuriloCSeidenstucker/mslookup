@@ -16,6 +16,7 @@ from mslookup.app.logger_config import get_logger
 from mslookup.app.pdf_manager import PDFManager
 from mslookup.app.utils import Utils
 
+import undetected_chromedriver as uc
 
 class AnvisaDomain:
     def __init__(self, pdf_manager: PDFManager) -> None:
@@ -25,10 +26,8 @@ class AnvisaDomain:
         
         self.pdf_manager = pdf_manager
 
-    def configure_chrome_options(
-        self, detach: bool = False
-    ) -> webdriver.ChromeOptions:
-        chrome_options = webdriver.ChromeOptions()
+    def configure_chrome_options(self) -> uc.ChromeOptions:
+        chrome_options = uc.ChromeOptions()
         settings = {
             'recentDestinations': [
                 {'id': 'Save as PDF', 'origin': 'local', 'account': ''}
@@ -42,7 +41,6 @@ class AnvisaDomain:
             )
         }
         chrome_options.add_experimental_option('prefs', prefs)
-        chrome_options.add_experimental_option('detach', detach)
         chrome_options.add_argument('--kiosk-printing')
         return chrome_options
 
@@ -240,8 +238,8 @@ class AnvisaDomain:
 
         anvisa_medicamentos_url = r'https://consultas.anvisa.gov.br/#/medicamentos/q/?numeroRegistro='
 
-        chrome_options = self.configure_chrome_options(detach=True)
-        driver = webdriver.Chrome(options=chrome_options)
+        chrome_options = self.configure_chrome_options()
+        driver = uc.Chrome(options=chrome_options)
         wait = WebDriverWait(driver, timeout=10)
 
         presentation = None
