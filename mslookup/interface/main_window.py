@@ -18,7 +18,7 @@ class MainWindow:
         self.processing = False
 
         # Fixar o tamanho da janela
-        self.master.geometry("300x600")
+        self.master.geometry("300x630")
         self.master.resizable(False, False)
         self.master.title('MSLookup')
         
@@ -42,26 +42,35 @@ class MainWindow:
     def create_ui(self, master):
         # Main Frame
         self.main_frame = ttk.Frame(master=master, name='main_frame')
-        self.main_frame.configure(height=600, takefocus=True, width=300)
-
-        # Status label para feedback - largura fixa e quebra de linha
-        self.status_label = ttk.Label(self.main_frame, text="", foreground="red", anchor="center", width=250, wraplength=250)
-        self.status_label.grid(column=0, row=6, padx=10, pady=10)
+        self.main_frame.configure(height=630, takefocus=True, width=300)
 
         # Componentes de entrada e botões
         self.lblf_sheet = self.create_labelframe(self.main_frame, 'Planilha:', 0)
         self.btn_select = ttk.Button(self.lblf_sheet, text="Selecionar Planilha", style="Center.TButton", command=self.select_file)
         self.btn_select.grid(column=0, ipadx=20, padx=10, row=0, sticky='ew')
 
-        self.entries['prod_type'] = self.create_combobox_labelframe(self.main_frame, 'Tipo de Produto:', 1)
-        self.entries['item_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente ao Item:', 2)
-        self.entries['desc_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Descrição:', 3)
-        self.entries['brand_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Marca:', 4)
+        self.entries['prod_type'] = self.create_combobox_labelframe(self.main_frame, 'Tipo de Produto:', row=1)
+        self.entries['item_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente ao Item:', row=2)
+        self.entries['desc_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Descrição:', row=3)
+        self.entries['brand_col'] = self.create_entry_labelframe(self.main_frame, 'Nome da coluna referente a Marca:', row=4)
 
         self.btn_process = ttk.Button(self.main_frame, text="Buscar Registros", style="Center.TButton", command=self.start_processing_thread)
         self.btn_process.grid(column=0, ipadx=20, padx=10, row=5, sticky='nsew')
         
         self.btn_select.focus_set()
+        
+        self.btn_cancel = ttk.Button(self.main_frame, text="Cancelar", style="Center.TButton")
+        self.btn_cancel.grid(column=0, ipadx=20, padx=10, row=6, sticky='ew')
+        
+        # Status label para feedback - largura fixa e quebra de linha
+        self.status_label = ttk.Label(
+            self.main_frame,
+            text="",
+            anchor="center",
+            width=250,
+            wraplength=250
+        )
+        self.status_label.grid(column=0, row=8, padx=10, pady=10)
         
         # Barra de progresso
         self.progress_bar = ttk.Progressbar(
@@ -71,7 +80,7 @@ class MainWindow:
             maximum=100,
             style="TProgressbar"
         )
-        self.progress_bar.grid(column=0, row=7, padx=10, pady=10)
+        self.progress_bar.grid(column=0, row=9, padx=10, pady=10)
 
         # Pack Main Frame
         self.main_frame.pack(anchor="center", expand=True, fill="y", ipadx=10, ipady=10, padx=10, pady=10, side="top")
